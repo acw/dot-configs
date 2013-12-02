@@ -1,0 +1,10 @@
+#!/bin/sh
+
+ln -s ${HOME}/.system/vimrc ${HOME}/.vimrc
+ln -s ${HOME}/.system/tmux.conf ${HOME}/.tmux.conf
+
+mkdir -p ${HOME}/.system/vim/bundle
+if [ ! -d ${HOME}/.system/vim/bundle/vundle ]; then
+  git clone https://github.com/gmarik/vundle.git ${HOME}/.system/vim/bundle/vundle
+  vim +BundleInstall +qa
+fi

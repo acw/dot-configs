@@ -2,6 +2,7 @@
 
 ln -s ${HOME}/.system/vimrc ${HOME}/.vimrc
 ln -s ${HOME}/.system/tmux.conf ${HOME}/.tmux.conf
+ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 
 mkdir -p ${HOME}/.system/vim/bundle
 if [ ! -d ${HOME}/.system/vim/bundle/vundle ]; then

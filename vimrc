@@ -15,7 +15,7 @@ Bundle 'tpope/vim-markdown'
 Bundle 'IndentAnything'
 Bundle 'tpope/vim-fugitive'
 Bundle 'jcf/vim-latex'
-Bundle 'eliottt/haskell-indent'
+Bundle 'elliottt/haskell-indent'
 Bundle 'bling/vim-airline'
 Bundle 'edkolev/tmuxline.vim'
 

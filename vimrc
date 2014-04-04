@@ -49,6 +49,7 @@ set tabstop=4           " tab is four spaces
 set expandtab           " please don't really insert tabs
 set nobackup
 set nowritebackup
+set modelines=10
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -61,7 +62,9 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if has("spell")
-  setlocal spell spelllang=en_us
+  autocmd BufRead,BufNewFile *.md setlocal spell
+  autocmd BufRead,BufNewFile *.txt setlocal spell
+  autocmd FileType gitcommit setlocal spell
 endif
 
 " When editing a file, always jump to the last known cursor position.

@@ -56,6 +56,10 @@ if [[ -d ${HOME}/.cabal/bin ]]; then
   export PATH=${PATH}:${HOME}/.cabal/bin
 fi
 
+if [[ -d ${HOME}/HaLVM ]]; then
+  export PATH=${PATH}:${HOME}/HaLVM/dist/bin
+fi
+
 # Fix XML catalog issues
 if [[ $OSNAME == "Darwin" ]] ; then
   if [ -f /opt/local/etc/xml/catalog ] ; then

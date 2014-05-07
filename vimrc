@@ -50,6 +50,7 @@ set expandtab           " please don't really insert tabs
 set nobackup
 set nowritebackup
 set modelines=10
+set nofoldenable        " disable folding
 
 " Don't use Ex mode, use Q for formatting
 map Q gq

@@ -18,6 +18,7 @@ Bundle 'jcf/vim-latex'
 Bundle 'elliottt/haskell-indent'
 Bundle 'bling/vim-airline'
 Bundle 'edkolev/tmuxline.vim'
+Bundle 'dommcdo/vim-lion'
 
 " Airlien config
 set laststatus=2

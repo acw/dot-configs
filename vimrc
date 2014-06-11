@@ -52,6 +52,7 @@ set nobackup
 set nowritebackup
 set modelines=10
 set nofoldenable        " disable folding
+set directory=~/tmp,/var/tmp/,/tmp
 
 " Don't use Ex mode, use Q for formatting
 map Q gq

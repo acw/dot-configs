@@ -109,6 +109,13 @@ if [[ -f ~/.system/zsh/site-config ]]; then
 	. ~/.system/zsh/site-config
 fi
 
+# OPAM configuration
+if [[ -d ${HOME}/.opam ]]; then
+  . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+  OPAM_VERSION=`opam --version`
+  echo "OPAM Version: ${OPAM_VERSION}"
+fi
+
 # load in EC2 stuff, if it's around
 if [[ -f ~/.ec2_creds ]]; then
   source ~/.ec2_creds

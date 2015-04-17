@@ -108,3 +108,13 @@ fi
 if [[ -f ~/.system/zsh/site-config ]]; then
 	. ~/.system/zsh/site-config
 fi
+
+# load in EC2 stuff, if it's around
+if [[ -f ~/.ec2_creds ]]; then
+  source ~/.ec2_creds
+  export EC2_HOME=/opt/aws
+  export EC2_AMITOOL_HOME=/opt/aws
+  export JAVA_HOME=/usr
+  export PATH=$PATH:$EC2_AMITOOL_HOME/bin
+  echo "EC2 Credentials (and tools) available."
+fi

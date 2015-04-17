@@ -112,9 +112,13 @@ fi
 # load in EC2 stuff, if it's around
 if [[ -f ~/.ec2_creds ]]; then
   source ~/.ec2_creds
-  export EC2_HOME=/opt/aws
-  export EC2_AMITOOL_HOME=/opt/aws
-  export JAVA_HOME=/usr
-  export PATH=$PATH:$EC2_AMITOOL_HOME/bin
-  echo "EC2 Credentials (and tools) available."
+  if [[ -d /opt/aws ]]; then
+    export EC2_HOME=/opt/aws
+    export EC2_AMITOOL_HOME=/opt/aws
+    export JAVA_HOME=/usr
+    export PATH=$PATH:$EC2_AMITOOL_HOME/bin
+    echo "EC2 Credentials and tools available."
+  else
+    echo "EC2 Credentials available."
+  fi
 fi

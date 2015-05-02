@@ -100,7 +100,7 @@ prompt trevor 031 240 196 000 214
 compdef -a _cabal cabal
 
 # use the default dircolors, despite the awesome 256 color palette
-if [[ $MACHINE != "iPad2,3" && $OSNAME != "Darwin" ]] ; then
+if [[ -f /etc/DIR_COLORS ]]; then
   eval `dircolors -b /etc/DIR_COLORS`
 fi
 

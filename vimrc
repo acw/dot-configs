@@ -4,23 +4,20 @@ set nocompatible
 " Base directory should always be ${HOME}/.system/vim/, because I don't care
 " about Windows
 let $VIMHOME = $HOME . '/.system/vim/'
+set rtp+=$VIMHOME
 
 " Get vundle a-going. 
-set rtp+=$VIMHOME/bundle/vundle
-set rtp+=$VIMHOME
-call vundle#rc($VIMHOME . '/bundle')
+set rtp+=$VIMHOME/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
+Bundle 'VundleVim/Vundle.vim'
+Bundle 'tommcdo/vim-lion'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'tpope/vim-markdown'
-Bundle 'IndentAnything'
 Bundle 'tpope/vim-fugitive'
-Bundle 'jcf/vim-latex'
-Bundle 'elliottt/haskell-indent'
-Bundle 'bling/vim-airline'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'dommcdo/vim-lion'
 
-" Airlien config
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 set laststatus=2
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -28,8 +25,15 @@ endif
 let g:airline#extensions#tabline#enabled       = 1
 let g:airline#extensions#tabline#show_buffers  = 0
 let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'bubblegum'
+let g:airline#extensions#branch#empty_message  = ' '
+let g:airline_powerline_fonts                  = 1
+
+" Bundle 'IndentAnything'
+" Bundle 'jcf/vim-latex'
+" Bundle 'elliottt/haskell-indent'
+" Bundle 'bling/vim-airline'
+" Bundle 'edkolev/tmuxline.vim'
+call vundle#end()
 
 " Enable file type detection.
 filetype plugin indent on
@@ -53,6 +57,7 @@ set nowritebackup
 set modelines=10
 set nofoldenable        " disable folding
 set directory=~/tmp,/var/tmp/,/tmp
+set number
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -101,3 +106,7 @@ let w:m80=matchadd('ErrorMsg', '\%>80v.\+', -1)
 set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
 
 map <Leader><Leader> to :noh<Enter>
+
+" Try using par for reformatting
+set formatprg="par"
+

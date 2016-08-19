@@ -32,7 +32,6 @@ let g:airline_powerline_fonts                  = 1
 " Bundle 'jcf/vim-latex'
 " Bundle 'elliottt/haskell-indent'
 " Bundle 'bling/vim-airline'
-" Bundle 'edkolev/tmuxline.vim'
 call vundle#end()
 
 " Enable file type detection.

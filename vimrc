@@ -10,14 +10,14 @@ set rtp+=$VIMHOME
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin()
 
-Bundle 'VundleVim/Vundle.vim'
-Bundle 'tommcdo/vim-lion'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-fugitive'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tommcdo/vim-lion'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
 set laststatus=2
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

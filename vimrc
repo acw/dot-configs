@@ -17,6 +17,7 @@ Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 set laststatus=2
 if !exists('g:airline_symbols')
@@ -28,10 +29,17 @@ let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#branch#empty_message  = ' '
 let g:airline_powerline_fonts                  = 1
 
-" Bundle 'IndentAnything'
-" Bundle 'jcf/vim-latex'
-" Bundle 'elliottt/haskell-indent'
-" Bundle 'bling/vim-airline'
+let g:ctrlp_map = '<Space>'
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("t")': [ '<c-g>' ]
+    \ }
+let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_extensions = [ 'mixed', 'quickfix', 'undo' ]
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_match_window = 'max:20,results:20'
+let g:ctrlp_mruf_relative = 1
+nnoremap <C-@> :CtrlPBuffer<CR>
+
 call vundle#end()
 
 " Enable file type detection.

@@ -4,23 +4,21 @@ set nocompatible
 " Base directory should always be ${HOME}/.system/vim/, because I don't care
 " about Windows
 let $VIMHOME = $HOME . '/.system/vim/'
+set rtp+=$VIMHOME
 
 " Get vundle a-going. 
-set rtp+=$VIMHOME/bundle/vundle
-set rtp+=$VIMHOME
-call vundle#rc($VIMHOME . '/bundle')
+set rtp+=$VIMHOME/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-markdown'
-Bundle 'IndentAnything'
-Bundle 'tpope/vim-fugitive'
-Bundle 'jcf/vim-latex'
-Bundle 'elliottt/haskell-indent'
-Bundle 'bling/vim-airline'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'dommcdo/vim-lion'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tommcdo/vim-lion'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ctrlpvim/ctrlp.vim'
 
-" Airlien config
 set laststatus=2
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -28,8 +26,21 @@ endif
 let g:airline#extensions#tabline#enabled       = 1
 let g:airline#extensions#tabline#show_buffers  = 0
 let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'bubblegum'
+let g:airline#extensions#branch#empty_message  = ' '
+let g:airline_powerline_fonts                  = 1
+
+let g:ctrlp_map = '<Space>'
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("t")': [ '<c-g>' ]
+    \ }
+let g:ctrlp_open_new_file = 'r'
+let g:ctrlp_extensions = [ 'mixed', 'quickfix', 'undo' ]
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_match_window = 'max:20,results:20'
+let g:ctrlp_mruf_relative = 1
+nnoremap <C-@> :CtrlPBuffer<CR>
+
+call vundle#end()
 
 " Enable file type detection.
 filetype plugin indent on
@@ -53,6 +64,7 @@ set nowritebackup
 set modelines=10
 set nofoldenable        " disable folding
 set directory=~/tmp,/var/tmp/,/tmp
+set number
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -101,3 +113,7 @@ let w:m80=matchadd('ErrorMsg', '\%>80v.\+', -1)
 set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
 
 map <Leader><Leader> to :noh<Enter>
+
+" Try using par for reformatting
+set formatprg="par"
+

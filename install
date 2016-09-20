@@ -5,7 +5,7 @@ ln -s ${HOME}/.system/tmux.conf ${HOME}/.tmux.conf
 ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 
 mkdir -p ${HOME}/.system/vim/bundle
-if [ ! -d ${HOME}/.system/vim/bundle/vundle ]; then
-  git clone https://github.com/gmarik/vundle.git ${HOME}/.system/vim/bundle/vundle
+if [ ! -d ${HOME}/.system/vim/bundle/Vundle.vim ]; then
+  git clone https://github.com/VundleVim/Vundle.vim ${HOME}/.system/vim/bundle/Vundle.vim
   vim +BundleInstall +qa
 fi

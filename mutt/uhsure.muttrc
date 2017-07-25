@@ -1,0 +1,6 @@
+# vim: set filetype=mutt
+set from      = "awick@uhsure.com"
+set smtp_url  = "smtp://awick@smtp.webfaction.com:587/"
+set smtp_pass = `security find-generic-password -s uhsure_email -w`
+set record    = "+UhSure/Sent\ Items"
+set postponed = "+UhSure/Drafts"

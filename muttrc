@@ -1,0 +1,46 @@
+# mailboxes of import
+set folder = "~/.system/mail"
+source ~/.system/mail/muttrc.mailboxes
+set spoolfile = +Galois/INBOX
+
+# Editor sanitizing
+set editor        = "vim"
+set charset       = "utf-8"
+set realname      = "Adam Wick"
+set edit_headers  = yes
+
+# Display settings
+set sort            = threads
+set sort_aux        = reverse-date-received
+set sidebar_visible = yes
+
+# key bindings!
+bind index G   imap-fetch-mail
+bind index \CP sidebar-prev
+bind index \CN sidebar-next
+bind index \CF sidebar-open
+bind pager \CP sidebar-prev
+bind pager \CN sidebar-next
+bind pager \CF sidebar-open
+macro index,pager <Tab> '<sidebar-next-new><sidebar-open>'
+
+# IMAP settings
+unset imap_passive
+set   imap_keepalive = 300
+set   mail_check     = 120
+
+# GPG settings
+set pgp_use_gpg_agent = yes
+set pgp_sign_as       = 07777767
+set pgp_timeout       = 3600
+set pgp_autosign      = no
+set crypt_autosign    = no
+
+# Switch between accounts
+folder-hook UhSure/* source ~/.system/mutt/uhsure.muttrc
+folder-hook Galois/* source ~/.system/mutt/galois.muttrc
+
+
+# Other sources
+source "~/.system/mutt/gpg.rc"
+source "~/.system/mutt/colors.muttrc"

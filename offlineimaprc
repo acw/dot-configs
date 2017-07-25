@@ -1,0 +1,70 @@
+[general]
+accounts = Galois, UhSure
+pythonfile = ~/.system/offlineimap/access.py
+metadata = ~/.system/offlineimap/metadata
+maxsyncaccounts = 4
+ui = TTYUI
+socktimeout = 90
+
+[Account Galois]
+localrepository = GaloisLocal
+remoterepository = GaloisRemote
+autorefresh = 3
+status_backend = sqlite
+synclabels = yes
+
+[Account UhSure]
+localrepository = UhSureLocal
+remoterepository = UhSureRemote
+autorefresh = 3
+status_backend = sqlite
+
+[Repository GaloisLocal]
+type = GmailMaildir
+localfolders = ~/.system/mail/galois
+
+[Repository GaloisRemote]
+type = Gmail
+remotehost = imap.googlemail.com
+remoteuser = awick@galois.com
+remotepasseval = get_password("galois")
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+ssl = yes
+ssl_version = tls1_2
+tls_level = tls_secure
+maxconnections = 4
+
+[Repository UhSureLocal]
+type = Maildir
+localfolders = ~/.system/mail/UhSure
+
+[Repository UhSureRemote]
+type = IMAP
+remotehost = mail.webfaction.com
+remoteuser = awick
+remotepasseval = get_password("uhsure")
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+ssl = yes
+ssl_version = tls1_2
+tls_level = tls_secure
+
+[mbnames]
+enabled = yes
+filename = ~/.system/mail/muttrc.mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"
+
+# To have launchd start offlineimap now and restart at login:
+#   brew services start offlineimap
+
+
+#    function from your pythonfile.  To use this method assign the name
+#    of the function to the variable 'remotepasseval'.  Example:
+#remotepasseval = get_password("imap.example.net")
+#    You can also query for the username:
+#remoteusereval = get_username("imap.example.net")
+#    This method can be used to design more elaborate setups, e.g. by
+#    querying the gnome-keyring via its python bindings.
+

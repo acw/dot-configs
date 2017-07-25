@@ -1,0 +1,6 @@
+# vim: set filetype=mutt
+set from      = "awick@galois.com"
+set smtp_url  = "smtp://awick@galois.com@smtp.gmail.com:587/"
+set smtp_pass = `security find-generic-password -s galois_email -w`
+set record    = "+Galois/Sent\ Items"
+set postponed = "+Galois/Drafts"

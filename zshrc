@@ -116,6 +116,11 @@ if [[ -d ${HOME}/.opam ]]; then
   echo "OPAM Version: ${OPAM_VERSION}"
 fi
 
+# Ruby configuration
+if [[ -d ${HOME}/.gem/ruby/2.0.0/bin ]]; then
+  export PATH=$PATH:${HOME}/.gem/ruby/2.0.0/bin
+fi
+
 # load in EC2 stuff, if it's around
 if [[ -f ~/.ec2_creds ]]; then
   source ~/.ec2_creds

@@ -53,7 +53,7 @@ else
 fi
 
 if [[ -d ${HOME}/.cabal/bin ]]; then
-  export PATH=${PATH}:${HOME}/.cabal/bin
+  export PATH=${HOME}/.cabal/bin:${PATH}
 fi
 
 if [[ -d ${HOME}/HaLVM ]]; then

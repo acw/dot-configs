@@ -19,6 +19,10 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'rust-lang/rust.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'elliottt/vim-haskell'
+Plugin 'let-def/vimbufsync'
 
 set laststatus=2
 if !exists('g:airline_symbols')
@@ -40,6 +44,8 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_match_window = 'max:20,results:20'
 let g:ctrlp_mruf_relative = 1
 nnoremap <C-@> :CtrlPBuffer<CR>
+
+let g:UltiSnipsExpandTrigger="<tab>"
 
 call vundle#end()
 

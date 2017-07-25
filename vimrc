@@ -23,6 +23,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'elliottt/vim-haskell'
 Plugin 'let-def/vimbufsync'
+Plugin 'the-lambda-church/coquille'
 
 set laststatus=2
 if !exists('g:airline_symbols')
@@ -119,7 +120,16 @@ let w:m80=matchadd('ErrorMsg', '\%>80v.\+', -1)
 " Ignore certain common file extensions that don't contain text
 set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
 
+"
 map <Leader><Leader> to :noh<Enter>
+
+" Coquille
+nnoremap <silent> <leader>cl :CoqLaunch<CR>
+nnoremap <silent> <leader>cn :CoqNext<CR>
+nnoremap <silent> <leader>cu :CoqUndo<CR>
+nnoremap <silent> <leader>cc :CoqToCursor<CR>
+nnoremap <silent> <leader>ck :CoqKill<CR>
+let g:coquille_auto_move="true"
 
 " Try using par for reformatting
 set formatprg="par"

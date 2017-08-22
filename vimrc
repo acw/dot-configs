@@ -129,6 +129,7 @@ nnoremap <silent> <leader>cn :CoqNext<CR>
 nnoremap <silent> <leader>cu :CoqUndo<CR>
 nnoremap <silent> <leader>cc :CoqToCursor<CR>
 nnoremap <silent> <leader>ck :CoqKill<CR>
+inoremap <C-c><C-c> <C-\><C-O>:CoqToCursor<CR>
 let g:coquille_auto_move="true"
 
 " Try using par for reformatting

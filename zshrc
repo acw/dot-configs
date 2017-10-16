@@ -134,3 +134,9 @@ if [[ -f ~/.ec2_creds ]]; then
     echo "EC2 Credentials available."
   fi
 fi
+
+# Cargo stuff
+if [[ -d ${HOME}/.cargo ]]; then
+  export PATH=${PATH}:${HOME}/.cargo/bin
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi

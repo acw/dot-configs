@@ -130,6 +130,11 @@ if [[ -d ${HOME}/.cargo/bin ]]; then
   export PATH=$PATH:${HOME}/.cargo/bin
 fi
 
+# Python configuration
+if [[ -d ${HOME}/Library/Python/2.7/bin ]]; then
+  export PATH=$PATH:${HOME}/Library/Python/2.7/bin
+fi
+
 # Local binaries
 if [[ -d ${HOME}/bin ]]; then
   export PATH=$PATH:${HOME}/bin

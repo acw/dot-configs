@@ -125,6 +125,11 @@ if [[ -d ${HOME}/.gem/ruby/2.0.0/bin ]]; then
   export PATH=$PATH:${HOME}/.gem/ruby/2.0.0/bin
 fi
 
+# Rust configuration
+if [[ -d ${HOME}/.cargo/bin ]]; then
+  export PATH=$PATH:${HOME}/.cargo/bin
+fi
+
 # Local binaries
 if [[ -d ${HOME}/bin ]]; then
   export PATH=$PATH:${HOME}/bin

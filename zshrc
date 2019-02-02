@@ -82,7 +82,7 @@ alias rm='rm -v'
 alias yum='yum --color=auto'
 
 if [[ $OSNAME != "Darwin" ]]; then
-     alias open='gnome-open'
+     alias open='xdg-open'
 fi
 
 topit() { /usr/bin/top -p `pgrep $1` }

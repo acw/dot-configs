@@ -125,6 +125,11 @@ if [[ -d ${HOME}/.gem/ruby/2.0.0/bin ]]; then
   export PATH=$PATH:${HOME}/.gem/ruby/2.0.0/bin
 fi
 
+# Local binaries
+if [[ -d ${HOME}/bin ]]; then
+  export PATH=$PATH:${HOME}/bin
+fi
+
 # load in EC2 stuff, if it's around
 if [[ -f ~/.ec2_creds ]]; then
   source ~/.ec2_creds
@@ -138,3 +143,10 @@ if [[ -f ~/.ec2_creds ]]; then
     echo "EC2 Credentials available."
   fi
 fi
+
+# load in local binaries
+if [[ -d ${HOME}/.local/bin ]]; then
+  export PATH=$PATH:${HOME}/.local/bin
+fi
+
+export PATH=${PATH}:/usr/local/bin

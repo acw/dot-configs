@@ -60,6 +60,10 @@ if [[ -d ${HOME}/HaLVM ]]; then
   export PATH=${PATH}:${HOME}/HaLVM/dist/bin
 fi
 
+if [[ -d ${HOME}/saw ]]; then
+  export PATH=${PATH}:${HOME}/saw/bin
+fi
+
 # Fix XML catalog issues
 if [[ $OSNAME == "Darwin" ]] ; then
   if [ -f /opt/local/etc/xml/catalog ] ; then

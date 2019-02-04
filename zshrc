@@ -36,6 +36,11 @@ if [[ -d /opt/local/bin ]]; then
   export PATH=${PATH}:/opt/local/bin
 fi
 
+# Add GHCUP support, if we're going to use that
+if [[ -d ${HOME}/.ghcup/bin ]]; then
+  export PATH=${PATH}:${HOME}/.ghcup/bin
+fi
+
 if [[ -d ${HOME}/tools ]]; then
   if [[ -f ${HOME}/tools/selections ]]; then
     typeset -A selections

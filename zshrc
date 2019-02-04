@@ -65,6 +65,10 @@ if [[ -d ${HOME}/HaLVM ]]; then
   export PATH=${PATH}:${HOME}/HaLVM/dist/bin
 fi
 
+if [[ -d ${HOME}/saw ]]; then
+  export PATH=${PATH}:${HOME}/saw/bin
+fi
+
 # Fix XML catalog issues
 if [[ $OSNAME == "Darwin" ]] ; then
   if [ -f /opt/local/etc/xml/catalog ] ; then
@@ -83,7 +87,7 @@ alias rm='rm -v'
 alias yum='yum --color=auto'
 
 if [[ $OSNAME != "Darwin" ]]; then
-     alias open='gnome-open'
+     alias open='xdg-open'
 fi
 
 topit() { /usr/bin/top -p `pgrep $1` }
@@ -126,6 +130,22 @@ if [[ -d ${HOME}/.gem/ruby/2.0.0/bin ]]; then
   export PATH=$PATH:${HOME}/.gem/ruby/2.0.0/bin
 fi
 
+# Rust configuration
+if [[ -d ${HOME}/.cargo/bin ]]; then
+  export PATH=$PATH:${HOME}/.cargo/bin
+  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+fi
+
+# Python configuration
+if [[ -d ${HOME}/Library/Python/2.7/bin ]]; then
+  export PATH=$PATH:${HOME}/Library/Python/2.7/bin
+fi
+
+# Local binaries
+if [[ -d ${HOME}/bin ]]; then
+  export PATH=$PATH:${HOME}/bin
+fi
+
 # load in EC2 stuff, if it's around
 if [[ -f ~/.ec2_creds ]]; then
   source ~/.ec2_creds
@@ -140,8 +160,9 @@ if [[ -f ~/.ec2_creds ]]; then
   fi
 fi
 
-# Cargo stuff
-if [[ -d ${HOME}/.cargo ]]; then
-  export PATH=${PATH}:${HOME}/.cargo/bin
-  export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+# load in local binaries
+if [[ -d ${HOME}/.local/bin ]]; then
+  export PATH=$PATH:${HOME}/.local/bin
 fi
+
+export PATH=${PATH}:/usr/local/bin

@@ -12,11 +12,11 @@ if [ `uname` = "Darwin" ]; then
     echo ""
   else
     if [ $PERC -gt 50 ]; then
-      COLOR="#[fg=colour22]"
+      COLOR="#[fg=colour76]"
     elif [ $PERC -gt 20 ]; then
-      COLOR="#[fg=colour136]"
+      COLOR="#[fg=colour11]"
     else
-      COLOR="#[fg=colour1]"
+      COLOR="#[fg=colour9]"
     fi
     if [ ! -z "${DISCHARGING}" ]; then
       DIR="-"
@@ -27,7 +27,7 @@ if [ `uname` = "Darwin" ]; then
         DIR=""
       fi
     fi
-    echo "#[bg=colour237,bold] ${COLOR}${PERC}%${DIR}#[fg=colour240] #[bg=colour235]"
+    echo "#[bold]${COLOR}${PERC}%${DIR}#[fg=colour240,default]"
   fi
 else
   echo ""

@@ -44,6 +44,10 @@ let g:ctrlp_extensions = [ 'mixed', 'quickfix', 'undo' ]
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_match_window = 'max:20,results:20'
 let g:ctrlp_mruf_relative = 1
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/](\.git|\.hg|\.svn|dist|dist-newstyle|target)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 nnoremap <C-@> :CtrlPBuffer<CR>
 
 let g:UltiSnipsExpandTrigger="<tab>"

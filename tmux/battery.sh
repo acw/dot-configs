@@ -27,7 +27,7 @@ if [ `uname` = "Darwin" ]; then
         DIR=""
       fi
     fi
-    echo "|#[fg=colour233,bg=colour238,bold]${COLOR}${PERC}%${DIR}#[fg=colour240,default]"
+    echo "| #[fg=colour233,bg=colour238,bold]${COLOR}${PERC}%${DIR}#[fg=colour240,default]"
   fi
 else
   echo ""

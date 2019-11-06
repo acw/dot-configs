@@ -11,19 +11,21 @@ set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'dense-analysis/ale'
 Plugin 'tommcdo/vim-lion'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-markdown'
+" Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'elliottt/vim-haskell'
-Plugin 'let-def/vimbufsync'
-Plugin 'the-lambda-church/coquille'
+Plugin 'ctrlpvim/ctrlp.vim' " Tynan says to use FZF here
+Plugin 'eagletmt/ghcmod-vim'
+" Plugin 'rust-lang/rust.vim'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
+" Plugin 'elliottt/vim-haskell'
+" Plugin 'let-def/vimbufsync'
+" Plugin 'the-lambda-church/coquille'
 
 set laststatus=2
 if !exists('g:airline_symbols')
@@ -50,7 +52,33 @@ let g:ctrlp_custom_ignore = {
   \ }
 nnoremap <C-@> :CtrlPBuffer<CR>
 
-let g:UltiSnipsExpandTrigger="<tab>"
+
+" De-prioritize all lint commands.
+let g:ale_command_wrapper = 'nice -n4'
+"
+" Open ALE preview window when the cursor moves onto lines with problems.
+let g:ale_cursor_detail = 1
+
+" Enable auto-complete with ALE.
+let g:ale_completion_enabled = 1
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'rust': ['rustfmt'],
+\}
+
+let g:ale_linters = {
+\   'rust': ['rls'],
+\   'haskell': ['cabal_ghc','hie'],
+\}
+"   'haskell': ['ghc','cabal_ghc','hie'],
+
+" Enable clippy lints.
+let g:ale_rust_rls_config = {
+\   'rust': {
+\     'clippy_preference': 'on'
+\   }
+\}
 
 call vundle#end()
 

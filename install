@@ -1,5 +1,7 @@
 #!/bin/sh
 
+git submodule update --init --recursive
+
 ln -s ${HOME}/.system/vimrc ${HOME}/.vimrc
 ln -s ${HOME}/.system/tmux.conf ${HOME}/.tmux.conf
 ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc

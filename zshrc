@@ -28,7 +28,6 @@ colors
 spectrum
 promptinit
 
-
 # Path stuff
 typeset -U possible_path_extensions
 possible_path_extensions=(
@@ -100,5 +99,7 @@ if [[ -f ~/.ec2_creds ]]; then
     echo "EC2 Credentials available."
   fi
 fi
+
+source ~/.system/zsh/zsh-auto-notify/auto-notify.plugin.zsh
 
 export EDITOR

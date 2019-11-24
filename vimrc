@@ -11,6 +11,7 @@ set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'Shougo/vimproc.vim'
 Plugin 'dense-analysis/ale'
 Plugin 'tommcdo/vim-lion'
 Plugin 'airblade/vim-gitgutter'

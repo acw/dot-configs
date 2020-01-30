@@ -11,6 +11,7 @@ set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'let-def/vimbufsync'
 Plugin 'dense-analysis/ale'
 Plugin 'tommcdo/vim-lion'
 Plugin 'airblade/vim-gitgutter'
@@ -20,12 +21,12 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim' " Tynan says to use FZF here
 Plugin 'eagletmt/ghcmod-vim'
+Plugin 'whonore/Coqtail'
 " Plugin 'rust-lang/rust.vim'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets'
 " Plugin 'elliottt/vim-haskell'
 " Plugin 'let-def/vimbufsync'
-" Plugin 'the-lambda-church/coquille'
 
 set laststatus=2
 if !exists('g:airline_symbols')
@@ -155,14 +156,8 @@ set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
 "
 map <Leader><Leader> to :noh<Enter>
 
-" Coquille
-nnoremap <silent> <leader>cl :CoqLaunch<CR>
-nnoremap <silent> <leader>cn :CoqNext<CR>
-nnoremap <silent> <leader>cu :CoqUndo<CR>
-nnoremap <silent> <leader>cc :CoqToCursor<CR>
-nnoremap <silent> <leader>ck :CoqKill<CR>
-inoremap <C-c><C-c> <C-\><C-O>:CoqToCursor<CR>
-let g:coquille_auto_move="true"
+" Coqtail
+inoremap <C-Enter> :CoqToLine
 
 " Try using par for reformatting
 set formatprg="par"

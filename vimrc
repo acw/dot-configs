@@ -12,6 +12,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'let-def/vimbufsync'
+Plugin 'Shougo/vimproc.vim'
 Plugin 'dense-analysis/ale'
 Plugin 'tommcdo/vim-lion'
 Plugin 'airblade/vim-gitgutter'

@@ -166,7 +166,8 @@ set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
 map <Leader><Leader> to :noh<Enter>
 
 " Coqtail
-inoremap <C-Enter> :CoqToLine
+autocmd Filetype coq nnoremap <buffer> <c-c><enter>       :CoqToLine<CR>
+autocmd Filetype coq inoremap <buffer> <c-c><enter>  <Esc>:CoqToLine<CR>
 
 " Try using par for reformatting
 set formatprg="par"

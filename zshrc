@@ -42,6 +42,7 @@ possible_path_extensions=(
   ${HOME}/bin
   ${HOME}/HaLVM
   ${HOME}/saw
+  ${HOME}/.elan/bin
 )
 
 for x in $possible_path_extensions; do

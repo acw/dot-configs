@@ -121,6 +121,14 @@ if has("spell")
   autocmd BufRead,BufNewFile *.md setlocal spell
   autocmd BufRead,BufNewFile *.txt setlocal spell
   autocmd FileType gitcommit setlocal spell
+  highlight clear SpellBad
+  highlight SpellBad cterm=underline
+  highlight clear SpellCap
+  highlight SpellCap cterm=underline
+  highlight clear SpellLocal
+  highlight SpellLocal cterm=underline
+  highlight clear SpellRare
+  highlight SpellRare cterm=underline
 endif
 au      BufNewFile,BufRead *.hbt setf habit
 autocmd BufRead,BufNewFile *.hsc setlocal filetype=haskell

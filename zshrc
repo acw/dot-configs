@@ -101,6 +101,15 @@ if [[ -f ~/.ec2_creds ]]; then
   fi
 fi
 
+if `which -s podman >& /dev/null` ; then
+  echo "Using podman instead of Docker."
+  alias docker=podman
+fi
+
+if `which -s ssh-add >& /dev/null`; then
+  ssh-add
+fi
+
 source ~/.system/zsh/zsh-auto-notify/auto-notify.plugin.zsh
 
 export EDITOR

@@ -56,3 +56,5 @@ hi SpellBad ctermbg=52
 hi SpellCap ctermbg=22
 hi SpellRare ctermbg=22
 hi SpellLocal ctermbg=Black
+
+hi SignColumn ctermbg=Black

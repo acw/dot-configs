@@ -14,14 +14,8 @@ if [ ! -f ~/.zshrc ]; then
     ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 fi
 
-mkdir -p ${HOME}/.system/vim/bundle
-if [ ! -d ${HOME}/.system/vim/bundle/Vundle.vim ]; then
-  git clone https://github.com/VundleVim/Vundle.vim ${HOME}/.system/vim/bundle/Vundle.vim
-  vim +BundleInstall +qa
+if [ ! -d ${HOME}/.system/vim/pack/plugins/start/coc.nvim ]; then
+    cd ${HOME}/.system/vim/pack/plugins/start/coc.nvim && yarn install
 fi
 
-if [ -d ${HOME}/.vim/bundle/vimproc.vim ]; then
-  if [ -x `which make` ]; then
-    cd ${HOME}/.vim/bundle/vimproc.vim && make
-  fi
-fi
+vim -c "CocInstall coc-rls"

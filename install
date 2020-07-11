@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd ${HOME}/.system/ && git submodule update --init --recursive
 
 if [ ! -f ~/.vimrc ]; then
@@ -18,4 +20,10 @@ if [ ! -d ${HOME}/.system/vim/pack/plugins/start/coc.nvim ]; then
     cd ${HOME}/.system/vim/pack/plugins/start/coc.nvim && yarn install
 fi
 
-vim -c "CocInstall coc-rls"
+echo "Running CocInstall"
+vim -c "CocInstall coc-rls" +q
+
+if [ -d ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc ]; then
+    echo "Installing Coq helptags"
+    vim +helptags\ ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc +q
+fi

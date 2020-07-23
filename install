@@ -16,13 +16,6 @@ if [ ! -f ~/.zshrc ]; then
     ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 fi
 
-if [ ! -d ${HOME}/.system/vim/pack/plugins/start/coc.nvim ]; then
-    cd ${HOME}/.system/vim/pack/plugins/start/coc.nvim && yarn install
-fi
-
-echo "Running CocInstall"
-vim -c "CocInstall coc-rls" +q
-
 if [ -d ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc ]; then
     echo "Installing Coq helptags"
     vim +helptags\ ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc +q

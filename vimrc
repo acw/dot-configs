@@ -60,6 +60,7 @@ set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp,.git
 map <Leader><Leader> to :noh<Enter>
 
 " Coqtail
+autocmd Filetype coq call coqtail#register()
 autocmd Filetype coq nnoremap <buffer> <c-c><enter>       :CoqToLine<CR>
 autocmd Filetype coq inoremap <buffer> <c-c><enter>  <Esc>:CoqToLine<CR>
 
@@ -84,3 +85,5 @@ let g:airline#extensions#branch#empty_message  = ' '
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts                  = 1
 
+packloadall
+silent! helptags ALL

@@ -55,7 +55,7 @@ endif
 set list lcs=tab:>-,trail:.
 
 " Ignore certain common file extensions that don't contain text
-set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp
+set wildignore=*.o,*.hi,*.d,*~,*.bak,*.swp,.git
 
 map <Leader><Leader> to :noh<Enter>
 

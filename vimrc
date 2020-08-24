@@ -64,16 +64,24 @@ autocmd Filetype coq call coqtail#register()
 autocmd Filetype coq nnoremap <buffer> <c-c><enter>       :CoqToLine<CR>
 autocmd Filetype coq inoremap <buffer> <c-c><enter>  <Esc>:CoqToLine<CR>
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" ALE Settings
+let g:ale_cursor_detail = 1
+let g:ale_completion_enabled = 1
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+let g:ale_fixers = {
+\    '*': ['remove_trailing_lines', 'trim_whitespace'],
+\    'c': ['clang-format'],
+\    'cpp': ['clang-format'],
+\    'rust': ['rustfmt'],
+\    'sh': ['shfmt'],
+\}
+
+let g:ale_linters = {
+\    'c': ['ccls'],
+\    'cpp': ['ccls'],
+\    'haskell': ['cabal-ghc','hie'],
+\    'rust': ['analyzer'],
+\}
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

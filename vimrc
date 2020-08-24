@@ -31,15 +31,6 @@ nnoremap <leader>g :GFiles<CR>
 nnoremap <leader>t :Files<CR>
 nnoremap <leader>f :Rg<CR>
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline#extensions#tabline#enabled       = 1
-let g:airline#extensions#tabline#show_buffers  = 0
-let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline#extensions#branch#empty_message  = ' '
-let g:airline_powerline_fonts                  = 1
-
 if has("spell")
   autocmd BufRead,BufNewFile *.md setlocal spell
   autocmd BufRead,BufNewFile *.txt setlocal spell
@@ -83,13 +74,13 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline#extensions#tabline#enabled       = 1
+let g:airline#extensions#tabline#show_buffers  = 0
+let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#branch#empty_message  = ' '
+let g:airline#extensions#ale#enabled = 1
+let g:airline_powerline_fonts                  = 1
 

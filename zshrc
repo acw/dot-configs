@@ -110,6 +110,12 @@ if `which -s ssh-add >& /dev/null`; then
   ssh-add
 fi
 
+if `which nvim >& /dev/null`; then
+  alias vim=nvim
+  alias vi=nvim
+  export EDITOR=nvim
+fi
+
 source ~/.system/zsh/zsh-auto-notify/auto-notify.plugin.zsh
 
 export EDITOR

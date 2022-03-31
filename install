@@ -16,6 +16,10 @@ if [ ! -f ~/.zshrc ]; then
     ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 fi
 
+if [ ! -d ~/.config/nvim ]; then
+    ln -s ${HOME}/.system/nvim ${HOME}/.config/nvim
+fi
+
 if [ -d ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc ]; then
     echo "Installing Coq helptags"
     vim +helptags\ ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc +q

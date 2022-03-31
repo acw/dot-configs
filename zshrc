@@ -65,11 +65,14 @@ alias grep='grep --color=auto'
 alias rm='rm -v'
 alias yum='yum --color=auto'
 
-# Term checks
-case $TERM in
-  "dumb") alias ls='ls --color=none' ;;
-  "xterm") export TERM="xterm-256color" ;;
-esac
+# Make TERM be a reasonable value.
+if `export | grep -a "^KITTY"`; then
+  export TERM=xterm-kitty
+elif [[ "$TERM" == "dumb" ]]; then
+  alias ls='ls --color=none'
+else
+  export TERM=xterm-256color
+fi
 
 # prompt 196
 prompt trevor 031 240 196 000 214

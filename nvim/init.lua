@@ -39,5 +39,19 @@ opt("w", "spell", true)
 opt("b", "autoindent", true) -- if we know nothing about ftype, keep current indent
 opt("o", "termguicolors", true) -- use gui names for colors
 
-require("colors")
-require("plugins")
+local submodules = {
+  "colors",
+  "plugins",
+  "config/impatient",
+  "config/colorizer",
+  "config/statusline",
+  "config/lspconfig",
+  "config/rust",
+}
+
+for _, module_name in ipairs(submodules) do
+  local ok, err = pcall(require, module_name)
+  if not ok then
+    print("Error loading submodule " .. module_name .. ": " .. err)
+  end
+end

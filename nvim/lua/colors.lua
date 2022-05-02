@@ -24,7 +24,7 @@ set_color("Keyword", {fg = "#7dc1e8" }) -- good
 
 set_color("PreProc", {fg = "#d7ff87" }) -- good
 set_color("Include", {fg = "#c7f5ed" }) -- good
-set_color("Define", {fg = "#f5c7cd" }) -- good
+set_color("Define", {fg = "#30a0ff" }) -- good
 set_color("Macro", {fg = "#7dc1e8" }) -- good
 set_color("PreCondit", {fg = "#eeeeee", style = "bold" })  -- good
 
@@ -55,3 +55,16 @@ set_color("SpellRare", {bg = "#005f00" })
 set_color("SpellLocal", {fg = "#000000" })
 
 set_color("SignColumn", {fg = "#000000" })
+
+set_color("Pmenu", {bg="#444444"})
+set_color("PmenuSel", {bg="#999999"})
+set_color("PmenuSbar", {bg="#444444"})
+set_color("PmenuThumb", {bg="#444444"})
+
+
+set_color("CmpItemAbbrMatch", {bg=NONE, fg="#569CD6"})
+set_color("CmpItemAbbrMatchFuzzy", {bg=NONE, fg="#569CD6"})
+set_color("CmpItemKindFunction", {bg=NONE, fg="#C586C0"})
+set_color("CmpItemKindMethod", {bg=NONE, fg="#C586C0"})
+set_color("CmpItemKindVariable", {bg=NONE, fg="#9CDCFE"})
+set_color("CmpItemKindKeyword", {bg=NONE, fg="#D4D4D4"})

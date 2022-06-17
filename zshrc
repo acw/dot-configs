@@ -66,9 +66,7 @@ alias rm='rm -v'
 alias yum='yum --color=auto'
 
 # Make TERM be a reasonable value.
-if `export | grep -a "^KITTY"`; then
-  export TERM=xterm-kitty
-elif [[ "$TERM" == "dumb" ]]; then
+if [[ "$TERM" == "dumb" ]]; then
   alias ls='ls --color=none'
 else
   export TERM=xterm-256color

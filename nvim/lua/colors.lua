@@ -123,13 +123,13 @@ else
   
   set_color("SignColumn", {fg = "#000000" })
   
-  set_color("Pmenu", {bg="#444444"})
-  set_color("PmenuSel", {bg="#999999"})
+  set_color("Pmenu", {bg="#fbf0e4"})
+  set_color("PmenuSel", {bg="#76aaea"})
   set_color("PmenuSbar", {bg="#444444"})
   set_color("PmenuThumb", {bg="#444444"})
   
   
-  set_color("CmpItemAbbrMatch", {bg=NONE, fg="#569CD6"})
+  set_color("CmpItemAbbrMatch", {bg="#222222", fg="#569CD6"})
   set_color("CmpItemAbbrMatchFuzzy", {bg=NONE, fg="#569CD6"})
   set_color("CmpItemKindFunction", {bg=NONE, fg="#C586C0"})
   set_color("CmpItemKindMethod", {bg=NONE, fg="#C586C0"})

@@ -4,10 +4,6 @@ set -e
 
 cd ${HOME}/.system/ && git submodule update --init --recursive
 
-if [ ! -f ~/.vimrc ]; then
-    ln -s ${HOME}/.system/vimrc ${HOME}/.vimrc
-fi
-
 if [ ! -f ~/.tmux.conf ]; then
     ln -s ${HOME}/.system/tmux.conf ${HOME}/.tmux.conf
 fi
@@ -18,9 +14,4 @@ fi
 
 if [ ! -d ~/.config/nvim ]; then
     ln -s ${HOME}/.system/nvim ${HOME}/.config/nvim
-fi
-
-if [ -d ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc ]; then
-    echo "Installing Coq helptags"
-    vim +helptags\ ${HOME}/.system/vim/pack/plugins/start/Coqtail/doc +q
 fi

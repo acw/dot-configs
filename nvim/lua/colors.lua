@@ -5,7 +5,7 @@ local function set_color(name, info)
   vim.cmd('highlight ' .. name .. ' ' .. style .. ' ' .. fg .. ' ' .. bg)
 end
 
-mode = "light"
+mode = "dark"
 
 if(mode == "dark") then
   set_color("Comment", { fg = "#e23612" })

@@ -1,0 +1,23 @@
+{% for workspace in workspaces %}
+(defwindow bar{{workspace.index}}
+   :monitor {{workspace.index}}
+   :windowtype "dock"
+   :geometry (geometry :x "10px"
+                       :y "0px"
+                       :width "60px"
+                       :height "100%"
+                       :anchor "top left")
+   :stacking "fg"
+   :reserve (struts :side "left" :distance "80px")
+ (centerbox :orientation "vertical"
+            :class "left-bar"
+   (box :class "workspace-block"
+        :orientation "vertical"
+        :vexpand true
+     (literal :content wm-tags{{workspace.index}}))
+   (time)
+   (bottom)))
+
+(deflisten wm-tags{{workspace.index}}
+  "leftwm-state -w {{workspace.index}} -t ~/.config/leftwm/themes/current/template.liquid")
+{% endfor %}

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo "(box :class \"time-block\" :orientation \"vertical\" :space-evenly true :halign \"center\" :vexpand false \"$(date $1 '+%l')\" \"$(date $1 '+%M')\" \"$(date $1 '+%P')\" \"$(date $1 '+%#Z')\")"

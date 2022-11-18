@@ -1,0 +1,49 @@
+#!/bin/bash
+export SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+export LEFTWM_COMMAND=/usr/bin/leftwm-command
+export LEFTWM_STATE=/usr/bin/leftwm-state
+export EWW=/usr/bin/eww
+export EWW_CONFIG_DIR=/home/awick/.config/eww
+
+#down the last running theme
+if [ -f "/tmp/leftwm-theme-down" ]; then
+    /tmp/leftwm-theme-down
+    rm /tmp/leftwm-theme-down
+fi
+ln -s ${SCRIPTPATH}/down /tmp/leftwm-theme-down
+
+# start picom or compton, if they exit
+if command -v picom &> /dev/null; then
+  picom &
+elif command -v compton &> /dev/null; then
+  compton &
+fi
+
+#set the theme.toml config
+${LEFTWM_COMMAND} "LoadTheme $SCRIPTPATH/theme.toml"
+
+#set the background cycler
+${SCRIPTPATH}/shuffle_background.sh &
+
+#make sure all fonts needed are installed
+${SCRIPTPATH}/fonts/install_fonts
+
+# get notifications working
+dunst &
+
+if command -v xautolock &> /dev/null; then
+  if command -v slock &> /dev/null; then
+    xautolock -time 10 -locker slock -corners -+0- &
+  fi
+fi
+
+# set up EWW
+cp ${EWW_CONFIG_DIR}/eww-base.yuck ${EWW_CONFIG_DIR}/eww.yuck
+${LEFTWM_STATE} -q -n -t ${SCRIPTPATH}/eww-bars.liquid >> ${EWW_CONFIG_DIR}/eww.yuck
+
+${EWW} daemon
+spaces=( $(${LEFTWM_STATE} -q -n -t $SCRIPTPATH/workspaces.liquid | sed -r '/^\s*$/d' ) )
+for space in "${spaces[@]}"
+do
+  ${EWW} open bar$space
+done

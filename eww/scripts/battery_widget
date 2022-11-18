@@ -1,0 +1,42 @@
+#!/bin/sh
+
+bat=/sys/class/power_supply/BAT0/
+per="$(cat "$bat/capacity")"
+charging_status=$(cat "$bat/status")
+
+if [ "$charging_status" = "Charging" ]; then
+  icon_charging="-charging"
+else
+  icon_charging=""
+fi
+
+if [ "$per" -gt "90" ]; then
+	icon_amt="100"
+elif [ "$per" -gt "80" ]; then
+	icon_amt="90"
+elif [ "$per" -gt "70" ]; then
+	icon_amt="80"
+elif [ "$per" -gt "60" ]; then
+	icon_amt="70"
+elif [ "$per" -gt "50" ]; then
+	icon_amt="60"
+elif [ "$per" -gt "40" ]; then
+	icon_amt="50"
+elif [ "$per" -gt "30" ]; then
+	icon_amt="40"
+elif [ "$per" -gt "20" ]; then
+	icon_amt="30"
+elif [ "$per" -gt "10" ]; then
+	icon_amt="20"
+elif [ "$per" -gt "0" ]; then
+	icon_amt="10"
+else
+	icon_amt="0"
+fi
+	
+#notify-send -u critical "Battery Low" "Connect Charger"
+
+iconpath=$HOME/.config/eww/icons
+iconfile=battery-level-$icon_amt$icon_charging.svg
+
+echo "(image :path \"$iconpath/$iconfile\" :image-width 40 :image-height 40 :class \"bat\" :tooltip \"Battery at $per%\")"

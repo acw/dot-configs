@@ -1,0 +1,34 @@
+#!/bin/sh
+ICONPATH=$HOME/.config/eww/icons
+SCRIPTPATH=$HOME/.config/eww/scripts
+AIRPODS_MAC=$(bluetoothctl devices | grep AirPods | cut -d ' ' -f2)
+
+widget() {
+if bluetoothctl info ${AIRPODS_MAC} | grep -q "Connected: no"; then
+  echo "(button :onclick \"$SCRIPTPATH/bluetooth_widget connect\" (image :path \"$ICONPATH/bluetooth-disconnected.svg\" :image-width 30 :image-height 30 :class \"bat\" :tooltip \"Airpods disconnected\"))"
+else
+  echo "(button :onclick \"$SCRIPTPATH/bluetooth_widget disconnect\" (image :path \"$ICONPATH/bluetooth-connected.svg\" :image-width 30 :image-height 30 :class \"bat\" :tooltip \"Airpods connected\"))"
+fi
+}
+
+connect() {
+  bluetoothctl connect ${AIRPODS_MAC}
+}
+
+disconnect() {
+  bluetoothctl disconnect ${AIRPODS_MAC}
+}
+
+case "$1" in
+  widget)
+    widget
+    ;;
+  connect)
+    connect
+    ;;
+  disconnect)
+    disconnect
+    ;;
+  *)
+    echo "Expected a command, one of widget, connect, or disconnect"
+esac

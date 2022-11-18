@@ -1,0 +1,11 @@
+#!/bin/bash
+
+/usr/bin/leftwm-command "UnloadTheme"
+
+pkill feh
+pkill compton 
+pkill picom 
+pkill eww
+pkill dunst
+pkill lxsession
+

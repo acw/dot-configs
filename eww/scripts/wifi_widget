@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ICONPATH=$HOME/.config/eww/icons
+DEVICE=$(basename `ls /sys/class/ieee80211/*/device/net`)
+STATE=$(cat /sys/class/net/${DEVICE}/operstate)
+
+if [ "${STATE}" == "down" ]; then
+  echo "(image :path \"$iconpath/wireless-offline.svg\" :image-width 40 :image-height 40 :class \"wireless\" :tooltip \"wireless disconnected\")"
+  exit 0
+fi
+
+CONNECTED_TO=$(nmcli | grep "${DEVICE}: connected" | sed 's/\ connected\ to\ /Connected to /g' | cut -d ':' -f2)
+STRENGTH=$(iwconfig ${DEVICE} | grep "Link Quality" | sed -e "s/Link Quality=\([^ \t]*\).*/\1/g" | bc -l | cut -c2,3)
+
+if [ "$STRENGTH" -gt "90" ]; then
+  SUFFIX=excellent
+elif [ "$STRENGTH" -gt "70" ]; then
+  SUFFIX=good
+elif [ "$STRENGTH" -gt "40" ]; then
+  SUFFIX=ok
+else
+  SUFFIX=bad
+fi
+
+echo "(image :path \"$ICONPATH/wireless-$SUFFIX.svg\" :image-width 40 :image-height 40 :class \"wireless\" :tooltip \"$CONNECTED_TO\")"

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+ethernet_state=$(cat /sys/class/net/e*/operstate)
+iconpath=$HOME/.config/eww/icons
+
+if [[ "$ethernet_state" == *"up"* ]]; then
+  echo "(image :path \"$iconpath/nic-online.svg\" :image-width 40 :image-height 40 :class \"eth\" :tooltip \"Ethernet connected\")"
+else
+  echo "(image :path \"$iconpath/nic-offline.svg\" :image-width 40 :image-height 40 :class \"eth\" :tooltip \"Ethernet disconnected\")"
+fi
+
+# symbol() {
+# [ $(cat /sys/class/net/w*/operstate) = down ] && echo 睊 && exit
+# echo 
+# }
+# 
+# name() {
+# nmcli | grep "^wlp" | sed 's/\ connected\ to\ /Connected to /g' | cut -d ':' -f2
+# }
+# 
+# [ "$1" = "icon" ] && symbol && exit
+# [ "$1" = "name" ] && name && exit

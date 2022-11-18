@@ -1,0 +1,246 @@
+(defvar eww "eww -c $HOME/.config/eww")
+
+(defwidget left-bar [window]
+  (centerbox :orientation "vertical"
+  	     :class "left-bar"
+    (workspaces)
+    (time)
+    (bottom)))
+
+(defwidget workspaces []
+  (box :class "workspace-block"
+       :orientation "vertical"
+       :vexpand true
+    (literal :content wm-tags0)))
+
+(defwidget time []
+  (box :class "time-block"
+       :orientation "vertical"
+       :space-evenly true
+       :halign "center"
+       :vexpand false
+    (literal :content local_time)
+    ""
+    (literal :content utc_time)))
+
+(defwidget bottom []
+  (box :orientation "vertical"
+       :space-evenly false
+       :spacing 5
+       :valign "end"
+       :vexpand true
+       :class "bottom_block"
+   (brightness)
+   (volume)
+   (bluetooth_status)
+   (eth_status)
+   (wifi_status)
+   (battery_info)
+   (power)))
+
+(defwidget brightness []
+  (box :orientation "vertical"
+       :space-evenly false
+       :spacing 5
+       :valign "end"
+    (scale :value current-brightness
+		   :onchange "brightnessctl set {}%"
+           :tooltip "Current brightness: ${current-brightness}%"
+           :class "brightness"
+           :active true
+           :visible true
+           :orientation "vertical"
+           :halign "center"
+           :max 101
+           :min 0
+		   :flipped true
+           :width 5
+           :height 150)
+    (image :path "${EWW_CONFIG_DIR}/icons/brightness.svg"
+           :tooltip "Current brightness: ${current-brightness}%"
+           :image-width 35
+           :image-height 35)))
+(defpoll current-brightness :interval "1s" "brightnessctl -m | cut -d, -f 4 | tr -d '%'")
+
+(defwidget volume []
+  (box :orientation "vertical"
+       :space-evenly false
+       :spacing 5
+       :valign "end"
+    (scale :value current-volume
+		   :onchange "amixer sset Master {}%"
+           :tooltip "Current volume: ${current-volume}%"
+           :class "volume"
+           :active true
+           :visible true
+           :orientation "vertical"
+           :halign "center"
+           :max 101
+           :min 0
+		   :flipped true
+           :width 5
+           :height 150)
+    (image :path "${EWW_CONFIG_DIR}/icons/volume.svg"
+           :class "volume-icon"
+           :tooltip "Current volume: ${current-volume}%"
+           :image-width 25
+           :image-height 25)))
+(defpoll current-volume :interval "1s" "amixer sget Master | grep '\\([0-9]*\\)%' | head -n1 | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+
+(defwidget bluetooth_status []
+  (box :orientation "vertical"
+       :space-evenly "false"
+       :halign "center"
+    (literal :content bluetooth_widget)))
+(defpoll bluetooth_widget :interval "5s" "scripts/bluetooth_widget widget")
+
+(defwidget eth_status []
+  (box :orientation "vertical"
+       :space-evenly "false"
+       :halign "center"
+    (literal :content ethernet_widget)))
+(defpoll ethernet_widget :interval "15s" "scripts/ethernet_widget")
+
+(defwidget wifi_status []
+  (box :orientation "vertical" 
+       :space-evenly "false"
+       :halign "center"
+    (literal :content wifi_widget)))
+
+(defpoll wifi_widget :interval "1m" "scripts/wifi_widget")
+
+(defwidget battery_info []
+  (box :orientation "vertical" 
+       :space-evenly "false"
+       :halign "center"
+    (literal :content battery_widget)))
+
+(defpoll battery_widget :interval "1m" "scripts/battery_widget")
+
+(defpoll local_time :interval "15s"
+  "scripts/time_block")
+(defpoll utc_time :interval "15s"
+  "scripts/time_block -u")
+
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :visible {music-status == "Playing"}
+    {music != "" ? "${music}" : ""}))
+
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(defwidget power []
+  (eventbox :onhover "${eww} update power=true"
+            :onhoverlost "${eww} update power=false" 
+    (box :orientation "vertical"          
+         :space-evenly false
+         :vexpand false   
+         :class "powermenu"
+      (revealer :transition "slideup"        
+                :reveal power       
+                :duration "250ms"
+         (box :orientation "vertical"          
+              :space-evenly false
+	      :spacing 10
+           (button :class "button-reb"          
+                   :tooltip "Reboot"     
+                   :onclick "reboot"
+             (image :path "${EWW_CONFIG_DIR}/icons/system-reboot.svg"
+                    :image-width 30
+                    :image-height 30))
+           (button :class "button-quit"         
+                   :tooltip "Logout"      
+                   :onclick "killall leftwm"
+             (image :path "${EWW_CONFIG_DIR}/icons/system-log-out.svg"
+                    :image-width 30
+                    :image-height 30))
+           (button :class "button-lock"         
+                   :tooltip "Lock Screen"   
+                   :onclick "slock"
+             (image :path "${EWW_CONFIG_DIR}/icons/system-lock.svg"
+                    :image-width 30
+                    :image-height 30))))
+         (button :class "button-shutdown"
+                 :tooltip "Shutdown"
+                 :onclick "shutdown now"
+           (image :path "${EWW_CONFIG_DIR}/icons/system-shutdown.svg"
+                  :image-width 45
+                  :image-height 45)))))
+(defvar power false)
+
+(deflisten music :initial ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+(deflisten music-status :initial ""
+  "playerctl --follow status")
+
+(defpoll volume :interval "1s"
+  "scripts/getvol")
+
+;(deflisten wm-tags0
+;  "/home/awick/sys/leftwm/target/release/leftwm-state -w 0 -t ~/.config/leftwm/themes/current/template.liquid")
+;(deflisten wm-tags1
+;  "leftwm-state -w 1 -t ~/.config/leftwm/themes/current/template.liquid")
+
+;(defwindow status0
+;  :monitor 0
+;  :windowtype "dock"
+;  :geometry (geometry :x "-25px"
+;                      :y "10px"
+;                      :width "510px"
+;                      :height "45px"
+;                      :anchor "top right")
+;  :reserve (struts :side "top" :distance "45px")
+;  (sidestuff))
+;
+;(defwindow music0
+;  :monitor 0
+;  :windowtype "dock"
+;  :hexpand true
+;  :geometry (geometry :x "0px"
+;                      :y "0px"
+;                      :width "510px"
+;                      :height "45px"
+;                      :anchor "top center")
+;  :reserve (struts :side "top" :distance "45px")
+;  (music))
+
+;(defwindow bar0
+;  :monitor 0
+;  :windowtype "dock"
+;  :geometry (geometry :x "10px"
+;                      :y "0px"
+;                      :width "20px"
+;                      :height "100%"
+;                      :anchor "top left")
+;  :stacking "fg"
+;  :reserve (struts :side "left" :distance "55px")
+;  (left-bar :window 0))
+;
+;(defwindow bar1
+;  :monitor 1
+;  :windowtype "dock"
+;  :geometry (geometry :x "10px"
+;                      :y "0px"
+;                      :width "20px"
+;                      :height "100%"
+;                      :anchor "top left")
+;  :stacking "fg"
+;  :reserve (struts :side "left" :distance "45px")
+;  (left-bar :window 1))
+
+

@@ -12,13 +12,14 @@ if [ ! -f ~/.zshrc ]; then
     ln -s ${HOME}/.system/zshrc ${HOME}/.zshrc
 fi
 
-if [ ! -d ~/.config/nvim ]; then
-    ln -s ${HOME}/.system/nvim ${HOME}/.config/nvim
-fi
+STANDARD_LINKS=nvim kitty dunst eww kitty leftwm picom
 
-if [ ! -d ~/.config/kitty ]; then
-    ln -s ${HOME}/.system/kitty ${HOME}/.config/kitty
-fi
+for link in ${STANDARD_LINKS}; do
+  if [ ! -d "${HOME}/.config/${link}" ]; then
+    echo "Setting ${link} config."
+    ln -s ${HOME}/.system/${link} ${HOME}/.config/${link}
+  fi
+done
 
 if ! command -v nvim &> /dev/null; then
     echo "NOTE: You should install neovim real soon now."

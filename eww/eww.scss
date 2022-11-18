@@ -1,0 +1,63 @@
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+.left-bar {
+  background: rgba(0,0,0,0.9);
+}
+
+.workspace-block {
+  font-family: "Abril Fatface";
+  font-size: 18px;
+}
+
+.time-block {
+  font-family: "Abril Fatface";
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ws-button-mine {
+  color: #FFFC41;
+  font-weight: bold;
+  padding: 5px 1em 5px;
+  background-color: rgba(50,50,50,0.8);
+}
+
+.ws-button-visible {
+  color: #ffbc4f;
+}
+.ws-button-busy {
+  color: #FFFFFF;
+}
+.ws-button {
+  color: #FFFFFF;
+}
+
+.bottom_block {
+  font-family: "Noto Color Emoji", "Symbola";
+}
+
+.button-lock {
+  padding-bottom: 10px;
+}
+
+scale trough {
+  all: unset;
+  background-color: #222222;
+  border-radius: 5px;
+  min-height: 80px;
+  min-width: 10px;
+  margin: .3rem 0 .3rem 0;
+}
+.brightness trough highlight {
+  background-color: #007777;
+  border-radius: 5px;
+}
+.volume trough highlight {
+  background-color: #770077;
+  border-radius: 5px;
+}
+.volume-icon {
+  padding-bottom: 10px;
+}

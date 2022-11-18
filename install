@@ -16,6 +16,10 @@ if [ ! -d ~/.config/nvim ]; then
     ln -s ${HOME}/.system/nvim ${HOME}/.config/nvim
 fi
 
+if [ ! -d ~/.config/kitty ]; then
+    ln -s ${HOME}/.system/kitty ${HOME}/.config/kitty
+fi
+
 if ! command -v nvim &> /dev/null; then
     echo "NOTE: You should install neovim real soon now."
 fi

@@ -48,14 +48,14 @@ if(mode == "dark") then
   set_color("Underlined", {fg = "#ffd7af", style = "underline" })
   set_color("Ignore", {fg = "#000000" })
   set_color("Error", {fg = "#ff0000" })
-  set_color("Todo", {fg = "#ffaf00" })
+  set_color("Todo", {fg = "#ffae00" })
   
   set_color("Search", {fg = "#080808", bg="#ffff00" })
   
   set_color("SpellBad", {bg = "#5f0000" })
   set_color("SpellCap", {bg = "#005f00" })
   set_color("SpellRare", {bg = "#005f00" })
-  set_color("SpellLocal", {fg = "#000000" })
+  set_color("SpellLocal", {bg = "#005f00" })
   
   set_color("SignColumn", {fg = "#000000" })
   

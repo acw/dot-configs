@@ -16,12 +16,14 @@
 (defwidget time []
   (box :class "time-block"
        :orientation "vertical"
-       :space-evenly true
+       :space-evenly false
        :halign "center"
        :vexpand false
     (literal :content local_time)
     ""
-    (literal :content utc_time)))
+    (literal :content utc_time)
+    ""
+    (literal :content local_date)))
 
 (defwidget bottom []
   (box :orientation "vertical"
@@ -121,7 +123,8 @@
   "scripts/time_block")
 (defpoll utc_time :interval "15s"
   "scripts/time_block -u")
-
+(defpoll local_date :interval "15m"
+  "scripts/date_block")
 
 (defwidget music []
   (box :class "music"

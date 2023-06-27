@@ -52,6 +52,27 @@ return packer.startup(function(use)
 
   use "hrsh7th/vim-vsnip"
 
+  use {
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers", -- This is the important bit!
+    config = function()
+        require("neorg").setup {
+          -- configuration here
+          load = {
+            ["core.defaults"] = {},
+            ["core.concealer"] = {},
+            ["core.dirman"] = {
+              config = {
+                workspaces = {
+                  work = "~/.local/neorg"
+                }
+              }
+            }
+          }
+        }
+    end,
+  }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_CLONE then

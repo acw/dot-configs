@@ -1,9 +1,9 @@
 #!/bin/bash
-export SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+export SCRIPTPATH=${HOME}/.config/leftwm/themes/acw
 export LEFTWM_COMMAND=/usr/bin/leftwm-command
 export LEFTWM_STATE=/usr/bin/leftwm-state
 export EWW=/usr/bin/eww
-export EWW_CONFIG_DIR=/home/awick/.config/eww
+export EWW_CONFIG_DIR=${HOME}/.config/eww
 
 #down the last running theme
 if [ -f "/tmp/leftwm-theme-down" ]; then

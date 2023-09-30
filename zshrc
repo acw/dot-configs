@@ -130,3 +130,7 @@ fi
 if [ -f "${HOME}/.local/google-cloud-sdk/completion.zsh.inc" ]; then
   . "${HOME}/.local/google-cloud-sdk/completion.zsh.inc";
 fi
+
+if `which opam >& /dev/null`; then
+  eval $(opam env --switch=default)
+fi

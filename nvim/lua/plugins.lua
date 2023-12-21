@@ -38,6 +38,8 @@ packer.init {
 
 return packer.startup(function(use)
   use "wbthomason/packer.nvim"  -- the package manager itself
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
   use "nvim-treesitter/nvim-treesitter" -- treesitter
   use "nvim-lualine/lualine.nvim" -- handy status line support
   use "norcalli/nvim-colorizer.lua" -- show colors as you define them
@@ -49,29 +51,14 @@ return packer.startup(function(use)
 
   use "neovim/nvim-lspconfig" -- language servers are awesome!
   use "simrat39/rust-tools.nvim" -- extra Rust stuff
-
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
   use "hrsh7th/vim-vsnip"
 
-  use {
-    "nvim-neorg/neorg",
-    run = ":Neorg sync-parsers", -- This is the important bit!
-    config = function()
-        require("neorg").setup {
-          -- configuration here
-          load = {
-            ["core.defaults"] = {},
-            ["core.concealer"] = {},
-            ["core.dirman"] = {
-              config = {
-                workspaces = {
-                  work = "~/.local/neorg"
-                }
-              }
-            }
-          }
-        }
-    end,
-  }
+  use 'nvim-neorg/neorg' 
+  use 'puremourning/vimspector'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

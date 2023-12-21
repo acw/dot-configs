@@ -46,7 +46,14 @@ local submodules = {
   "config/colorizer",
   "config/statusline",
   "config/lspconfig",
+  "config/mason",
   "config/rust",
+  "config/diagnostic",
+  "config/completes",
+  "config/cmp",
+  "config/treesitter",
+  "config/neorg",
+  "config/vimspector",
 }
 
 for _, module_name in ipairs(submodules) do

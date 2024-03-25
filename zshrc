@@ -134,3 +134,9 @@ fi
 if `which opam >& /dev/null`; then
   eval $(opam env --switch=default)
 fi
+
+# Added by eng-bootstrap 2024-01-03 09:26:04
+autoload -Uz compinit && compinit; eval "$(chef shell-init zsh)"
+
+# Added by eng-bootstrap 2024-03-18 15:21:51
+export PATH="$PATH:/usr/local/google-cloud-sdk/bin"

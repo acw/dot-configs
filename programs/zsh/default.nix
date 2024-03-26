@@ -22,7 +22,7 @@
     };
 
     initExtra = ''
-      fpath+=(${config.home.homeDirectory}/.system/zsh/functions/)
+      fpath+=(${config.home.homeDirectory}/.system/programs/zsh/functions/)
       autoload -U colors promptinit spectrum
       colors
       spectrum

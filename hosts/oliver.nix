@@ -6,7 +6,9 @@
   home.homeDirectory = "/home/awick";
 
   imports = [
+    ../programs/haskell
     ../programs/neovim
+    ../programs/rust
     ../programs/zsh
   ];
 
@@ -23,11 +25,14 @@
   # environment.
   home.packages = [
     pkgs.btop
-    pkgs.cabal-install
-    pkgs.ghc
+    pkgs.calc
+    pkgs.docker-credential-helpers
     pkgs.git
+    pkgs.gnupg
     pkgs.lean4
+    pkgs.pass
     pkgs.ripgrep
+    pkgs.spotify-player
     pkgs.tmux
     pkgs.fastly
   ];

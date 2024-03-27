@@ -29,6 +29,7 @@
       promptinit
 
       prompt trevor 031 240 196 000 214
+      eval "$(chef shell-init zsh)"
     '';
   };
 }

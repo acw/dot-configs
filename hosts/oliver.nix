@@ -1,14 +1,18 @@
 { config, pkgs, ... }:
 
-{
+let
+  nixGLWrap = import ../lib/nixgl.nix { inherit pkgs; };
+in {
   # Basic info
   home.username = "awick";
   home.homeDirectory = "/home/awick";
 
   imports = [
+#    ../programs/alacritty
     ../programs/haskell
     ../programs/neovim
     ../programs/rust
+    ../programs/tmux
     ../programs/zsh
   ];
 
@@ -20,6 +24,7 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
+  #programs.alacritty.package = nixGLWrap "alacritty" pkgs.alacritty;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -66,7 +71,6 @@
   home.sessionVariables = {
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
 }

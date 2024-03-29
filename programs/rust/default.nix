@@ -1,17 +1,12 @@
 { config, pkgs, ... }:
 
-let
-  cargo-edit = import ../../packages/cargo-edit.nix { inherit pkgs; }; 
-  cargo-fuzz = import ../../packages/cargo-fuzz.nix { inherit pkgs; }; 
-
-in {
+{
 
   home.packages = [
+    pkgs.cargo-edit
+    pkgs.cargo-fuzz
     pkgs.mold
     pkgs.rustup
-
-    cargo-edit
-    cargo-fuzz
   ];
 
   home.file = {

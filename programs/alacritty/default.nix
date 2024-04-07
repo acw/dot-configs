@@ -2,7 +2,9 @@
 
 {
   home.packages = with pkgs; [
-    nerdfonts
+    (nerdfonts.override{
+      fonts = ["FiraCode"];
+    })
   ];
 
   programs.alacritty = {
@@ -10,8 +12,10 @@
 
     settings.font.size = pkgs.lib.mkDefault 13;
 
+    # I'd love to figure out how to auto patch and
+    # install M+2 Propo and Coisine, as alternatives
     settings.font.normal = pkgs.lib.mkDefault {
-      family = "Coisine Nerd Font";
+      family = "FiraCode Nerd Font";
       style = "Regular";
     };
   };

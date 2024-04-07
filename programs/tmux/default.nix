@@ -6,7 +6,9 @@
     keyMode = "vi";
 
     extraConfig = ''
-      if-shell 'test "$(uname)" = "Darwin"' 'source ~/.system/tmux-osx.conf'
+      if-shell 'test "$(uname)" = "Darwin"' {
+        set-option -g default-command "reattach-to-user-namespace -l zsh"
+      }
       
       set -g default-terminal "xterm-256color"
       set -sa terminal-overrides ",xterm-256color:RGB"

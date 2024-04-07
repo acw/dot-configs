@@ -16,6 +16,9 @@
       set -g set-clipboard on
       set -g mouse on
       set -g mode-keys vi
+      set -s extended-keys on
+      set-option -g xterm-keys on
+      set -as terminal-features 'xterm*:extkeys'
       set-option -sg escape-time 150
       
       # Use v and s to split windows, like vim

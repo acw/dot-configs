@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    nerdfonts
+  ];
+
   programs.alacritty = {
     enable = true;
 

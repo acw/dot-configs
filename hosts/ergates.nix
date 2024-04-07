@@ -6,7 +6,9 @@
   #home.homeDirectory = "/home/adamwick";
 
   imports = [
+    ../programs/alacritty
     ../programs/haskell
+    ../programs/kitty
     ../programs/neovim
     ../programs/rust
     ../programs/tmux
@@ -22,17 +24,21 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  fonts.fontconfig.enable = true;
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    pkgs.btop
-    pkgs.calc
-    pkgs.git
-    pkgs.lean4
-    pkgs.ripgrep
-    pkgs.spotify-player
-    pkgs.tmux
-    pkgs.fastly
+  home.packages = with pkgs; [
+    btop
+    calc
+    fastly
+    git
+    jq
+    lean4
+    ripgrep
+    spotify-player
+    tmux
+    zola
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

@@ -35,6 +35,7 @@
     git
     jq
     lean4
+    reattach-to-user-namespace
     ripgrep
     spotify-player
     tmux

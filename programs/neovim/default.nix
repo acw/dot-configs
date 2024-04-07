@@ -17,6 +17,7 @@
       impatient-nvim
       lualine-nvim
       mason-nvim
+      mason-lspconfig-nvim
       neorg
       nvim-colorizer-lua
       nvim-lspconfig

@@ -7,6 +7,7 @@
 
   imports = [
     ../programs/alacritty
+    ../programs/go
     ../programs/haskell
     ../programs/kitty
     ../programs/neovim

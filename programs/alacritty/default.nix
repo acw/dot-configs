@@ -18,5 +18,8 @@
       family = "FiraCode Nerd Font";
       style = "Regular";
     };
+
+    settings.window.opacity = 0.95;
+    settings.window.blur = true;
   };
 }

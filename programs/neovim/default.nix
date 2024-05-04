@@ -16,8 +16,6 @@
     plugins = with pkgs.vimPlugins; [
       impatient-nvim
       lualine-nvim
-      mason-nvim
-      mason-lspconfig-nvim
       neorg
       nvim-colorizer-lua
       nvim-lspconfig
@@ -30,20 +28,16 @@
       local submodules = {
         "options",
         "colors",
-        "plugins",
-        "config/impatient",
         "config/colorizer",
         "config/statusline",
+        "config/neorg",
         "config/lspconfig",
-        "config/mason",
-        "config/rust",
         "config/diagnostic",
         "config/completes",
-        "config/cmp",
-        "config/treesitter",
-        "config/neorg",
         "config/vimspector",
+        "config/treesitter",
       }
+
       
       for _, module_name in ipairs(submodules) do
         local ok, err = pcall(require, module_name)

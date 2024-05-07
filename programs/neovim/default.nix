@@ -20,8 +20,10 @@
       nvim-colorizer-lua
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
-      rustaceanvim
       vimspector
+      nvim-dap
+      nvim-dap-ui
+      rustaceanvim
     ];
 
     extraLuaConfig = ''
@@ -31,7 +33,6 @@
         "config/colorizer",
         "config/statusline",
         "config/neorg",
-        "config/lspconfig",
         "config/diagnostic",
         "config/completes",
         "config/vimspector",

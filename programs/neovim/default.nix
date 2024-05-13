@@ -16,6 +16,8 @@
     plugins = with pkgs.vimPlugins; [
       impatient-nvim
       lualine-nvim
+      mason-nvim
+      mason-lspconfig-nvim
       neorg
       nvim-colorizer-lua
       nvim-lspconfig
@@ -30,6 +32,7 @@
       local submodules = {
         "options",
         "colors",
+        "config/mason",
         "config/colorizer",
         "config/statusline",
         "config/neorg",

@@ -32,6 +32,7 @@
     pkgs.git
     pkgs.gnupg
     pkgs.pass
+    pkgs.pinentry
     pkgs.ripgrep
     pkgs.tmux
     pkgs.fastly
@@ -68,4 +69,13 @@
 
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    enableExtraSocket = true;
+
+    extraConfig = ''
+      pinentry-program ${pkgs.pinentry}/bin/pinentry-curses
+    '';
+  };
 }

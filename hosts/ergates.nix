@@ -40,6 +40,8 @@
     ripgrep
     spotify-player
     tmux
+    unixtools.watch
+    unixtools.xxd
     zola
   ];
 

@@ -18,7 +18,6 @@
       lualine-nvim
       mason-nvim
       mason-lspconfig-nvim
-      neorg
       nvim-colorizer-lua
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
@@ -35,7 +34,6 @@
         "config/mason",
         "config/colorizer",
         "config/statusline",
-        "config/neorg",
         "config/diagnostic",
         "config/completes",
         "config/vimspector",

@@ -3,6 +3,7 @@ local lspconfig = require("lspconfig")
 local util = require "lspconfig/util"
 
 lspconfig.rust_analyzer.setup({
+  cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
   filetypes = {"rust"},
   root_dir = util.root_pattern("Cargo.toml"),
   settings = {

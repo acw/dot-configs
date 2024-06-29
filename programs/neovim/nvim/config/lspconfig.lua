@@ -3,18 +3,15 @@ local lspconfig = require("lspconfig")
 local util = require "lspconfig/util"
 
 lspconfig.rust_analyzer.setup({
+  autostart = true,
   cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
   filetypes = {"rust"},
   root_dir = util.root_pattern("Cargo.toml"),
-  settings = {
-    autostart = true,
-    ['rust-analyzer'] = {
-      cargo = {
-        allFeatures = true,
-      },
-    },
-  },
 })
+
+lspconfig.ui.windows.default_options = {
+  border = "single",
+}
 
 --for _, lsp in pairs(servers) do
 --  require('lspconfig')[lsp].setup {

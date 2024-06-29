@@ -8,6 +8,7 @@ end
 mode = "dark"
 
 if(mode == "dark") then
+  set_color("Normal", { fg = "#eeeeee" })
   set_color("Comment", { fg = "#e23612" })
   set_color("SpecialComment", { fg = "#a165f3" })
   
@@ -72,6 +73,7 @@ if(mode == "dark") then
   set_color("CmpItemKindVariable", {bg=NONE, fg="#9CDCFE"})
   set_color("CmpItemKindKeyword", {bg=NONE, fg="#D4D4D4"})
 else
+  set_color("Normal", { fg = "#111111" })
   set_color("Comment", { fg = "#e23612" })
   set_color("SpecialComment", { fg = "#a165f3" })
   

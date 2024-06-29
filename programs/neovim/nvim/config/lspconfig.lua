@@ -1,17 +1,20 @@
-local servers = { 'pyright' }
 local lspconfig = require("lspconfig")
-local util = require "lspconfig/util"
 
 lspconfig.rust_analyzer.setup({
   autostart = true,
-  cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
+-- cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
   filetypes = {"rust"},
-  root_dir = util.root_pattern("Cargo.toml"),
 })
 
-lspconfig.ui.windows.default_options = {
-  border = "single",
-}
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, {bufnr = args.buf})
+        end
+    end
+})
 
 --for _, lsp in pairs(servers) do
 --  require('lspconfig')[lsp].setup {

@@ -24,7 +24,6 @@
       vimspector
       nvim-dap
       nvim-dap-ui
-      rustaceanvim
     ];
 
     extraLuaConfig = ''
@@ -38,6 +37,7 @@
         "config/completes",
         "config/vimspector",
         "config/treesitter",
+        "config/lspconfig",
       }
 
       

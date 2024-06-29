@@ -24,6 +24,10 @@ vim.diagnostic.config({
         header = '',
         prefix = '',
     },
+    inlay_hints = {
+      enabled = true,
+      exclude = {},
+    },
 })
 
 vim.cmd([[

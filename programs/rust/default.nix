@@ -6,7 +6,10 @@
     pkgs.cargo-edit
     pkgs.cargo-fuzz
     pkgs.mold
-    pkgs.rustup
+    pkgs.cargo
+    pkgs.clippy
+    pkgs.rustc
+    pkgs.rust-analyzer
   ];
 
   home.file = {

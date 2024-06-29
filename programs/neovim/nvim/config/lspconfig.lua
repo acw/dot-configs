@@ -7,6 +7,7 @@ lspconfig.rust_analyzer.setup({
   filetypes = {"rust"},
   root_dir = util.root_pattern("Cargo.toml"),
   settings = {
+    autostart = true,
     ['rust-analyzer'] = {
       cargo = {
         allFeatures = true,

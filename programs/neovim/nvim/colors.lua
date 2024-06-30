@@ -11,6 +11,7 @@ if(mode == "dark") then
   set_color("Normal", { fg = "#eeeeee" })
   set_color("Comment", { fg = "#e23612" })
   set_color("SpecialComment", { fg = "#a165f3" })
+  set_color("LspInlayHint", { fg = "#999999", style = "italic" })
   
   set_color("String", {fg = "0x12b616", style = "underline" })
   set_color("Character", {fg = "#5fffd7" })

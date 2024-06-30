@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+    fd
     luarocks
     tree-sitter
   ];
@@ -21,9 +22,15 @@
       nvim-colorizer-lua
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
+      nvim-web-devicons
       vimspector
       nvim-dap
       nvim-dap-ui
+      telescope-fzf-native-nvim
+      telescope-nvim
+      nvim-cmp
+      cmp-nvim-lsp
+      which-key-nvim
     ];
 
     extraLuaConfig = ''
@@ -38,6 +45,8 @@
         "config/vimspector",
         "config/treesitter",
         "config/lspconfig",
+        "config/telescope",
+        "config/keys",
       }
 
       

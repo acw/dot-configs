@@ -13,6 +13,7 @@
     ../programs/neovim
     ../programs/rust
     ../programs/tmux
+    ../programs/wezterm
     ../programs/zsh
   ];
 

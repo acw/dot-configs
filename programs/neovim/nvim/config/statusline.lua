@@ -16,7 +16,7 @@ local colors = {
 
 local config = {
   options = {
-    theme = "github_dark",
+    theme = "wombat",
   },
 
   sections = {

@@ -10,7 +10,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   imports = [
-#    ../programs/alacritty
+    ../programs/alacritty
     ../programs/haskell
     ../programs/neovim
     ../programs/rust

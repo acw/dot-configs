@@ -28,9 +28,11 @@
       nvim-dap-ui
       telescope-fzf-native-nvim
       telescope-nvim
+      trouble-nvim
       nvim-cmp
       cmp-nvim-lsp
       which-key-nvim
+      vim-fugitive
     ];
 
     extraLuaConfig = ''

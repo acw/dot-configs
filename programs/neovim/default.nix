@@ -2,10 +2,17 @@
 
 {
   home.packages = with pkgs; [
+    clang-tools
+    cmake-language-server
+    docker-compose-language-service
     fd
+    gopls
+    lua-language-server
     luarocks
     nixd
+    pyright
     tree-sitter
+    yaml-language-server
   ];
 
   programs.neovim = {

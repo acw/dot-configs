@@ -2,8 +2,12 @@ local lspconfig = require("lspconfig")
 
 lspconfig.rust_analyzer.setup({
   autostart = true,
--- cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
   filetypes = {"rust"},
+})
+
+lspconfig.nixd.setup({
+  autostart = true,
+  filetypes = {"nix"},
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {

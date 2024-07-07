@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     fd
     luarocks
+    nixd
     tree-sitter
   ];
 
@@ -46,6 +47,7 @@
         "config/completes",
         "config/vimspector",
         "config/treesitter",
+        "config/trouble",
         "config/lspconfig",
         "config/telescope",
         "config/keys",

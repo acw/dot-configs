@@ -2,8 +2,52 @@ local lspconfig = require("lspconfig")
 
 lspconfig.rust_analyzer.setup({
   autostart = true,
--- cmd = "${HOME}/.nix-profile/bin/rust-analyzer",
   filetypes = {"rust"},
+})
+
+lspconfig.nixd.setup({
+  autostart = true,
+  filetypes = {"nix"},
+})
+
+lspconfig.clangd.setup({
+  autostart = true,
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+})
+
+lspconfig.cmake.setup({
+  autostart = true,
+  filetypes = { "cmake" },
+})
+
+lspconfig.docker_compose_language_service.setup({
+  autostart = true,
+  filetypes = { "yaml.docker-compose" },
+})
+
+lspconfig.gopls.setup({
+  autostart = true,
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+})
+
+lspconfig.hls.setup({
+  autostart = true,
+  filetypes = { "haskell", "lhaskell" },
+})
+
+lspconfig.lua_ls.setup({
+  autostart = true,
+  filetypes = { "lua" },
+})
+
+lspconfig.pyright.setup({
+  autostart = true,
+  filetypes = { "python" },
+})
+
+lspconfig.yamlls.setup({
+  autostart = true,
+  filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab" },
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {

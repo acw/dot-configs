@@ -2,9 +2,17 @@
 
 {
   home.packages = with pkgs; [
+    clang-tools
+    cmake-language-server
+    docker-compose-language-service
     fd
+    gopls
+    lua-language-server
     luarocks
+    nixd
+    pyright
     tree-sitter
+    yaml-language-server
   ];
 
   programs.neovim = {
@@ -28,9 +36,11 @@
       nvim-dap-ui
       telescope-fzf-native-nvim
       telescope-nvim
+      trouble-nvim
       nvim-cmp
       cmp-nvim-lsp
       which-key-nvim
+      vim-fugitive
     ];
 
     extraLuaConfig = ''
@@ -44,6 +54,7 @@
         "config/completes",
         "config/vimspector",
         "config/treesitter",
+        "config/trouble",
         "config/lspconfig",
         "config/telescope",
         "config/keys",

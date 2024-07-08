@@ -2,8 +2,10 @@
 
 {
   # Basic info
-  #home.username = "adamwick";
-  #home.homeDirectory = "/home/adamwick";
+  home.username = "adamwick";
+  home.homeDirectory = "/Users/adamwick";
+
+  nixpkgs.config.allowUnfree = true;
 
   imports = [
     ../programs/alacritty

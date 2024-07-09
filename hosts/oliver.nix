@@ -35,6 +35,7 @@ in {
     pkgs._1password
     pkgs.btop
     pkgs.calc
+    pkgs.clang
     pkgs.docker-credential-helpers
     pkgs.git
     pkgs.gnupg

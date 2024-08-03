@@ -5,6 +5,8 @@
   home.packages = [
     pkgs.cargo-edit
     pkgs.cargo-fuzz
+    pkgs.cargo-machete
+    pkgs.cargo-tarpaulin
     pkgs.mold
     pkgs.cargo
     pkgs.clippy

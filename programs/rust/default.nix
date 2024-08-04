@@ -2,16 +2,16 @@
 
 {
 
-  home.packages = [
-    pkgs.cargo-edit
-    pkgs.cargo-fuzz
-    pkgs.cargo-machete
-    pkgs.cargo-tarpaulin
-    pkgs.mold
-    pkgs.cargo
-    pkgs.clippy
-    pkgs.rustc
-    pkgs.rust-analyzer
+  home.packages = with pkgs; [
+    cargo-edit
+    cargo-fuzz
+    cargo-machete
+    cargo-tarpaulin
+    mold
+    cargo
+    clippy
+    rustc
+    rust-analyzer
   ];
 
   home.file = {

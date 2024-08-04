@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Basic info
@@ -9,6 +9,7 @@
 
   imports = [
     ../programs/alacritty
+    ../programs/clang
     ../programs/go
     ../programs/haskell
     ../programs/kitty

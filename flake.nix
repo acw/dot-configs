@@ -15,12 +15,11 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       "testvm" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          
         ];
       };
     };

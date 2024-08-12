@@ -38,6 +38,10 @@
         eval "$(chef shell-init zsh)"
       fi
 
+      if [ -S ${config.home.homeDirectory}/.1password/agent.sock ]; then
+        export SSH_AUTH_SOCK=${config.home.homeDirectory}/.1password/agent.sock
+      fi
+
       if command -v ssh-add >& /dev/null; then
         ssh-add
       fi

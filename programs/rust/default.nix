@@ -1,15 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
 
   home.packages = with pkgs; [
+    cargo
     cargo-edit
     cargo-fuzz
     cargo-machete
     cargo-tarpaulin
-    mold
-    cargo
     clippy
+    libiconv
+    mold
     rustc
     rust-analyzer
   ];
@@ -20,9 +21,13 @@
     linker = 'clang'
     rustflags = ["-C", "link_arg=--ld-path=${pkgs.mold}/bin/mold"]
 
+    [target.aarch64-apple-darwin]
+    rustflags = ["-C", "link_arg=-L${lib.makeLibraryPath [pkgs.libiconv]}"]
+
     [target.aarch64-unknown-linux-gnu]
     linker = 'aarch64-linux-gnu-gcc'
     runner = 'qemu-aarch64 -L /usr/aarch64-linux-gnu -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
+    rustflags = ["-C", "link_arg=--ld-path=${pkgs.mold}/bin/mold"]
 
     [target.riscv64gc-unknown-linux-gnu]
     linker = 'riscv64-linux-gnu-gcc'

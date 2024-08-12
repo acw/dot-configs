@@ -38,6 +38,24 @@
     };
 
     homeConfigurations = {
+      "awick@oliver" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+        };
+
+        modules = [
+          ./hosts/oliver.nix
+        ];
+      };
+      "awick@graf" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+        };
+
+        modules = [
+          ./hosts/graf.nix
+        ];
+      };
     };
   };
 }

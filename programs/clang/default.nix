@@ -5,7 +5,9 @@
     autoconf
     automake
     clang
+    libiconv
     openssl
     clang-tools
+    zlib
   ];
 }

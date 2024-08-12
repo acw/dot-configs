@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-
   home.packages = with pkgs; [
     cargo
     cargo-edit
@@ -13,6 +12,7 @@
     mold
     rustc
     rust-analyzer
+    rustfmt
   ];
 
   home.file = {

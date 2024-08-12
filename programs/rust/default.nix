@@ -5,11 +5,13 @@
   home.packages = [
     pkgs.cargo-edit
     pkgs.cargo-fuzz
+    pkgs.cargo-tarpaulin
     pkgs.mold
     pkgs.cargo
     pkgs.clippy
     pkgs.rustc
     pkgs.rust-analyzer
+    pkgs.rustfmt
   ];
 
   home.file = {

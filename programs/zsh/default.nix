@@ -19,7 +19,10 @@
       yum = "yum --color=auto";
       vim = "nvim";
       vi = "nvim";
-    };
+    } //
+       (if pkgs.stdenv.isLinux
+          then { open = "xdg-open"; }
+          else {});
 
     initExtra = ''
       fpath+=(${config.home.homeDirectory}/.system/programs/zsh/functions/)

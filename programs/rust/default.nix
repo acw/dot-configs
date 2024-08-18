@@ -2,18 +2,18 @@
 
 {
   home.packages = with pkgs; [
-    cargo
     cargo-edit
     cargo-fuzz
     cargo-machete
     cargo-tarpaulin
-    clippy
     libiconv
     mold
-    rustc
-    rust-analyzer
-    rustfmt
+    (rust-bin.stable.latest.default.override {
+      extensions = [ "rust-src" ];
+      targets = [ "wasm32-wasi" "wasm32-unknown-unknown" ];
+    })
   ];
+
 
   home.file = {
     ".cargo/config.toml".text = ''

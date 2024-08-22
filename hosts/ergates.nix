@@ -5,14 +5,13 @@
   home.username = "adamwick";
   home.homeDirectory = "/Users/adamwick";
 
-  nixpkgs.config.allowUnfree = true;
-
   imports = [
     ../programs/alacritty
     ../programs/kitty
     ../programs/wezterm
 
     ../profiles/standard.nix
+    ../profiles/programming.nix
   ];
 
   # This value determines the Home Manager release that your configuration is
@@ -61,8 +60,7 @@
   #
   #  /etc/profiles/per-user/awick/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-  };
+  home.sessionVariables = { };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

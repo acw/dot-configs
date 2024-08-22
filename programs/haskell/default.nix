@@ -1,8 +1,5 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = [
-    pkgs.cabal-install
-    pkgs.ghc
-  ];
+  home.packages = [ pkgs.cabal-install pkgs.ghc ];
 }

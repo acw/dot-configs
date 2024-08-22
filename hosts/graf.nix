@@ -5,10 +5,7 @@
   home.username = "awick";
   home.homeDirectory = "/home/awick";
 
-  imports = [
-      ../profiles/programming
-      ../profiles/standard
-  ];
+  imports = [ ../profiles/programming ../profiles/standard ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -56,8 +53,7 @@
   #
   #  /etc/profiles/per-user/awick/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-  };
+  home.sessionVariables = { };
 
   programs.home-manager.enable = true;
   programs.zsh.enable = true;

@@ -9,8 +9,6 @@
       size = 14;
     };
 
-    settings = {
-      macos_option_as_alt = "yes";
-    };
+    settings = { macos_option_as_alt = "yes"; };
   };
 }

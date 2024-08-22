@@ -61,8 +61,7 @@
   #
   #  /etc/profiles/per-user/awick/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-  };
+  home.sessionVariables = { };
 
   programs.home-manager.enable = true;
   programs.zsh.enable = true;

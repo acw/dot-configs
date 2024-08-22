@@ -1,6 +1,7 @@
-{ nixGL ? import <nixgl> {}, pkgs, ... }:
+{ nixGL ? import <nixgl> { }, pkgs, ... }:
 
-binary: drv: pkgs.symlinkJoin {
+binary: drv:
+pkgs.symlinkJoin {
   name = "${drv.name}-nixglwrapped";
   paths = [ drv ];
   nativeBuildInputs = [ pkgs.makeBinaryWrapper ];

@@ -10,7 +10,7 @@
 
     history.size = 1000;
     history.path = "${config.xdg.dataHome}/.zsh_history";
-    
+
     shellAliases = {
       ls = "ls --color=auto -F -h";
       grep = "grep --color=auto";
@@ -19,10 +19,7 @@
       yum = "yum --color=auto";
       vim = "nvim";
       vi = "nvim";
-    } //
-       (if pkgs.stdenv.isLinux
-          then { open = "xdg-open"; }
-          else {});
+    } // (if pkgs.stdenv.isLinux then { open = "xdg-open"; } else { });
 
     initExtra = ''
       fpath+=(${config.home.homeDirectory}/.system/programs/zsh/functions/)

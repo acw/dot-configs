@@ -2,7 +2,7 @@
   description = "The great Nix configuration.";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -24,8 +24,7 @@
     nixosConfigurations = {
       "testvm" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-        ];
+        modules = [ ];
       };
     };
 
@@ -35,13 +34,15 @@
 
         pkgs = import nixpkgs {
           system = "aarch64-darwin";
-          overlays = [rust-overlay.overlays.default];
+          config.allowUnfree = true;
+          overlays = [ rust-overlay.overlays.default ];
         };
 
         modules = [
           ./hosts/ergates-darwin.nix
 
-          home-manager.darwinModules.home-manager {
+          home-manager.darwinModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.users.adamwick = import ./hosts/ergates.nix;
           }
@@ -51,23 +52,15 @@
 
     homeConfigurations = {
       "awick@oliver" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-        };
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
 
-        modules = [
-          ./hosts/oliver.nix
-        ];
+        modules = [ ./hosts/oliver.nix ];
       };
 
       "awick@graf" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-        };
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
 
-        modules = [
-          ./hosts/graf.nix
-        ];
+        modules = [ ./hosts/graf.nix ];
       };
     };
   };

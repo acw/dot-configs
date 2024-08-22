@@ -60,7 +60,7 @@
         "config/keys",
       }
 
-      
+
       for _, module_name in ipairs(submodules) do
         local ok, err = pcall(require, module_name)
         if not ok then
@@ -77,7 +77,5 @@
     };
   };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  home.sessionVariables = { EDITOR = "nvim"; };
 }

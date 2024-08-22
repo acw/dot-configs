@@ -52,13 +52,21 @@
 
     homeConfigurations = {
       "awick@oliver" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+          overlays = [ rust-overlay.overlays.default ];
+        };
 
         modules = [ ./hosts/oliver.nix ];
       };
 
       "awick@graf" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+          overlays = [ rust-overlay.overlays.default ];
+        };
 
         modules = [ ./hosts/graf.nix ];
       };

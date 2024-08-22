@@ -11,8 +11,8 @@
     ../programs/alacritty
     ../programs/wezterm
 
-    ../profiles/programming
-    ../profiles/standard
+    ../profiles/programming.nix
+    ../profiles/standard.nix
   ];
 
   # This value determines the Home Manager release that your configuration is

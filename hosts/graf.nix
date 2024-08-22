@@ -6,11 +6,8 @@
   home.homeDirectory = "/home/awick";
 
   imports = [
-    ../programs/haskell
-    ../programs/neovim
-    ../programs/rust
-    ../programs/tmux
-    ../programs/zsh
+      ../profiles/programming
+      ../profiles/standard
   ];
 
   # This value determines the Home Manager release that your configuration is
@@ -26,15 +23,10 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.btop
-    pkgs.calc
     pkgs.docker-credential-helpers
-    pkgs.git
     pkgs.gnupg
     pkgs.pass
     pkgs.pinentry
-    pkgs.ripgrep
-    pkgs.tmux
     pkgs.fastly
   ];
 

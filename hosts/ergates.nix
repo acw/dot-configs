@@ -9,15 +9,10 @@
 
   imports = [
     ../programs/alacritty
-    ../programs/clang
-    ../programs/go
-    ../programs/haskell
     ../programs/kitty
-    ../programs/neovim
-    ../programs/rust
-    ../programs/tmux
     ../programs/wezterm
-    ../programs/zsh
+
+    ../profiles/standard.nix
   ];
 
   # This value determines the Home Manager release that your configuration is
@@ -34,18 +29,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    btop
-    calc
     fastly
-    git
-    jq
-    lean4
     reattach-to-user-namespace
-    ripgrep
     spotify-player
-    tmux
-    unixtools.watch
-    unixtools.xxd
     zola
   ];
 

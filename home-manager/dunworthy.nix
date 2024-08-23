@@ -3,12 +3,9 @@
 {
   # Basic info
   home.username = "awick";
-  home.homeDirectory = "/Users/awick";
+  home.homeDirectory = "/home/awick";
 
-  imports = [
-    ../profiles/standard.nix
-    ../profiles/programming.nix
-  ];
+  imports = [ ../profiles/standard.nix ../profiles/programming.nix ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -23,9 +20,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    zola
-  ];
+  home.packages = with pkgs; [ zola ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

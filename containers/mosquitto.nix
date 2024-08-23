@@ -1,6 +1,7 @@
 { ... }:
 
-let guid_mosquitto = 1200; in {
+let guid_mosquitto = 1200;
+in {
   users = {
     groups.mosquitto.gid = guid_mosquitto;
     users.mosquitto = {

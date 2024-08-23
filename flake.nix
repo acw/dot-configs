@@ -22,11 +22,11 @@
 
   outputs = inputs@{ nix-darwin, nixpkgs, home-manager, rust-overlay, ... }: {
     nixosConfigurations = {
-      "testvm" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      "nixos-testing" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
 
         pkgs = import nixpkgs {
-          system = "aarch64-darwin";
+          system = "aarch64-linux";
           config.allowUnfree = true;
           overlays = [ rust-overlay.overlays.default ];
         };
@@ -39,7 +39,7 @@
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
-            home-manager.users.adamwick = import ./home-manager/dunworthy.nix;
+            home-manager.users.awick = import ./home-manager/dunworthy.nix;
           }
         ];
       };

@@ -1,5 +1,4 @@
-{config, ...}:
-{
+{ config, ... }: {
   containers.tailscale = {
     autoStart = true;
     ephemeral = true;
@@ -10,24 +9,22 @@
 
     bindMounts = {
       "/var/lib/tailscale/" = {
-         hostPath = "/pool0/tailscale/";
-         isReadOnly = false;
+        hostPath = "/pool0/tailscale/";
+        isReadOnly = false;
       };
     };
 
-    forwardPorts = [
-      {
-        containerPort = config.services.tailscale.port;
-        hostPort = config.services.tailscale.port;
-        protocol = "udp";   
-      }
-    ];
+    forwardPorts = [{
+      containerPort = config.services.tailscale.port;
+      hostPort = config.services.tailscale.port;
+      protocol = "udp";
+    }];
 
     config = { config, lib, ... }: {
       services.tailscale = {
-	    enable = true;
-	    useRoutingFeatures = "server";
-       	interfaceName = "userspace-networking"; 
+        enable = true;
+        useRoutingFeatures = "server";
+        interfaceName = "userspace-networking";
       };
 
       system.stateVersion = "24.05";
@@ -41,6 +38,6 @@
       };
 
       services.resolved.enable = true;
-    };    
+    };
   };
 }

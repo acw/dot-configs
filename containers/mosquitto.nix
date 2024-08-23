@@ -1,4 +1,15 @@
-{ ... }: {
+{ ... }:
+
+let guid_mosquitto = 1200; in {
+  users = {
+    groups.mosquitto.gid = guid_mosquitto;
+    users.mosquitto = {
+      isSystemUser = true;
+      group = "mosquitto";
+      uid = guid_mosquitto;
+    };
+  };
+
   containers.mosquitto = {
     autoStart = true;
     ephemeral = true;

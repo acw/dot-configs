@@ -24,7 +24,24 @@
     nixosConfigurations = {
       "testvm" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ ];
+
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+          overlays = [ rust-overlay.overlays.default ];
+        };
+
+        modules = [
+          ./hosts/dunworthy.nix
+          ./containers/mosquitto.nix
+          ./containers/tailscale.nix
+
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.adamwick = import ./home-manager/dunworthy.nix;
+          }
+        ];
       };
     };
 
@@ -39,12 +56,12 @@
         };
 
         modules = [
-          ./hosts/ergates-darwin.nix
+          ./hosts/ergates.nix
 
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
-            home-manager.users.adamwick = import ./hosts/ergates.nix;
+            home-manager.users.adamwick = import ./home-manager/ergates.nix;
           }
         ];
       };
@@ -58,7 +75,7 @@
           overlays = [ rust-overlay.overlays.default ];
         };
 
-        modules = [ ./hosts/oliver.nix ];
+        modules = [ ./home-manager/oliver.nix ];
       };
 
       "awick@graf" = home-manager.lib.homeManagerConfiguration {
@@ -68,7 +85,7 @@
           overlays = [ rust-overlay.overlays.default ];
         };
 
-        modules = [ ./hosts/graf.nix ];
+        modules = [ ./home-manager/graf.nix ];
       };
     };
   };

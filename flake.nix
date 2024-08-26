@@ -37,7 +37,7 @@
           ./containers/mosquitto.nix
           ./containers/tailscale.nix
 
-          home-manager.darwinModules.home-manager
+          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.users.awick = import ./home-manager/dunworthy.nix;

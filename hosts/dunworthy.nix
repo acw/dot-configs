@@ -29,6 +29,7 @@ in {
   };
 
   time.timeZone = "US/Pacific";
+  programs.zsh.enable = true;
 
   users = {
     mutableUsers = false;
@@ -38,6 +39,7 @@ in {
       extraGroups = [ "wheel" "networkmanager" ];
       packages = with pkgs; [ ];
       uid = awick_id;
+      shell = pkgs.zsh;
       hashedPassword =
         "$y$j9T$r8i/MvG.OVVLTk/fEVj8o/$Cs08cjyfSDSJtj1AaAE49jxKeSTBefoVs9SDSusKiR8";
       openssh.authorizedKeys.keys = [

@@ -33,6 +33,7 @@
 
         modules = [
           ./hosts/dunworthy.nix
+          ./hosts/dunworthy-hardware.nix
           ./containers/mosquitto.nix
           ./containers/tailscale.nix
 

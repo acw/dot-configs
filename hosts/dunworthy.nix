@@ -3,7 +3,6 @@
 let awick_id = 1000;
 in {
   imports = [ # Include the results of the hardware scan.
-    ../hardware-configuration.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

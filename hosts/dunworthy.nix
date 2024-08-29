@@ -56,6 +56,7 @@ in {
     settings = {
       PasswordAuthentication = false;
       AllowUsers = [ "awick" ];
+      AllowAgentForwarding = true;
       UseDns = true;
       X11Forwarding = false;
       PermitRootLogin = "no";

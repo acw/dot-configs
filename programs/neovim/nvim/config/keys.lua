@@ -2,47 +2,47 @@ local which = require 'which-key'
 
 vim.g.mapleader = ' '
 
-which.add({
+which.register{
   -- telescope
-  { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'Buffers' },
-  {'<leader>f', '<cmd>Telescope find_files<cr>', desc = 'Files' },
+  ['<leader>b'] = { '<cmd>Telescope buffers<cr>', 'Buffers' },
+  ['<leader>f'] = { '<cmd>Telescope find_files<cr>', 'Files' },
   -- LSP bindngs
-  {'<leader>ls',
+  ['<leader>ls'] = {
     function()
       vim.lsp.buf.rename()
     end,
-    desc = 'LSP Rename'
+    'LSP Rename'
   },
-  {'<leader>ld',
+  ['<leader>ld'] = {
     function()
       vim.lsp.buf.definition()
     end,
-    desc = 'LSP Definition'
+    'LSP Definition'
   },
-  {'<leader>lD',
+  ['<leader>lD'] = {
     function()
       vim.lsp.buf.declaration()
     end,
-    desc = 'LSP Definition'
+    'LSP Definition'
   },
-  {'<leader>lr',
+  ['<leader>lr'] = {
     function()
       vim.lsp.buf.references()
     end,
-    desc = 'LSP Definition'
+    'LSP Definition'
   },
   -- trouble
-  {'<leader>tt', '<cmd>TroubleToggle<cr>', desc = 'Diagnostics (Trouble)' },
-  {'<leader>tn',
+  ['<leader>tt'] = { '<cmd>TroubleToggle<cr>', 'Diagnostics (Trouble)' },
+  ['<leader>tn'] = {
     function()
       require("trouble").next({skip_groups = true, jump = true})
     end,
-    desc = 'Next Trouble',
+    'Next Trouble',
   },
-  {'<leader>tp',
+  ['<leader>tp'] = {
     function()
       require("trouble").previous({skip_groups = true, jump = true})
     end,
-    desc = 'Next Trouble',
+    'Next Trouble',
   },
-})
+}

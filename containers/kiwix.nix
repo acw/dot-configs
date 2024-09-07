@@ -12,26 +12,6 @@ in {
   };
 
   containers.kiwix = {
-    autoStart = true;
-    ephemeral = true;
-
-    privateNetwork = true;
-    hostAddress = "192.168.200.1";
-    localAddress = "192.168.200.13";
-
-    bindMounts = {
-      "/data/" = {
-        hostPath = "/pool0/kiwix/";
-        isReadOnly = false;
-      };
-    };
-
-    forwardPorts = [{
-      containerPort = 1883;
-      hostPort = 1883;
-      protocol = "tcp";
-    }];
-
     config = { lib, pkgs, ... }: {
       users = {
         groups.kiwix.gid = guid_kiwix;
@@ -54,8 +34,8 @@ in {
 
         serviceConfig = {
           ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.kiwix-tools}/bin/kiwix-serve --port=8080 /data/*.zim\"";
-          Restart = "always";
-          RestartSec = 5;
+#          Restart = "always";
+#          RestartSec = 5;
           User = "kiwix";
         };
       };

@@ -20,7 +20,7 @@
     };
   };
 
-  outputs = inputs@{ nix-darwin, nixpkgs, home-manager, rust-overlay, ... }: {
+  outputs = { nix-darwin, nixpkgs, home-manager, rust-overlay, ... }: {
     nixosConfigurations = {
       "nixos-testing" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
@@ -33,10 +33,6 @@
 
         modules = [
           ./hosts/dunworthy.nix
-          ./hosts/dunworthy-hardware.nix
-          ./containers/kiwix.nix
-          ./containers/mosquitto.nix
-          ./containers/tailscale.nix
 
           home-manager.nixosModules.home-manager
           {

@@ -1,40 +1,28 @@
-{ ... }:
+{ config, ... }:
 
-let guid_mosquitto = 1200;
-in {
+{
   users = {
-    groups.mosquitto.gid = guid_mosquitto;
+    groups.mosquitto.gid = config.ids.gids.mosquitto;
     users.mosquitto = {
       isSystemUser = true;
       group = "mosquitto";
-      uid = guid_mosquitto;
+      uid = config.ids.uids.mosquitto;
     };
   };
 
   containers.mosquitto = {
-    autoStart = true;
-    ephemeral = true;
-
-    privateNetwork = true;
-    hostAddress = "192.168.200.1";
-    localAddress = "192.168.200.12";
-
-    bindMounts = {
-      "/persistent_store/" = {
-        hostPath = "/pool0/mosquitto/";
-        isReadOnly = false;
-      };
-    };
-
-    forwardPorts = [{
-      containerPort = 1883;
-      hostPort = 1883;
-      protocol = "tcp";
-    }];
-
     config = { lib, ... }: {
+      users = {
+        groups.mosquitto.gid = config.ids.gids.mosquitto;
+        users.mosquitto = {
+          isSystemUser = true;
+          group = "mosquitto";
+          uid = config.ids.uids.mosquitto;
+        };
+      };
+
       services.mosquitto = {
-        enable = true;
+        enable = false;
         persistence = true;
         dataDir = "/persistent_store/data/";
         logDest = [ "syslog" ];
@@ -54,7 +42,7 @@ in {
       networking = {
         firewall = {
           enable = true;
-          allowedTCPPorts = [ 1883 9001 ];
+          allowedTCPPorts = [ 1883 ];
         };
         useHostResolvConf = lib.mkForce false;
       };

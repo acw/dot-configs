@@ -2,7 +2,13 @@
 
 let awick_id = 1000;
 in {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    ./dunworthy-hardware.nix
+
+    ../containers/kiwix.nix
+    ../containers/mosquitto.nix
+    ../containers/samba.nix
+    ../containers/tailscale.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -14,17 +20,132 @@ in {
     extraPools = [ "pool0" ];
   };
 
+  containers = {
+    kiwix = {
+      autoStart = true;
+      ephemeral = true;
+  
+      privateNetwork = true;
+      localAddress = "10.0.0.1";
+      hostAddress = "10.0.0.10";
+  
+      bindMounts = {
+        "/data/" = {
+          hostPath = "/pool0/kiwix/";
+          isReadOnly = false;
+        };
+      };
+  
+      forwardPorts = [{
+        containerPort = 8080;
+        hostPort = 8080;
+        protocol = "tcp";
+      }];
+    };
+
+    mosquitto = {
+      autoStart = true;
+      ephemeral = true;
+  
+      bindMounts = {
+        "/persistent_store/" = {
+          hostPath = "/pool0/mosquitto/";
+          isReadOnly = false;
+        };
+      };
+  
+      forwardPorts = [
+        {
+          containerPort = 1883;
+          hostPort = 1883;
+          protocol = "tcp";
+        }
+      ];
+  
+      privateNetwork = true;
+      localAddress = "10.0.0.2";
+      hostAddress = "10.0.0.20";
+    };
+
+    samba = {
+      autoStart = true;
+      ephemeral = true;
+  
+      privateNetwork = true;
+      localAddress = "10.0.0.3";
+      hostAddress = "10.0.0.30";
+  
+      bindMounts = {
+        "/persistent_store/av" = {
+          hostPath = "/pool0/av/";
+          isReadOnly = false;
+        };
+  
+        "/persistent_store/backups" = {
+          hostPath = "/pool0/backups";
+          isReadOnly = false;
+        };
+      };
+  
+      forwardPorts = [
+        {
+          containerPort = 137;
+          hostPort = 137;
+          protocol = "udp";
+        }
+        {
+          containerPort = 138;
+          hostPort = 138;
+          protocol = "udp";
+        }
+        {
+          containerPort = 139;
+          hostPort = 139;
+          protocol = "tcp";
+        }
+        {
+          containerPort = 445;
+          hostPort = 445;
+          protocol = "tcp";
+        }
+      ];
+    };
+
+    tailscale = {
+      autoStart = true;
+      ephemeral = true;
+  
+      privateNetwork = true;
+      bindMounts = {
+        "/var/lib/tailscale/" = {
+          hostPath = "/pool0/tailscale/";
+          isReadOnly = false;
+        };
+      };
+  
+      forwardPorts = [{
+        containerPort = config.services.tailscale.port;
+        hostPort = config.services.tailscale.port;
+        protocol = "udp";
+      }];
+  
+      localAddress = "10.0.0.4";
+      hostAddress = "10.0.0.40";
+    };
+  };
+  
   networking = {
     enableIPv6 = true;
     hostId = "a0119c15";
     hostName = "nixos-testing";
     useDHCP = true;
-
+  
     firewall = {
       allowPing = true;
       enable = true;
-      allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ 22 1883 ];
+  
+      allowedUDPPorts = [ config.services.tailscale.port 137 138 ];
+      allowedTCPPorts = [ 22 139 445 1883 8080 ];
     };
   };
 
@@ -37,7 +158,6 @@ in {
     users.awick = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" ];
-      packages = with pkgs; [ ];
       uid = awick_id;
       shell = pkgs.zsh;
       hashedPassword =

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let awick_id = 1000;
 in {
@@ -7,6 +7,7 @@ in {
 
     ../containers/kiwix.nix
     ../containers/mosquitto.nix
+    ../containers/postgresql.nix
     ../containers/samba.nix
     ../containers/tailscale.nix
   ];
@@ -132,6 +133,58 @@ in {
       localAddress = "10.0.0.4";
       hostAddress = "10.0.0.40";
     };
+
+    postgresql = {
+      autoStart = true;
+      ephemeral = true;
+
+      config.users.users.awick = {
+        isSystemUser = true;
+        group = "users";
+        uid = awick_id;
+      };
+  
+      privateNetwork = true;
+      bindMounts = {
+        "/persistent_store/" = {
+          hostPath = "/pool0/postgres/";
+          isReadOnly = false;
+        };
+
+        "/run/postgresql/" = {
+          hostPath = "/pool0/postgres/socket/";
+          isReadOnly = false;
+        };
+      };
+  
+      config.services.postgresql = {
+        authentication = lib.mkOverride 10 ''
+          #type database DBuser   auth-method
+          local all      postgres peer
+          local sameuser all      peer
+          local general  awick    peer
+        '';
+
+        identMap = ''
+          # ArbitraryMapName systemUser DBUser
+          superuser_map      root       postgres
+          superuser_map      postgres   postgres
+          user               /^(.*)$    \1
+        '';
+
+        ensureDatabases = [ "awick" ];
+
+        ensureUsers = [
+          {
+            name = "awick";
+          }
+        ];
+      };
+
+ 
+      localAddress = "10.0.0.5";
+      hostAddress = "10.0.0.50";
+    };
   };
   
   networking = {
@@ -187,6 +240,5 @@ in {
   security.sudo.wheelNeedsPassword = false;
 
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
 

@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let awick_id = 1000;
+    vicky_id = 1001;
 in {
   imports = [
     ./dunworthy-hardware.nix
@@ -213,11 +214,17 @@ in {
       extraGroups = [ "wheel" "networkmanager" ];
       uid = awick_id;
       shell = pkgs.zsh;
-      hashedPassword =
-        "$y$j9T$r8i/MvG.OVVLTk/fEVj8o/$Cs08cjyfSDSJtj1AaAE49jxKeSTBefoVs9SDSusKiR8";
+      hashedPasswordFile = "/pool0/secrets/awick";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF+jF2FvPnS1C9kZGUAobU7Bnepq/9EI1BVyAWNAZDBA adamwick@ergates"
       ];
+    };
+
+    users.vicky = {
+      isNormalUser = true;
+      uid = vicky_id;
+      shell = pkgs.zsh;
+      hashedPasswordFile = "/pool0/secrets/vicky";
     };
   };
 

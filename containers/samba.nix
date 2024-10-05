@@ -7,19 +7,19 @@
     config = { lib, ... }: {
       services.samba = {
         enable = true;
-        securityType = "user";
         openFirewall = true;
 
-        extraConfig = ''
-          workgroup = WICKHOUSE
-          server string = The Wick Data Store
-          server role = standalone server
-          smb encrypt = desired
-          deadtime = 30
-          use sendfile = yes
-        '';
+        settings = {
+          global = {
+            workgroup = "WICKHOUSE";
+            "server string" = "The Wick Data Store";
+            "server role" = "standalone server";
+            "smb encrypt" = "desired";
+            deadtime = 30;
+            "use sendfile" = "yes";
+            security = "user";
+          };
 
-        shares = {
           timemachine = {
             comment = "Time Machine";
             path = "/persistent_store/backups";

@@ -8,9 +8,10 @@
     cargo-tarpaulin
     libiconv
     mold
+    darwin.apple_sdk.frameworks.CoreFoundation
     (rust-bin.stable.latest.default.override {
       extensions = [ "rust-src" ];
-      targets = [ "wasm32-wasi" "wasm32-unknown-unknown" ];
+      targets = [ "aarch64-apple-darwin" "wasm32-wasi" "wasm32-unknown-unknown" ];
     })
   ];
 
@@ -21,7 +22,10 @@
       rustflags = ["-C", "link_arg=--ld-path=${pkgs.mold}/bin/mold"]
 
       [target.aarch64-apple-darwin]
-      rustflags = ["-C", "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}"]
+      rustflags = [
+        "-C", "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}",
+      ]
+      linker = "/usr/bin/ld"
 
       [target.aarch64-unknown-linux-gnu]
       linker = 'aarch64-linux-gnu-gcc'

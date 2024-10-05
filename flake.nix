@@ -2,7 +2,9 @@
   description = "The great Nix configuration.";
 
   inputs = {
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -20,71 +22,79 @@
     };
   };
 
-  outputs = { nix-darwin, nixpkgs, home-manager, rust-overlay, ... }: {
-    nixosConfigurations = {
-      "nixos-testing" = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-
-        pkgs = import nixpkgs {
+  outputs =
+    {
+      nix-darwin,
+      nixpkgs,
+      home-manager,
+      rust-overlay,
+      ...
+    }:
+    {
+      nixosConfigurations = {
+        "nixos-testing" = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          config.allowUnfree = true;
-          overlays = [ rust-overlay.overlays.default ];
+
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/dunworthy.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.awick = import ./home-manager/dunworthy.nix;
+            }
+          ];
         };
-
-        modules = [
-          ./hosts/dunworthy.nix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.awick = import ./home-manager/dunworthy.nix;
-          }
-        ];
       };
-    };
 
-    darwinConfigurations = {
-      "ergates" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-
-        pkgs = import nixpkgs {
+      darwinConfigurations = {
+        "ergates" = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          config.allowUnfree = true;
-          overlays = [ rust-overlay.overlays.default ];
+
+          pkgs = import nixpkgs {
+            system = "aarch64-darwin";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/ergates.nix
+
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.adamwick = import ./home-manager/ergates.nix;
+            }
+          ];
+        };
+      };
+
+      homeConfigurations = {
+        "awick@oliver" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
+
+          modules = [ ./home-manager/oliver.nix ];
         };
 
-        modules = [
-          ./hosts/ergates.nix
+        "awick@graf" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
 
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.adamwick = import ./home-manager/ergates.nix;
-          }
-        ];
+          modules = [ ./home-manager/graf.nix ];
+        };
       };
     };
-
-    homeConfigurations = {
-      "awick@oliver" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          overlays = [ rust-overlay.overlays.default ];
-        };
-
-        modules = [ ./home-manager/oliver.nix ];
-      };
-
-      "awick@graf" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          overlays = [ rust-overlay.overlays.default ];
-        };
-
-        modules = [ ./home-manager/graf.nix ];
-      };
-    };
-  };
 }

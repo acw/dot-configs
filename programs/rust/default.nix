@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   home.packages = with pkgs; [
@@ -10,7 +15,11 @@
     mold
     (rust-bin.stable.latest.default.override {
       extensions = [ "rust-src" ];
-      targets = [ "aarch64-apple-darwin" "wasm32-wasi" "wasm32-unknown-unknown" ];
+      targets = [
+        "aarch64-apple-darwin"
+        "wasm32-wasi"
+        "wasm32-unknown-unknown"
+      ];
     })
   ];
 

@@ -1,8 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
-let awick_id = 1000;
-    vicky_id = 1001;
-in {
+let
+  awick_id = 1000;
+  vicky_id = 1001;
+in
+{
   imports = [
     ./dunworthy-hardware.nix
 
@@ -25,36 +32,38 @@ in {
     kiwix = {
       autoStart = true;
       ephemeral = true;
-  
+
       privateNetwork = true;
       localAddress = "10.0.0.1";
       hostAddress = "10.0.0.10";
-  
+
       bindMounts = {
         "/data/" = {
           hostPath = "/pool0/kiwix/";
           isReadOnly = false;
         };
       };
-  
-      forwardPorts = [{
-        containerPort = 8080;
-        hostPort = 8080;
-        protocol = "tcp";
-      }];
+
+      forwardPorts = [
+        {
+          containerPort = 8080;
+          hostPort = 8080;
+          protocol = "tcp";
+        }
+      ];
     };
 
     mosquitto = {
       autoStart = true;
       ephemeral = true;
-  
+
       bindMounts = {
         "/persistent_store/" = {
           hostPath = "/pool0/mosquitto/";
           isReadOnly = false;
         };
       };
-  
+
       forwardPorts = [
         {
           containerPort = 1883;
@@ -62,7 +71,7 @@ in {
           protocol = "tcp";
         }
       ];
-  
+
       privateNetwork = true;
       localAddress = "10.0.0.2";
       hostAddress = "10.0.0.20";
@@ -71,23 +80,23 @@ in {
     samba = {
       autoStart = true;
       ephemeral = true;
-  
+
       privateNetwork = true;
       localAddress = "10.0.0.3";
       hostAddress = "10.0.0.30";
-  
+
       bindMounts = {
         "/persistent_store/av" = {
           hostPath = "/pool0/av/";
           isReadOnly = false;
         };
-  
+
         "/persistent_store/backups" = {
           hostPath = "/pool0/backups";
           isReadOnly = false;
         };
       };
-  
+
       forwardPorts = [
         {
           containerPort = 137;
@@ -115,7 +124,7 @@ in {
     tailscale = {
       autoStart = true;
       ephemeral = true;
-  
+
       privateNetwork = true;
       bindMounts = {
         "/var/lib/tailscale/" = {
@@ -123,13 +132,15 @@ in {
           isReadOnly = false;
         };
       };
-  
-      forwardPorts = [{
-        containerPort = config.services.tailscale.port;
-        hostPort = config.services.tailscale.port;
-        protocol = "udp";
-      }];
-  
+
+      forwardPorts = [
+        {
+          containerPort = config.services.tailscale.port;
+          hostPort = config.services.tailscale.port;
+          protocol = "udp";
+        }
+      ];
+
       localAddress = "10.0.0.4";
       hostAddress = "10.0.0.40";
     };
@@ -143,7 +154,7 @@ in {
         group = "users";
         uid = awick_id;
       };
-  
+
       privateNetwork = true;
       bindMounts = {
         "/persistent_store/" = {
@@ -156,7 +167,7 @@ in {
           isReadOnly = false;
         };
       };
-  
+
       config.services.postgresql = {
         authentication = lib.mkOverride 10 ''
           #type database DBuser   auth-method
@@ -181,24 +192,33 @@ in {
         ];
       };
 
- 
       localAddress = "10.0.0.5";
       hostAddress = "10.0.0.50";
     };
   };
-  
+
   networking = {
     enableIPv6 = true;
     hostId = "a0119c15";
     hostName = "nixos-testing";
     useDHCP = true;
-  
+
     firewall = {
       allowPing = true;
       enable = true;
-  
-      allowedUDPPorts = [ config.services.tailscale.port 137 138 ];
-      allowedTCPPorts = [ 22 139 445 1883 8080 ];
+
+      allowedUDPPorts = [
+        config.services.tailscale.port
+        137
+        138
+      ];
+      allowedTCPPorts = [
+        22
+        139
+        445
+        1883
+        8080
+      ];
     };
   };
 
@@ -210,7 +230,10 @@ in {
 
     users.awick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+      ];
       uid = awick_id;
       shell = pkgs.zsh;
       hashedPasswordFile = "/pool0/secrets/awick";
@@ -227,7 +250,12 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs; [ sudo vim wget zfs ];
+  environment.systemPackages = with pkgs; [
+    sudo
+    vim
+    wget
+    zfs
+  ];
 
   services.openssh = {
     enable = true;
@@ -247,4 +275,3 @@ in {
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-

@@ -1,4 +1,8 @@
-{ nixGL ? import <nixgl> { }, pkgs, ... }:
+{
+  nixGL ? import <nixgl> { },
+  pkgs,
+  ...
+}:
 
 binary: drv:
 pkgs.symlinkJoin {

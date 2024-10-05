@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
 let
-  wrapper = pkg:
+  wrapper =
+    pkg:
     pkgs.runCommand "${pkg.name}-wrapped" { } ''
       mkdir $out
       ln -s ${pkg}/* $out
@@ -15,16 +16,22 @@ let
         chmod +x $wrapped_bin
       done
     '';
-in {
-  home.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "FiraCode" "RobotoMono" ]; }) ];
+in
+{
+  home.packages = with pkgs; [
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "RobotoMono"
+      ];
+    })
+  ];
 
   programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
 
-    package =
-      if pkgs.stdenv.isDarwin then pkgs.wezterm else wrapper pkgs.wezterm;
+    package = if pkgs.stdenv.isDarwin then pkgs.wezterm else wrapper pkgs.wezterm;
 
     extraConfig = ''
       return {

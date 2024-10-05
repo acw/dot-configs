@@ -5,7 +5,10 @@
   home.username = "awick";
   home.homeDirectory = "/home/awick";
 
-  imports = [ ../profiles/standard.nix ../profiles/programming.nix ];
+  imports = [
+    ../profiles/standard.nix
+    ../profiles/programming.nix
+  ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

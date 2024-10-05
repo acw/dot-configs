@@ -1,7 +1,11 @@
 { pkgs, ... }:
 
 {
-  imports = [ ../programs/neovim ../programs/tmux ../programs/zsh ];
+  imports = [
+    ../programs/neovim
+    ../programs/tmux
+    ../programs/zsh
+  ];
 
   home.packages = with pkgs; [
     _1password

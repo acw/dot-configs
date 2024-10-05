@@ -1,7 +1,8 @@
 { pkgs, stdenv, ... }:
 
 let
-  wrapper = pkg:
+  wrapper =
+    pkg:
     pkgs.runCommand "${pkg.name}-wrapped" { } ''
       mkdir $out
       ln -s ${pkg}/* $out
@@ -15,16 +16,22 @@ let
         chmod +x $wrapped_bin
       done
     '';
-in {
-  home.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "FiraCode" "RobotoMono" ]; }) ];
+in
+{
+  home.packages = with pkgs; [
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "RobotoMono"
+      ];
+    })
+  ];
 
   programs.alacritty = {
     enable = true;
     settings.font.size = pkgs.lib.mkDefault 13;
 
-    package =
-      if pkgs.stdenv.isDarwin then pkgs.alacritty else wrapper pkgs.alacritty;
+    package = if pkgs.stdenv.isDarwin then pkgs.alacritty else wrapper pkgs.alacritty;
 
     # I'd love to figure out how to auto patch and
     # install M+2 Propo and Coisine, as alternatives

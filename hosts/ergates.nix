@@ -1,5 +1,8 @@
-{ ... }: {
-  nixpkgs.hostPlatform = { system = "aarch64-darwin"; };
+{ ... }:
+{
+  nixpkgs.hostPlatform = {
+    system = "aarch64-darwin";
+  };
 
   users.users.adamwick = {
     name = "adamwick";

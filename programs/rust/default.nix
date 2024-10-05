@@ -8,7 +8,6 @@
     cargo-tarpaulin
     libiconv
     mold
-    darwin.apple_sdk.frameworks.CoreFoundation
     (rust-bin.stable.latest.default.override {
       extensions = [ "rust-src" ];
       targets = [ "aarch64-apple-darwin" "wasm32-wasi" "wasm32-unknown-unknown" ];

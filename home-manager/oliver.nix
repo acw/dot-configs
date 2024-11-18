@@ -34,6 +34,8 @@
     pass
     spotify-player
     fastly
+    lld
+    vault
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

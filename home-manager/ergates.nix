@@ -29,6 +29,7 @@
   # environment.
   home.packages = with pkgs; [
     fastly
+    nmap
     reattach-to-user-namespace
     spotify-player
     zola

@@ -14,7 +14,6 @@
     shellAliases = {
       ls = "ls --color=auto -F -h";
       grep = "grep --color=auto";
-      open = "xdg-open";
       rm = "rm -v";
       yum = "yum --color=auto";
       vim = "nvim";

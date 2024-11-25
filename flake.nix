@@ -51,6 +51,26 @@
             }
           ];
         };
+
+        "grendel" = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/grendel.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.awick = import ./home-manager/grendel.nix;
+            }
+          ];
+        };
       };
 
       darwinConfigurations = {

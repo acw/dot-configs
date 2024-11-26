@@ -71,6 +71,26 @@
             }
           ];
         };
+
+        "vultr-vpn" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = [ rust-overlay.overlays.default ];
+          };
+
+          modules = [
+            ./hosts/vultr-vpn.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.awick = import ./home-manager/vultr-vpn.nix;
+            }
+          ];
+        };
       };
 
       darwinConfigurations = {

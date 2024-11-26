@@ -9,6 +9,7 @@ in {
 
   boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
   boot.initrd.kernelModules = [];
+  boot.loader.grub.device = "/dev/disk/by-label/nixos";
   boot.kernelModules = [];
   boot.extraModulePackages = [];
 

@@ -11,6 +11,22 @@
   };
 
   containers.postgresql = {
+    autostart = true;
+    ephemeral = true;
+    privateNetwork = true;
+
+    bindMounts = {
+      "/persistent_store/" = {
+        hostPath = "/pool0/postgres/";
+        isReadOnly = false;
+      };
+
+      "/run/postgresql/" = {
+        hostPath = "/pool0/postgres/socket/";
+        isReadOnly = false;
+      };
+    };
+
     config =
       { lib, ... }:
       {

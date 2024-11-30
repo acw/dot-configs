@@ -18,8 +18,18 @@
     "sr_mod"
   ];
   boot.initrd.kernelModules = [ ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+
+
+  boot.zfs = {
+    extraPools = [ "pool0" ];
+    forceImportAll = false;
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";

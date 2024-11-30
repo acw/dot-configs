@@ -14,6 +14,28 @@ in
   };
 
   containers.kiwix = {
+    autoStart = true;
+    ephemeral = true;
+
+    privateNetwork = true;
+    localAddress = "10.0.30.10";
+    hostAddress = "10.0.30.2";
+
+    bindMounts = {
+      "/data/" = {
+        hostPath = "/pool0/kiwix/";
+        isReadOnly = false;
+      };
+    };
+
+    forwardPorts = [
+      {
+        containerPort = 8080;
+        hostPort = 8080;
+        protocol = "tcp";
+      }
+    ];
+
     config =
       { lib, pkgs, ... }:
       {

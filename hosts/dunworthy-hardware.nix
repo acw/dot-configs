@@ -23,12 +23,12 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.forceImportRoot = false;
-
 
   boot.zfs = {
     extraPools = [ "pool0" ];
     forceImportAll = false;
+    forceImportRoot = false;
+    devNodes = "/dev/disk/by-path";
   };
 
   fileSystems."/" = {

@@ -7,7 +7,7 @@
 
 let
   awick_id = 1000;
-  vicky_id = 1002;
+  vicky_id = 1001;
 in
 {
   imports = [
@@ -205,18 +205,19 @@ in
 
   users = {
     mutableUsers = false;
+    defaultUserShell = pkgs.zsh;
 
     users.awick = {
       isNormalUser = true;
       home = "/home/awick";
-      description = "Adam Wick";
+      description = "Adam C. Wick";
       extraGroups = [
         "wheel"
         "networkmanager"
       ];
       uid = awick_id;
       shell = pkgs.zsh;
-      hashedPasswordFile = "/pool0/secrets/awick";
+      hashedPasswordFile = "/etc/nixos/awick";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF+jF2FvPnS1C9kZGUAobU7Bnepq/9EI1BVyAWNAZDBA adamwick@ergates"
       ];
@@ -225,10 +226,10 @@ in
     users.vicky = {
       isNormalUser = true;
       home = "/home/vicky";
-      description = "Victoria Wick";
+      description = "Victoria E. Wick";
       uid = vicky_id;
       shell = pkgs.zsh;
-      hashedPasswordFile = "/pool0/secrets/vicky";
+      hashedPasswordFile = "/etc/nixos/vicky";
     };
   };
 

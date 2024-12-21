@@ -14,6 +14,8 @@ in
     ./dunworthy-hardware.nix
   ];
 
+  nix.extraOptions = ''experimental-features = nix-command flakes'';
+
   services.home-assistant = {
     enable = true;
     package = (pkgs.home-assistant.override {

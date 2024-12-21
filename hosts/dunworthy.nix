@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -8,147 +7,178 @@
 let
   awick_id = 1000;
   vicky_id = 1001;
+  kiwix_id = 2001;
 in
 {
   imports = [
     ./dunworthy-hardware.nix
-
-    ../containers/kiwix.nix
-#    ../containers/mosquitto.nix
-#    ../containers/postgresql.nix
-#    ../containers/samba.nix
-#    ../containers/tailscale.nix
   ];
 
-#  containers = {
-#    mosquitto = {
-#      autoStart = true;
-#      ephemeral = true;
-#
-#      bindMounts = {
-#        "/persistent_store/" = {
-#          hostPath = "/pool0/mosquitto/";
-#          isReadOnly = false;
-#        };
-#      };
-#
-#      forwardPorts = [
-#        {
-#          containerPort = 1883;
-#          hostPort = 1883;
-#          protocol = "tcp";
-#        }
-#      ];
-#
-#      privateNetwork = true;
-#      localAddress = "10.0.1.1";
-#      hostAddress = "10.0.1.6";
-#    };
-#
-#    samba = {
-#      autoStart = true;
-#      ephemeral = true;
-#
-#      privateNetwork = true;
-#      localAddress = "10.0.2.1";
-#      hostAddress = "10.0.2.6";
-#
-#      bindMounts = {
-#        "/persistent_store/av" = {
-#          hostPath = "/pool0/av/";
-#          isReadOnly = false;
-#        };
-#
-#        "/persistent_store/backups" = {
-#          hostPath = "/pool0/backups";
-#          isReadOnly = false;
-#        };
-#      };
-#
-#      forwardPorts = [
-#        {
-#          containerPort = 137;
-#          hostPort = 137;
-#          protocol = "udp";
-#        }
-#        {
-#          containerPort = 138;
-#          hostPort = 138;
-#          protocol = "udp";
-#        }
-#        {
-#          containerPort = 139;
-#          hostPort = 139;
-#          protocol = "tcp";
-#        }
-#        {
-#          containerPort = 445;
-#          hostPort = 445;
-#          protocol = "tcp";
-#        }
-#      ];
-#    };
-#
-#    tailscale = {
-#      autoStart = true;
-#      ephemeral = true;
-#
-#      privateNetwork = true;
-#      bindMounts = {
-#        "/var/lib/tailscale/" = {
-#          hostPath = "/pool0/tailscale/";
-#          isReadOnly = false;
-#        };
-#      };
-#
-#      forwardPorts = [
-#        {
-#          containerPort = config.services.tailscale.port;
-#          hostPort = config.services.tailscale.port;
-#          protocol = "udp";
-#        }
-#      ];
-#
-#      localAddress = "10.0.3.1";
-#      hostAddress = "10.0.3.6";
-#    };
-#
-#    postgresql = {
-#      config.users.users.awick = {
-#        isSystemUser = true;
-#        group = "users";
-#        uid = awick_id;
-#      };
-#
+  services.home-assistant = {
+    enable = true;
+    package = (pkgs.home-assistant.override {
+      extraPackages = py: with py; [ psycopg2 ];
+    }).overrideAttrs (oldAttrs: {
+      doInstallCheck = false;
+    });
 
-#      config.services.postgresql = {
-#        authentication = lib.mkOverride 10 ''
-#          #type database DBuser   auth-method
-#          local all      postgres peer
-#          local sameuser all      peer
-#          local general  awick    peer
-#        '';
-#
-#        identMap = ''
-#          # ArbitraryMapName systemUser DBUser
-#          superuser_map      root       postgres
-#          superuser_map      postgres   postgres
-#          user               /^(.*)$    \1
-#        '';
-#
-#        ensureDatabases = [ "awick" ];
-#
-#        ensureUsers = [
-#          {
-#            name = "awick";
-#          }
-#        ];
-#      };
-#
-#      localAddress = "10.0.4.1";
-#      hostAddress = "10.0.4.6";
-#    };
-#  };
+    extraComponents = [
+      "esphome"
+      "met"
+      "radio_browser"
+    ];
+
+    configDir = "/pool0/home-assistant";
+    config = {
+      default_config = {};
+      recorder.db_url = "postgresql://@/hass";
+    };
+  };
+
+  systemd.services.kiwix = {
+    enable = true;
+    description = "Kiwix local wiki server";
+    after = [ "network.target" ];
+    wantedBy = [ "default.target" ];
+
+    serviceConfig = {
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.kiwix-tools}/bin/kiwix-serve -r /kiwix --port=8080 /pool0/kiwix/*.zim\"";
+      User = "kiwix";
+    };
+  };
+
+  services.mosquitto = {
+    enable = true;
+    persistence = true;
+    dataDir = "/pool0/mosquitto/";
+    logDest = [ "syslog" ];
+    logType = [
+      "error"
+      "warning"
+      "information"
+    ];
+
+    listeners = [
+      {
+        acl = [ "pattern readwrite #" ];
+        omitPasswordAuth = true;
+        settings.allow_anonymous = true;
+      }
+    ];
+
+    settings.persistence_location = "/pool0/mosquitto/mosquitto.db";
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts."home.uhsure.com" = {
+      locations."/" = {
+        root = "/pool0/www";
+      };
+
+      locations."/kiwix" = {
+        proxyPass = "http://127.0.0.1:8080";
+        proxyWebsockets = false;
+        extraConfig = "proxy_redirect default;";
+      };
+
+      locations."/hass" = {
+        proxyPass = "http://127.0.0.1:8123";
+        proxyWebsockets = false;
+        extraConfig = "proxy_redirect default;";
+      };
+    };
+  };
+
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = [ "awick" ];
+      AllowAgentForwarding = true;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "no";
+    };
+  };
+
+  services.postgresql = {
+    enable = true;
+    dataDir = "/pool0/postgres";
+    enableJIT = true;
+
+    ensureDatabases = [ "hass" ];
+    ensureUsers = [{
+      name = "hass";
+      ensureDBOwnership = true;
+    }];
+    settings = {
+      fsync = true;
+
+      log_destination = lib.mkForce "syslog";
+    };
+  };
+
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+
+    settings = {
+      global = {
+        workgroup = "WICKHOUSE";
+        "server string" = "The Wick Data Store";
+        "server role" = "standalone server";
+        "smb encrypt" = "desired";
+        deadtime = 30;
+        "use sendfile" = "yes";
+        security = "user";
+      };
+
+      timemachine = {
+        comment = "Time Machine";
+        path = "/pool0/backups";
+        public = "no";
+        writeable = "yes";
+        "create mask" = "0600";
+        "directory mask" = "0700";
+        "spotlight" = "yes";
+        "vfs objects" = "catia fruit streams_xattr";
+        "force user" = "username";
+        "fruit:aapl" = "yes";
+        "fruit:time machine" = "yes";
+      };
+
+      av = {
+        comment = "AV Files";
+        path = "/pool0/av";
+        browseable = "yes";
+        writeable = "yes";
+        "create mask" = "0600";
+        "directory mask" = "0700";
+        "public" = "yes";
+        "spotlight" = "yes";
+        "vfs objects" = "catia fruit streams_xattr";
+        "fruit:aapl" = "yes";
+      };
+    };
+  };
+
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.zfs = {
+     autoScrub = {
+       enable = true;
+       pools = [ "pool0" ];
+     };
+  };
+
 
   networking = {
     enableIPv6 = true;
@@ -160,43 +190,14 @@ in
       ens160 = {
         useDHCP = true;
       };
-
-      kiwix0 = {
-        virtual = true;
-        virtualType = "tun";
-      };
-
-      kiwix1 = {
-        virtual = true;
-        virtualType = "tun";
-      };
     };
-
-    nat = {
-      enable = true;
-      enableIPv6 = true;
-
-      externalInterface = "ens160";
-      internalInterfaces = [ ];
-    };
-    
 
     firewall = {
       allowPing = true;
       enable = true;
 
-#        config.services.tailscale.port
-#        137
-#        138
-      allowedUDPPorts = [
-      ];
-#        22
-#        139
-#        445
-#        1883
-#        8080
-      allowedTCPPorts = [
-      ];
+      allowedUDPPorts = [ 137 138 ];
+      allowedTCPPorts = [ 80 139 445 8123 ];
     };
   };
 
@@ -231,36 +232,27 @@ in
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/vicky";
     };
+
+    users.kiwix = {
+      isSystemUser = true;
+      group = "kiwix";
+      uid = kiwix_id;
+    };
+
+    groups.kiwix = {
+      gid = kiwix_id;
+    };
   };
 
   environment.systemPackages = with pkgs; [
+    kiwix-tools
     sudo
     vim
     wget
     zfs
   ];
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings = {
-      PasswordAuthentication = false;
-      AllowUsers = [ "awick" ];
-      AllowAgentForwarding = true;
-      UseDns = true;
-      X11Forwarding = false;
-      PermitRootLogin = "no";
-    };
-  };
-
   security.sudo.wheelNeedsPassword = false;
-
-  services.zfs = {
-     autoScrub = {
-       enable = true;
-       pools = [ "pool0" ];
-     };
-  };
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

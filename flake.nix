@@ -32,11 +32,11 @@
     }:
     {
       nixosConfigurations = {
-        "nixos-testing" = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
+        "dunworthy" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
 
           pkgs = import nixpkgs {
-            system = "aarch64-linux";
+            system = "x86_64-linux";
             config.allowUnfree = true;
             overlays = [ rust-overlay.overlays.default ];
           };

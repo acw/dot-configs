@@ -17,7 +17,7 @@ in
   nix.extraOptions = ''experimental-features = nix-command flakes'';
 
   services.home-assistant = {
-    enable = true;
+    enable = false;
     package = (pkgs.home-assistant.override {
       extraPackages = py: with py; [ psycopg2 ];
     }).overrideAttrs (oldAttrs: {
@@ -38,7 +38,7 @@ in
   };
 
   systemd.services.kiwix = {
-    enable = true;
+    enable = false;
     description = "Kiwix local wiki server";
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
@@ -49,8 +49,10 @@ in
     };
   };
 
+  services.fwupd.enable = true;
+
   services.mosquitto = {
-    enable = true;
+    enable = false;
     persistence = true;
     dataDir = "/pool0/mosquitto/";
     logDest = [ "syslog" ];
@@ -72,7 +74,7 @@ in
   };
 
   services.nginx = {
-    enable = true;
+    enable = false;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
@@ -109,7 +111,7 @@ in
   };
 
   services.postgresql = {
-    enable = true;
+    enable = false;
     dataDir = "/pool0/postgres";
     enableJIT = true;
 
@@ -126,7 +128,7 @@ in
   };
 
   services.samba = {
-    enable = true;
+    enable = false;
     openFirewall = true;
 
     settings = {
@@ -170,26 +172,22 @@ in
   };
 
   services.samba-wsdd = {
-    enable = true;
+    enable = false;
     openFirewall = true;
   };
 
-  services.zfs = {
-     autoScrub = {
-       enable = true;
-       pools = [ "pool0" ];
-     };
-  };
-
-
   networking = {
     enableIPv6 = true;
-    hostId = "a0119c15";
-    hostName = "nixos-testing";
+
+    hostId = "d9692086";
+    hostName = "dunworthy";
     useDHCP = false;
 
     interfaces = {
-      ens160 = {
+      enp4s0 = {
+        useDHCP = true;
+      };
+      enp6s0 = {
         useDHCP = true;
       };
     };
@@ -248,6 +246,7 @@ in
 
   environment.systemPackages = with pkgs; [
     kiwix-tools
+    linux-firmware
     sudo
     vim
     wget

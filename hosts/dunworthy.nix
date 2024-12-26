@@ -111,15 +111,15 @@ in
   };
 
   services.postgresql = {
-    enable = false;
+    enable = true;
     dataDir = "/pool0/postgres";
     enableJIT = true;
 
-    ensureDatabases = [ "hass" ];
-    ensureUsers = [{
-      name = "hass";
-      ensureDBOwnership = true;
-    }];
+    ensureDatabases = [ "awick" "hass" ];
+    ensureUsers = [
+      { name = "hass"; ensureDBOwnership = true; }
+      { name = "awick"; ensureDBOwnership = true; }
+    ];
     settings = {
       fsync = true;
 

@@ -38,7 +38,7 @@ in
   };
 
   systemd.services.kiwix = {
-    enable = false;
+    enable = true;
     description = "Kiwix local wiki server";
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
@@ -74,7 +74,7 @@ in
   };
 
   services.nginx = {
-    enable = false;
+    enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 

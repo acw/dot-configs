@@ -52,7 +52,7 @@ in
   services.fwupd.enable = true;
 
   services.mosquitto = {
-    enable = false;
+    enable = true;
     persistence = true;
     dataDir = "/pool0/mosquitto/";
     logDest = [ "syslog" ];

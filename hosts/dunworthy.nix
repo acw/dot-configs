@@ -128,7 +128,7 @@ in
   };
 
   services.samba = {
-    enable = false;
+    enable = true;
     openFirewall = true;
 
     settings = {

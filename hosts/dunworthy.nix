@@ -152,6 +152,8 @@ in
         "spotlight" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
         "force user" = "username";
+        "force group" = "username";
+        "valid users" = "username";
         "fruit:aapl" = "yes";
         "fruit:time machine" = "yes";
       };
@@ -167,6 +169,10 @@ in
         "spotlight" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:aapl" = "yes";
+        "fruit:time machine" = "yes";
+        "valid users" = "username";
+        "force group" = "username";
+        "force user" = "username";
       };
     };
   };
@@ -190,6 +196,7 @@ in
     firewall = {
       allowPing = true;
       enable = true;
+      extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
 
       allowedUDPPorts = [ 137 138 ];
       allowedTCPPorts = [ 80 139 445 8123 ];

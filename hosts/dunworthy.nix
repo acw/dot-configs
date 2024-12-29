@@ -70,7 +70,7 @@ in
       }
     ];
 
-    settings.persistence_location = "/pool0/mosquitto/mosquitto.db";
+    settings.persistence_location = "/pool0/mosquitto/data";
   };
 
   services.nginx = {

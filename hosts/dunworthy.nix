@@ -171,11 +171,6 @@ in
     };
   };
 
-  services.samba-wsdd = {
-    enable = false;
-    openFirewall = true;
-  };
-
   networking = {
     enableIPv6 = true;
 

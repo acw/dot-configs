@@ -19,12 +19,8 @@ let
 in
 {
   home.packages = with pkgs; [
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode"
-        "RobotoMono"
-      ];
-    })
+    nerd-fonts.fira-code
+    nerd-fonts.roboto-mono
   ];
 
   programs.alacritty = {

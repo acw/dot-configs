@@ -20,6 +20,10 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ghostty = {
+      url = "github:ghostty-org/ghostty"; 
+    };
   };
 
   outputs =
@@ -28,6 +32,7 @@
       nixpkgs,
       home-manager,
       rust-overlay,
+      ghostty,
       ...
     }:
     {
@@ -39,7 +44,7 @@
             system = "x86_64-linux";
             config.allowUnfree = true;
             overlays = [ rust-overlay.overlays.default ];
-          };
+          } ++ ghostty.packages;
 
           modules = [
             ./hosts/dunworthy.nix

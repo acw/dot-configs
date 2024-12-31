@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, nixgl, ... }:
 
 {
   # Basic info
@@ -6,9 +6,14 @@
   home.homeDirectory = "/home/awick";
 
   nixpkgs.config.allowUnfree = true;
+  nixGL.packages = nixgl.packages;
+  nixGL.defaultWrapper = "mesa";
+  nixGL.offloadWrapper = "mesa";
+  nixGL.installScripts = [ "mesa" ];
 
   imports = [
     ../programs/alacritty
+    ../programs/ghostty
     ../programs/wezterm
 
     ../profiles/programming.nix
@@ -27,17 +32,18 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    docker-credential-helpers
-    google-cloud-sdk
-    gnupg
-    pass
-    spotify-player
-    fastly
-    lld
-    vault
-    ghostty
+  home.packages = [
+    pkgs.docker-credential-helpers
+    pkgs.google-cloud-sdk
+    pkgs.gnupg
+    pkgs.pass
+    pkgs.spotify-player
+    pkgs.fastly
+    pkgs.lld
+    pkgs.vault
   ];
+
+  fonts.fontconfig.enable = true;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

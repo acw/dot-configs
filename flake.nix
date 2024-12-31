@@ -24,6 +24,10 @@
     ghostty = {
       url = "github:ghostty-org/ghostty"; 
     };
+
+    nixgl = {
+      url = "github:nix-community/nixGL";
+    };
   };
 
   outputs =
@@ -33,6 +37,7 @@
       home-manager,
       rust-overlay,
       ghostty,
+      nixgl,
       ...
     }:
     {
@@ -125,10 +130,12 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
+            overlays = [ rust-overlay.overlays.default nixgl.overlay ];
           };
 
           modules = [ ./home-manager/oliver.nix ];
+
+          extraSpecialArgs = { inherit nixgl; };
         };
 
         "awick@graf" = home-manager.lib.homeManagerConfiguration {

@@ -7,6 +7,7 @@
 
   imports = [
     ../programs/alacritty
+    ../programs/ghostty
     ../programs/kitty
     ../programs/wezterm
 

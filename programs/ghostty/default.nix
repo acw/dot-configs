@@ -1,8 +1,10 @@
 { config, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    (if pkgs.stdenv.isDarwin then pkgs.ghostty else config.lib.nixGL.wrapOffload pkgs.ghostty)
-  ];
+  ] ++
+    (if pkgs.stdenv.isDarwin
+       then []
+       else [config.lib.nixGL.wrapOffload pkgs.ghostty]);
 
   home.file = {
     ".config/ghostty/config".text = ''

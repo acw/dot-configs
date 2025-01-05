@@ -8,6 +8,8 @@ let
   awick_id = 1000;
   vicky_id = 1001;
   kiwix_id = 2001;
+  backups_gid = 3001;
+  av_gid = 4001;
 in
 {
   imports = [
@@ -15,6 +17,37 @@ in
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    openFirewall = true;
+
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
+      hinfo = true;
+      userServices = true;
+      workstation = true;
+    };
+
+    extraServiceFiles = {
+      ssh = "${pkgs.avahi}/etc/avahi/services/ssh.service";
+      smb = ''
+        <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+        <service-group>
+          <name replace-wildcards="yes">%h</name>
+          <service>
+            <type>_smb._tcp</type>
+            <port>445</port>
+          </service>
+        </service-group>
+      '';
+    };
+  };
 
   services.home-assistant = {
     enable = false;
@@ -137,23 +170,25 @@ in
         "server string" = "The Wick Data Store";
         "server role" = "standalone server";
         "smb encrypt" = "desired";
+        "server smb encrypt" = "required";
+        "server min protocol" = "SMB3_00";
         deadtime = 30;
         "use sendfile" = "yes";
         security = "user";
+        "guest account" = "nobody";
+        "map to guest" = "bad user";
       };
 
       timemachine = {
         comment = "Time Machine";
         path = "/pool0/backups";
-        public = "no";
+        browseable = "yes";
         writeable = "yes";
-        "create mask" = "0600";
-        "directory mask" = "0700";
+        "create mask" = "0660";
+        "directory mask" = "0770";
         "spotlight" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
-        "force user" = "username";
-        "force group" = "username";
-        "valid users" = "username";
+        "force group" = "backups";
         "fruit:aapl" = "yes";
         "fruit:time machine" = "yes";
       };
@@ -163,18 +198,20 @@ in
         path = "/pool0/av";
         browseable = "yes";
         writeable = "yes";
-        "create mask" = "0600";
-        "directory mask" = "0700";
-        "public" = "yes";
+        "create mask" = "0660";
+        "directory mask" = "0770";
         "spotlight" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:aapl" = "yes";
         "fruit:time machine" = "yes";
-        "valid users" = "username";
-        "force group" = "username";
-        "force user" = "username";
+        "force group" = "av";
       };
     };
+  };
+
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
   };
 
   networking = {
@@ -196,10 +233,8 @@ in
     firewall = {
       allowPing = true;
       enable = true;
-      extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
 
-      allowedUDPPorts = [ 137 138 ];
-      allowedTCPPorts = [ 80 139 445 8123 ];
+      allowedTCPPorts = [ 80 1883 8123 ];
     };
   };
 
@@ -217,6 +252,8 @@ in
       extraGroups = [
         "wheel"
         "networkmanager"
+        "av"
+        "backups"
       ];
       uid = awick_id;
       shell = pkgs.zsh;
@@ -233,6 +270,10 @@ in
       uid = vicky_id;
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/vicky";
+      extraGroups = [
+        "av"
+        "backups"
+      ];
     };
 
     users.kiwix = {
@@ -241,8 +282,16 @@ in
       uid = kiwix_id;
     };
 
+    groups.av = {
+      gid = av_gid;
+    };
+
     groups.kiwix = {
       gid = kiwix_id;
+    };
+
+    groups.backups = {
+      gid = backups_gid;
     };
   };
 

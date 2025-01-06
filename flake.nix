@@ -39,7 +39,7 @@
       ghostty,
       nixgl,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations = {
         "dunworthy" = nixpkgs.lib.nixosSystem {
@@ -135,7 +135,10 @@
 
           modules = [ ./home-manager/oliver.nix ];
 
-          extraSpecialArgs = { inherit nixgl; };
+          extraSpecialArgs = {
+            inherit nixgl;
+            inherit inputs;
+          };
         };
 
         "awick@graf" = home-manager.lib.homeManagerConfiguration {
@@ -145,7 +148,7 @@
             overlays = [ rust-overlay.overlays.default ];
           };
 
-          modules = [ ./home-manager/graf.nix ];
+          modules = [ ghostty.homeModules.default ./home-manager/graf.nix ];
         };
       };
     };

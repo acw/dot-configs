@@ -32,15 +32,16 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    pkgs.docker-credential-helpers
-    pkgs.google-cloud-sdk
-    pkgs.gnupg
-    pkgs.pass
-    pkgs.spotify-player
-    pkgs.fastly
-    pkgs.lld
-    pkgs.vault
+  home.packages = with pkgs; [
+    alsa-plugins
+    docker-credential-helpers
+    google-cloud-sdk
+    gnupg
+    pass
+    spotify-player
+    fastly
+    lld
+    vault
   ];
 
   fonts.fontconfig.enable = true;

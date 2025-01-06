@@ -49,7 +49,7 @@
             system = "x86_64-linux";
             config.allowUnfree = true;
             overlays = [ rust-overlay.overlays.default ];
-          } ++ ghostty.packages;
+          };
 
           modules = [
             ./hosts/dunworthy.nix

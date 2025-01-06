@@ -49,8 +49,26 @@ in
     };
   };
 
+  services.forgejo = {
+    enable = true;
+
+    database.type = "postgres";
+    lfs.enable = true;
+    settings = {
+      server = {
+        DOMAIN = "git.uhsure.com";
+        ROOT_URL = "https://git.uhsure.com/";
+        HTTP_PORT = 3000;
+      };
+      actions = {
+        ENABLED = true;
+        DEFAULT_ACTIONS_URL = "github";
+      };
+    };
+  };
+
   services.home-assistant = {
-    enable = false;
+    enable = true;
     package = (pkgs.home-assistant.override {
       extraPackages = py: with py; [ psycopg2 ];
     }).overrideAttrs (oldAttrs: {
@@ -66,8 +84,22 @@ in
     configDir = "/pool0/home-assistant";
     config = {
       default_config = {};
+      http = {
+        server_host = "::1";
+        trusted_proxies = [ "::1" ];
+        use_x_forwarded_for = true;
+      };
       recorder.db_url = "postgresql://@/hass";
     };
+  };
+
+  services.jellyfin = {
+    enable = true;
+
+    cacheDir = "/pool0/jellyfin/cache";
+    configDir = "/pool0/jellyfin/config";
+    dataDir = "/pool0/jellyfin/data";
+    logDir = "/pool0/jellyfin/logs";
   };
 
   systemd.services.kiwix = {
@@ -123,11 +155,21 @@ in
       };
 
       locations."/hass" = {
-        proxyPass = "http://127.0.0.1:8123";
-        proxyWebsockets = false;
-        extraConfig = "proxy_redirect default;";
+        proxyPass = "http://[::1]:8123";
+        proxyWebsockets = true;
+        extraConfig = "
+          proxy_buffering off;
+          proxy_redirect default;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+        ";
       };
     };
+  };
+
+  services.tailscale = {
+    enable = true;
   };
 
   services.openssh = {
@@ -254,6 +296,7 @@ in
         "networkmanager"
         "av"
         "backups"
+        "hass"
       ];
       uid = awick_id;
       shell = pkgs.zsh;

@@ -76,9 +76,25 @@ in
     });
 
     extraComponents = [
+      "apple_tv"
+      "august"
+      "enphase_envoy"
       "esphome"
+      "homekit"
+      "homekit_controller"
+      "hue"
+      "ipp"
+      "lutron"
+      "lutron_caseta"
       "met"
+      "mqtt"
+      "nanoleaf"
       "radio_browser"
+      "spotify"
+      "tasmota"
+      "tradfri"
+      "unifi"
+      "unifiprotect"
     ];
 
     configDir = "/pool0/home-assistant";
@@ -109,7 +125,7 @@ in
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.kiwix-tools}/bin/kiwix-serve -r /kiwix --port=8080 /pool0/kiwix/*.zim\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.kiwix-tools}/bin/kiwix-serve --port=8080 /pool0/kiwix/*.zim\"";
       User = "kiwix";
     };
   };
@@ -143,27 +159,25 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."home.uhsure.com" = {
+    virtualHosts."kb.uhsure.com" = {
       locations."/" = {
-        root = "/pool0/www";
-      };
-
-      locations."/kiwix" = {
         proxyPass = "http://127.0.0.1:8080";
         proxyWebsockets = false;
         extraConfig = "proxy_redirect default;";
       };
+    };
 
-      locations."/hass" = {
+    virtualHosts."home.uhsure.com" = {
+      extraConfig = "
+        proxy_buffering off;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+      ";
+
+      locations."/" = {
         proxyPass = "http://[::1]:8123";
         proxyWebsockets = true;
-        extraConfig = "
-          proxy_buffering off;
-          proxy_redirect default;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection $connection_upgrade;
-        ";
       };
     };
   };

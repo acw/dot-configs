@@ -38,7 +38,8 @@
     google-cloud-sdk
     gnupg
     pass
-    spotify-player
+    pipewire
+    pulseaudio
     fastly
     lld
     vault
@@ -75,5 +76,6 @@
   home.sessionVariables = { };
 
   programs.home-manager.enable = true;
+  programs.spotify-player.enable = true;
   programs.zsh.enable = true;
 }

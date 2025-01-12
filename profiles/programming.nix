@@ -10,7 +10,6 @@
 
   home.packages = with pkgs; [
     gh
-    lean4
     nixfmt-rfc-style
   ];
 }

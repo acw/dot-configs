@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
+  programs.ghostty = lib.mkIf (!pkgs.stdenv.isDarwin) {
+    enable = true;
+    package = config.lib.nixGL.wrapOffload pkgs.ghostty;
+  };
 
-  programs.ghostty.enable = !pkgs.stdenv.isDarwin;
 
   home.file = {
     ".config/ghostty/config".text = ''

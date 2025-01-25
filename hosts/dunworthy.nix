@@ -92,7 +92,7 @@ in
       "radio_browser"
       "spotify"
       "tasmota"
-      "tradfri"
+#      "tradfri"
       "unifi"
       "unifiprotect"
     ];
@@ -387,9 +387,17 @@ in
     };
   };
 
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;
+  };
+
   environment.systemPackages = with pkgs; [
+    ffmpeg-full
     kiwix-tools
     linux-firmware
+    podman-tui
     sudo
     vim
     wget

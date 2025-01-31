@@ -217,6 +217,15 @@ in
     };
   };
 
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  
+    user = "ollama";
+    group = "ollama";
+    models = "/pool0/ai-models/ollama";
+  };
+
   services.tailscale = {
     enable = true;
   };
@@ -346,6 +355,7 @@ in
         "av"
         "backups"
         "hass"
+        "ollama"
       ];
       uid = awick_id;
       shell = pkgs.zsh;

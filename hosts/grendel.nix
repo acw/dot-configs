@@ -7,6 +7,8 @@ in {
     ./grendel-hardware.nix
   ];
 
+  nix.extraOptions = ''experimental-features = nix-command flakes'';
+
   networking = {
     hostName = "grendel";
     enableIPv6 = true;

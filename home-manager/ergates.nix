@@ -33,6 +33,7 @@
     nmap
     reattach-to-user-namespace
     spotify-player
+    zstd
     zola
   ];
 

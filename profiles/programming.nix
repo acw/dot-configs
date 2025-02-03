@@ -12,4 +12,9 @@
     gh
     nixfmt-rfc-style
   ];
+
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+  };
 }

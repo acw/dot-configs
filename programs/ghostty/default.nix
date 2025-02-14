@@ -12,6 +12,8 @@
     background-opacity = 0.85
     font-family = "Cousine Nerd Font Mono"
     font-size = 14
+
+    term = xterm-256color
     '';
   };
 }

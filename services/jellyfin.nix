@@ -1,5 +1,8 @@
 { ... }:
 
+let
+  av_gid = 4001;
+in
 {
   services.jellyfin = {
     enable = true;
@@ -28,4 +31,6 @@
       proxyWebsockets = true;
     };
   };
+
+  users.groups.av.gid = av_gid;
 }

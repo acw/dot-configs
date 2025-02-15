@@ -1,15 +1,11 @@
 {
   pkgs,
-  lib,
   ...
 }:
 
 let
   awick_id = 1000;
   vicky_id = 1001;
-  kiwix_id = 2001;
-  backups_gid = 3001;
-  av_gid = 4001;
 in
 {
   imports = [
@@ -18,59 +14,12 @@ in
     ../services/home-assistant.nix
     ../services/jellyfin.nix
     ../services/kiwix.nix
+    ../services/postgres.nix
+    ../services/samba.nix
     ../services/stats.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    openFirewall = true;
-
-    publish = {
-      enable = true;
-      addresses = true;
-      domain = true;
-      hinfo = true;
-      userServices = true;
-      workstation = true;
-    };
-
-    extraServiceFiles = {
-      ssh = "${pkgs.avahi}/etc/avahi/services/ssh.service";
-      smb = ''
-        <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
-        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-        <service-group>
-          <name replace-wildcards="yes">%h</name>
-          <service>
-            <type>_smb._tcp</type>
-            <port>445</port>
-          </service>
-        </service-group>
-      '';
-    };
-  };
-
-  #  services.forgejo = {
-  #    enable = true;
-  #
-  #    database.type = "postgres";
-  #    lfs.enable = true;
-  #    settings = {
-  #      server = {
-  #        DOMAIN = "git.uhsure.com";
-  #        ROOT_URL = "https://git.uhsure.com/";
-  #        HTTP_PORT = 3000;
-  #      };
-  #      actions = {
-  #        ENABLED = true;
-  #        DEFAULT_ACTIONS_URL = "github";
-  #      };
-  #    };
-  #  };
 
   services.fwupd.enable = true;
 
@@ -104,86 +53,6 @@ in
       X11Forwarding = false;
       PermitRootLogin = "no";
     };
-  };
-
-  services.postgresql = {
-    enable = true;
-    dataDir = "/pool0/postgres";
-    enableJIT = true;
-
-    ensureDatabases = [
-      "awick"
-      "hass"
-    ];
-    ensureUsers = [
-      {
-        name = "hass";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "awick";
-        ensureDBOwnership = true;
-      }
-    ];
-    settings = {
-      fsync = true;
-
-      log_destination = lib.mkForce "syslog";
-    };
-  };
-
-  services.samba = {
-    enable = true;
-    openFirewall = true;
-
-    settings = {
-      global = {
-        workgroup = "WICKHOUSE";
-        "server string" = "The Wick Data Store";
-        "server role" = "standalone server";
-        "smb encrypt" = "desired";
-        "server smb encrypt" = "required";
-        "server min protocol" = "SMB3_00";
-        deadtime = 30;
-        "use sendfile" = "yes";
-        security = "user";
-        "guest account" = "nobody";
-        "map to guest" = "bad user";
-      };
-
-      timemachine = {
-        comment = "Time Machine";
-        path = "/pool0/backups";
-        browseable = "yes";
-        writeable = "yes";
-        "create mask" = "0660";
-        "directory mask" = "0770";
-        "spotlight" = "yes";
-        "vfs objects" = "catia fruit streams_xattr";
-        "force group" = "backups";
-        "fruit:aapl" = "yes";
-        "fruit:time machine" = "yes";
-      };
-
-      av = {
-        comment = "AV Files";
-        path = "/pool0/av";
-        browseable = "yes";
-        writeable = "yes";
-        "create mask" = "0660";
-        "directory mask" = "0770";
-        "spotlight" = "yes";
-        "vfs objects" = "catia fruit streams_xattr";
-        "fruit:aapl" = "yes";
-        "fruit:time machine" = "yes";
-        "force group" = "av";
-      };
-    };
-  };
-
-  services.samba-wsdd = {
-    enable = true;
-    openFirewall = true;
   };
 
   networking = {
@@ -252,24 +121,6 @@ in
         "av"
         "backups"
       ];
-    };
-
-    users.kiwix = {
-      isSystemUser = true;
-      group = "kiwix";
-      uid = kiwix_id;
-    };
-
-    groups.av = {
-      gid = av_gid;
-    };
-
-    groups.kiwix = {
-      gid = kiwix_id;
-    };
-
-    groups.backups = {
-      gid = backups_gid;
     };
   };
 

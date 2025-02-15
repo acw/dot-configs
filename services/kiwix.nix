@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  kiwix_id = 2001;
+in
 {
   systemd.services.kiwix = {
     enable = true;
@@ -19,5 +22,15 @@
       proxyWebsockets = false;
       extraConfig = "proxy_redirect default;";
     };
+  };
+
+  users = {
+    users.kiwix = {
+      isSystemUser = true;
+      group = "kiwix";
+      uid = kiwix_id;
+    };
+
+    groups.kiwix.gid = kiwix_id;
   };
 }

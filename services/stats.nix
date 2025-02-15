@@ -26,13 +26,15 @@
         scrape_timeout = "10s";
         metrics_path = "/metrics";
 
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:${toString config.services.prometheus.exporters.node.port}"
-            "http-origin.tail9414b.ts.net:9100"
-            "home.tail9414b.ts.net:9000"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "dunworthy.tail9414b.ts.net:${toString config.services.prometheus.exporters.node.port}"
+              "http-origin.tail9414b.ts.net:9100"
+              "home.tail9414b.ts.net:9000"
+            ];
+          }
+        ];
       }
 
       {
@@ -41,16 +43,18 @@
         scrape_timeout = "10s";
         metrics_path = "/metrics";
 
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:5252"
-            "http-origin.tail9414b.ts.net:5252"
-            "home.tail9414b.ts.net:5252"
-            "ergates.tail9414b.ts.net:5252"
-            "gaming.tail9414b.ts.net:5252"
-            "victorismacbook.tail9414b.ts.net:5252"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "dunworthy.tail9414b.ts.net:5252"
+              "http-origin.tail9414b.ts.net:5252"
+              "home.tail9414b.ts.net:5252"
+              "ergates.tail9414b.ts.net:5252"
+              "gaming.tail9414b.ts.net:5252"
+              "victorismacbook.tail9414b.ts.net:5252"
+            ];
+          }
+        ];
       }
 
       {
@@ -59,11 +63,13 @@
         scrape_timeout = "10s";
         metrics_path = "/metrics";
 
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9113"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "dunworthy.tail9414b.ts.net:9113"
+            ];
+          }
+        ];
       }
 
       {
@@ -72,11 +78,13 @@
         scrape_timeout = "10s";
         metrics_path = "/metrics";
 
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9187"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "dunworthy.tail9414b.ts.net:9187"
+            ];
+          }
+        ];
       }
 
       {
@@ -85,18 +93,24 @@
         scrape_timeout = "10s";
         metrics_path = "/metrics";
 
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9134"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "dunworthy.tail9414b.ts.net:9134"
+            ];
+          }
+        ];
       }
     ];
 
     exporters.node = {
       enable = true;
       enabledCollectors = [ "systemd" ];
-      extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
+      extraFlags = [
+        "--collector.ethtool"
+        "--collector.softirqs"
+        "--collector.tcpstat"
+      ];
     };
 
     exporters.nginx.enable = true;

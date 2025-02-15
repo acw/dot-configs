@@ -7,7 +7,11 @@
     enable = true;
     settings.font.size = pkgs.lib.mkDefault 14;
 
-    package = if pkgs.stdenv.isDarwin then pkgs.alacritty else config.lib.nixGL.wrapOffload pkgs.alacritty;
+    package =
+      if pkgs.stdenv.isDarwin then
+        pkgs.alacritty
+      else
+        config.lib.nixGL.wrapOffload pkgs.alacritty;
 
     # I'd love to figure out how to auto patch and
     # install M+2 Propo and Coisine, as alternatives

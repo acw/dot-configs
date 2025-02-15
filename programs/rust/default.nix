@@ -14,7 +14,13 @@
     libiconv
     mold
     (rust-bin.stable.latest.default.override {
-      extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" "rust-docs" ];
+      extensions = [
+        "rust-src"
+        "rust-analyzer"
+        "clippy"
+        "rustfmt"
+        "rust-docs"
+      ];
       targets = [
         "aarch64-apple-darwin"
         "wasm32-wasip1"

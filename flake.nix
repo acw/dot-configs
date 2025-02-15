@@ -22,7 +22,7 @@
     };
 
     ghostty = {
-      url = "github:ghostty-org/ghostty"; 
+      url = "github:ghostty-org/ghostty";
     };
 
     nixgl = {
@@ -53,7 +53,10 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default llama.overlays.default ];
+            overlays = [
+              rust-overlay.overlays.default
+              llama.overlays.default
+            ];
           };
 
           modules = [
@@ -135,7 +138,10 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default nixgl.overlay ];
+            overlays = [
+              rust-overlay.overlays.default
+              nixgl.overlay
+            ];
           };
 
           modules = [ ./home-manager/oliver.nix ];
@@ -153,7 +159,10 @@
             overlays = [ rust-overlay.overlays.default ];
           };
 
-          modules = [ ghostty.homeModules.default ./home-manager/graf.nix ];
+          modules = [
+            ghostty.homeModules.default
+            ./home-manager/graf.nix
+          ];
         };
       };
     };

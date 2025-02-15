@@ -2,7 +2,8 @@
 
 let
   awick_id = 1000;
-in {
+in
+{
   imports = [
     ./grendel-hardware.nix
   ];
@@ -50,7 +51,10 @@ in {
 
     users.awick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+      ];
       uid = awick_id;
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/awick";

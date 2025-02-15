@@ -3,11 +3,13 @@
 {
   services.home-assistant = {
     enable = true;
-    package = (pkgs.home-assistant.override {
-      extraPackages = py: with py; [ psycopg2 ];
-    }).overrideAttrs (oldAttrs: {
-      doInstallCheck = false;
-    });
+    package =
+      (pkgs.home-assistant.override {
+        extraPackages = py: with py; [ psycopg2 ];
+      }).overrideAttrs
+        (oldAttrs: {
+          doInstallCheck = false;
+        });
 
     extraComponents = [
       "apple_tv"
@@ -26,14 +28,14 @@
       "radio_browser"
       "spotify"
       "tasmota"
-#      "tradfri"
+      #      "tradfri"
       "unifi"
       "unifiprotect"
     ];
 
     configDir = "/pool0/home-assistant";
     config = {
-      default_config = {};
+      default_config = { };
       http = {
         server_host = "::1";
         trusted_proxies = [ "::1" ];
@@ -64,7 +66,6 @@
 
     settings.persistence_location = "/pool0/mosquitto/data";
   };
-
 
   services.nginx.virtualHosts."hass.uhsure.com" = {
     extraConfig = "

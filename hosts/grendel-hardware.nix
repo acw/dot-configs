@@ -1,10 +1,20 @@
-{config, lib, pkgs, modulesPath, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [ ];
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
-  boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "usbhid"
+    "usb_storage"
+  ];
   boot.loader = {
     grub.enable = false;
     generic-extlinux-compatible.enable = true;

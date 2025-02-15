@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   ...
 }:
 
@@ -55,23 +54,23 @@ in
     };
   };
 
-#  services.forgejo = {
-#    enable = true;
-#
-#    database.type = "postgres";
-#    lfs.enable = true;
-#    settings = {
-#      server = {
-#        DOMAIN = "git.uhsure.com";
-#        ROOT_URL = "https://git.uhsure.com/";
-#        HTTP_PORT = 3000;
-#      };
-#      actions = {
-#        ENABLED = true;
-#        DEFAULT_ACTIONS_URL = "github";
-#      };
-#    };
-#  };
+  #  services.forgejo = {
+  #    enable = true;
+  #
+  #    database.type = "postgres";
+  #    lfs.enable = true;
+  #    settings = {
+  #      server = {
+  #        DOMAIN = "git.uhsure.com";
+  #        ROOT_URL = "https://git.uhsure.com/";
+  #        HTTP_PORT = 3000;
+  #      };
+  #      actions = {
+  #        ENABLED = true;
+  #        DEFAULT_ACTIONS_URL = "github";
+  #      };
+  #    };
+  #  };
 
   services.fwupd.enable = true;
 
@@ -84,7 +83,7 @@ in
   services.ollama = {
     enable = true;
     acceleration = "rocm";
-  
+
     user = "ollama";
     group = "ollama";
     models = "/pool0/ai-models/ollama";
@@ -112,10 +111,19 @@ in
     dataDir = "/pool0/postgres";
     enableJIT = true;
 
-    ensureDatabases = [ "awick" "hass" ];
+    ensureDatabases = [
+      "awick"
+      "hass"
+    ];
     ensureUsers = [
-      { name = "hass"; ensureDBOwnership = true; }
-      { name = "awick"; ensureDBOwnership = true; }
+      {
+        name = "hass";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "awick";
+        ensureDBOwnership = true;
+      }
     ];
     settings = {
       fsync = true;
@@ -198,7 +206,11 @@ in
       allowPing = true;
       enable = true;
 
-      allowedTCPPorts = [ 80 1883 8123 ];
+      allowedTCPPorts = [
+        80
+        1883
+        8123
+      ];
     };
   };
 

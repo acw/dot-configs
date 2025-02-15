@@ -1,4 +1,9 @@
-{ config, pkgs, nixgl, ... }:
+{
+  config,
+  pkgs,
+  nixgl,
+  ...
+}:
 
 {
   # Basic info

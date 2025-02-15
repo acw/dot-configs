@@ -2,25 +2,34 @@
 
 let
   awick_id = 1000;
-in {
+in
+{
   imports = [
     ./vultr-vpn-name.nix
   ];
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
-  boot.initrd.kernelModules = [];
+  boot.initrd.availableKernelModules = [
+    "ata_piix"
+    "uhci_hcd"
+    "virtio_pci"
+    "sr_mod"
+    "virtio_blk"
+  ];
+  boot.initrd.kernelModules = [ ];
   boot.loader.grub.device = "/dev/vda";
-  boot.kernelModules = [];
-  boot.extraModulePackages = [];
+  boot.kernelModules = [ ];
+  boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
   };
 
-  swapDevices = [ {
-    device = "/dev/disk/by-label/swap";
-  } ];
+  swapDevices = [
+    {
+      device = "/dev/disk/by-label/swap";
+    }
+  ];
 
   virtualisation.hypervGuest.enable = true;
 
@@ -64,7 +73,10 @@ in {
 
     users.awick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+      ];
       uid = awick_id;
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/awick";

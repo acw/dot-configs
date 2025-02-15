@@ -15,6 +15,11 @@ in
 {
   imports = [
     ./dunworthy-hardware.nix
+    ../services/gitea.nix
+    ../services/home-assistant.nix
+    ../services/jellyfin.nix
+    ../services/kiwix.nix
+    ../services/stats.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
@@ -50,204 +55,30 @@ in
     };
   };
 
-  services.forgejo = {
-    enable = true;
-
-    database.type = "postgres";
-    lfs.enable = true;
-    settings = {
-      server = {
-        DOMAIN = "git.uhsure.com";
-        ROOT_URL = "https://git.uhsure.com/";
-        HTTP_PORT = 3000;
-      };
-      actions = {
-        ENABLED = true;
-        DEFAULT_ACTIONS_URL = "github";
-      };
-    };
-  };
-
-  services.home-assistant = {
-    enable = true;
-    package = (pkgs.home-assistant.override {
-      extraPackages = py: with py; [ psycopg2 ];
-    }).overrideAttrs (oldAttrs: {
-      doInstallCheck = false;
-    });
-
-    extraComponents = [
-      "apple_tv"
-      "august"
-      "enphase_envoy"
-      "esphome"
-      "homekit"
-      "homekit_controller"
-      "hue"
-      "ipp"
-      "lutron"
-      "lutron_caseta"
-      "met"
-      "mqtt"
-      "nanoleaf"
-      "radio_browser"
-      "spotify"
-      "tasmota"
-#      "tradfri"
-      "unifi"
-      "unifiprotect"
-    ];
-
-    configDir = "/pool0/home-assistant";
-    config = {
-      default_config = {};
-      http = {
-        server_host = "::1";
-        trusted_proxies = [ "::1" ];
-        use_x_forwarded_for = true;
-      };
-      recorder.db_url = "postgresql://@/hass";
-    };
-  };
-
-  services.jellyfin = {
-    enable = true;
-
-    cacheDir = "/pool0/jellyfin/cache";
-    configDir = "/pool0/jellyfin/config";
-    dataDir = "/pool0/jellyfin/data";
-    logDir = "/pool0/jellyfin/logs";
-  };
-
-  systemd.services.kiwix = {
-    enable = true;
-    description = "Kiwix local wiki server";
-    after = [ "network.target" ];
-    wantedBy = [ "default.target" ];
-
-    serviceConfig = {
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.kiwix-tools}/bin/kiwix-serve --port=8080 /pool0/kiwix/*.zim\"";
-      User = "kiwix";
-    };
-  };
+#  services.forgejo = {
+#    enable = true;
+#
+#    database.type = "postgres";
+#    lfs.enable = true;
+#    settings = {
+#      server = {
+#        DOMAIN = "git.uhsure.com";
+#        ROOT_URL = "https://git.uhsure.com/";
+#        HTTP_PORT = 3000;
+#      };
+#      actions = {
+#        ENABLED = true;
+#        DEFAULT_ACTIONS_URL = "github";
+#      };
+#    };
+#  };
 
   services.fwupd.enable = true;
-
-  services.grafana = {
-    enable = true;
-
-    settings = {
-      server = {
-        http_addr = "127.0.0.1";
-        http_port = 3535;
-        domain = "data.uhsure.com";
-        root_url = "https://data.uhsure.com";
-      };
-    };
-    dataDir = "/pool0/grafana";
-  };
-
-  services.mosquitto = {
-    enable = true;
-    persistence = true;
-    dataDir = "/pool0/mosquitto/";
-    logDest = [ "syslog" ];
-    logType = [
-      "error"
-      "warning"
-      "information"
-    ];
-
-    listeners = [
-      {
-        acl = [ "pattern readwrite #" ];
-        omitPasswordAuth = true;
-        settings.allow_anonymous = true;
-      }
-    ];
-
-    settings.persistence_location = "/pool0/mosquitto/data";
-  };
 
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-
-    virtualHosts."kb.uhsure.com" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8080";
-        proxyWebsockets = false;
-        extraConfig = "proxy_redirect default;";
-      };
-    };
-
-    virtualHosts."home.uhsure.com" = {
-      extraConfig = "
-        proxy_buffering off;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-      ";
-
-      locations."/" = {
-        proxyPass = "http://[::1]:8123";
-        proxyWebsockets = true;
-      };
-    };
-
-    virtualHosts."git.uhsure.com" = {
-      extraConfig = "
-        proxy_set_header Connection $http_connection;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        client_max_body_size 512M;
-      ";
-
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3000";
-      };
-    };
-
-    virtualHosts."av.uhsure.com" = {
-      extraConfig = "
-        proxy_http_version 1.1;
-        proxy_set_header Connection $http_connection;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Protocol $scheme;
-        client_max_body_size 512M;
-      ";
-
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8096";
-        proxyWebsockets = true;
-      };
-    };
-
-    virtualHosts."data.uhsure.com" = {
-      extraConfig = "
-        proxy_http_version 1.1;
-        proxy_set_header Connection $http_connection;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Protocol $scheme;
-        client_max_body_size 512M;
-      ";
-
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3535";
-      };
-    };
   };
 
   services.ollama = {
@@ -292,99 +123,6 @@ in
       log_destination = lib.mkForce "syslog";
     };
   };
-
-  services.prometheus = {
-    enable = true;
-
-    globalConfig.scrape_interval = "15s";
-    scrapeConfigs = [
-      {
-        job_name = "prometheus";
-        honor_timestamps = true;
-        scrape_timeout = "10s";
-        metrics_path = "/metrics";
-
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:${toString config.services.prometheus.exporters.node.port}"
-            "http-origin.tail9414b.ts.net:9100"
-            "home.tail9414b.ts.net:9000"
-          ];
-        }];
-      }
-
-      {
-        job_name = "tailscale";
-        honor_timestamps = true;
-        scrape_timeout = "10s";
-        metrics_path = "/metrics";
-
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:5252"
-            "http-origin.tail9414b.ts.net:5252"
-            "home.tail9414b.ts.net:5252"
-            "ergates.tail9414b.ts.net:5252"
-            "gaming.tail9414b.ts.net:5252"
-            "victorismacbook.tail9414b.ts.net:5252"
-          ];
-        }];
-      }
-
-      {
-        job_name = "nginx";
-        honor_timestamps = true;
-        scrape_timeout = "10s";
-        metrics_path = "/metrics";
-
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9113"
-          ];
-        }];
-      }
-
-      {
-        job_name = "postgres";
-        honor_timestamps = true;
-        scrape_timeout = "10s";
-        metrics_path = "/metrics";
-
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9187"
-          ];
-        }];
-      }
-
-      {
-        job_name = "zfs";
-        honor_timestamps = true;
-        scrape_timeout = "10s";
-        metrics_path = "/metrics";
-
-        static_configs = [{
-          targets = [
-            "dunworthy.tail9414b.ts.net:9134"
-          ];
-        }];
-      }
-    ];
-
-    exporters.node = {
-      enable = true;
-      enabledCollectors = [ "systemd" ];
-      extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
-    };
-
-    exporters.nginx.enable = true;
-    exporters.postgres.enable = true;
-    exporters.zfs.enable = true;
-  };
-  systemd.tmpfiles.rules = [
-    "D /pool0/prometheus 0751 prometheus prometheus - -"
-    "L+ /var/lib/prometheus2 - - - - /pool0/prometheus"
-  ];
 
   services.samba = {
     enable = true;
@@ -534,6 +272,7 @@ in
     kiwix-tools
     linux-firmware
     podman-tui
+    podman-compose
     sudo
     vim
     wget

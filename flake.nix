@@ -28,6 +28,10 @@
     nixgl = {
       url = "github:nix-community/nixGL";
     };
+
+    llama = {
+      url = "github:ggerganov/llama.cpp";
+    };
   };
 
   outputs =
@@ -38,6 +42,7 @@
       rust-overlay,
       ghostty,
       nixgl,
+      llama,
       ...
     }@inputs:
     {
@@ -48,7 +53,7 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
+            overlays = [ rust-overlay.overlays.default llama.overlays.default ];
           };
 
           modules = [

@@ -76,9 +76,9 @@ in
       enable = true;
 
       allowedTCPPorts = [
-        80
-        1883
-        8123
+        80 # HTTP
+        1883 # MQTT
+        8096 # Jellyfin
       ];
     };
   };

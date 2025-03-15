@@ -133,9 +133,11 @@ in
   environment.systemPackages = with pkgs; [
     ffmpeg-full
     kiwix-tools
+    iotop
     linux-firmware
     podman-tui
     podman-compose
+    pv
     sudo
     vim
     wget

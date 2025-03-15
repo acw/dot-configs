@@ -114,7 +114,11 @@
     };
 
     exporters.nginx.enable = true;
-    exporters.postgres.enable = true;
+    exporters.postgres = {
+      enable = true;
+      user = "postgres";
+    };
+
     exporters.zfs.enable = true;
   };
   systemd.tmpfiles.rules = [

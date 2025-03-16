@@ -29,15 +29,6 @@ in
     recommendedTlsSettings = true;
   };
 
-  services.ollama = {
-    enable = true;
-    acceleration = "rocm";
-
-    user = "ollama";
-    group = "ollama";
-    models = "/pool0/ai-models/ollama";
-  };
-
   services.tailscale = {
     enable = true;
   };

@@ -122,18 +122,25 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    clinfo
     ffmpeg-full
     kiwix-tools
     iotop
     linux-firmware
+    pciutils
     podman-tui
     podman-compose
     pv
     sudo
     vim
+    vulkan-tools
     wget
     zfs
   ];
+
+  environment.variables = {
+    ROC_ENABLE_PRE_VEGA = "1";
+  };
 
   security.sudo.wheelNeedsPassword = false;
 

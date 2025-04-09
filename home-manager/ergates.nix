@@ -8,7 +8,7 @@
   imports = [
     ../programs/alacritty
     ../programs/ghostty
-    ../programs/kitty
+#    ../programs/kitty
     ../programs/wezterm
 
     ../profiles/standard.nix

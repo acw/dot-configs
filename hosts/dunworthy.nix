@@ -1,4 +1,6 @@
 {
+  config,
+  options,
   pkgs,
   ...
 }:
@@ -6,28 +8,25 @@
 let
   awick_id = 1000;
   vicky_id = 1001;
+  generate_system_user = name: uid: {
+      isSystemUser = true;
+      group = name;
+      uid = uid;
+      subUidRanges = [{
+        startUid = uid;
+        count = 1;
+      }];
+  };
 in
 {
   imports = [
     ./dunworthy-hardware.nix
-    ../services/gitea.nix
-    ../services/home-assistant.nix
-    ../services/jellyfin.nix
-    ../services/kiwix.nix
-    ../services/postgres.nix
     ../services/samba.nix
-    ../services/stats.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
 
   services.fwupd.enable = true;
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-  };
 
   services.tailscale = {
     enable = true;
@@ -44,6 +43,20 @@ in
       X11Forwarding = false;
       PermitRootLogin = "no";
     };
+  };
+
+  services.prometheus.exporters = {
+    node = {
+      enable = true;
+      enabledCollectors = [ "systemd" ];
+      extraFlags = [
+        "--collector.ethtool"
+        "--collector.softirqs"
+        "--collector.tcpstat"
+      ];
+    };
+
+    zfs.enable = true;
   };
 
   networking = {
@@ -74,12 +87,27 @@ in
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+    "d /var/run/postgresql 775 postgres postgres"
+  ];
+
   time.timeZone = "US/Pacific";
   programs.zsh.enable = true;
 
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
+
+    groups.gitea = { };
+    groups.hass = { };
+    groups.jellyfin = { };
+    groups.kiwix = { };
+    groups.llama = { };
+    groups.nginx = { };
+    groups.postgres = { };
+    groups.prometheus = { };
+    groups.sillytavern = { };
 
     users.awick = {
       isNormalUser = true;
@@ -91,7 +119,9 @@ in
         "av"
         "backups"
         "hass"
-        "ollama"
+        "docker"
+        "nginx"
+        "prometheus"
       ];
       uid = awick_id;
       shell = pkgs.zsh;
@@ -100,6 +130,30 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF+jF2FvPnS1C9kZGUAobU7Bnepq/9EI1BVyAWNAZDBA adamwick@ergates"
       ];
     };
+  
+    users.kiwix = generate_system_user "kiwix" 987;
+    users.postgres = generate_system_user "postgres" config.ids.uids.postgres;
+    users.gitea = generate_system_user "gitea" 988;
+    users.hass = generate_system_user "hass" config.ids.uids.hass;
+    users.jellyfin = generate_system_user "jellyfin" 993;
+    users.llama = generate_system_user "llama" 986;
+    users.nginx = generate_system_user "nginx" config.ids.uids.nginx;
+    users.prometheus = generate_system_user "prometheus" 984;
+    users.sillytavern = generate_system_user "sillytavern" 985;
+
+# removing group ‘postgres-exporter’
+# removing group ‘prometheus’
+# removing group ‘grafana’
+# removing group ‘jellyfin’
+# removing group ‘av’
+# removing group ‘node-exporter’
+# removing group ‘mosquitto’
+# removing group ‘avahi’
+# removing user ‘grafana’
+# removing user ‘jellyfin’
+# removing user ‘mosquitto’
+# removing user ‘avahi’
+# removing user ‘node-exporter’
 
     users.vicky = {
       isNormalUser = true;
@@ -115,22 +169,21 @@ in
     };
   };
 
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;
-  };
-
   environment.systemPackages = with pkgs; [
     clinfo
+    docker-compose
     ffmpeg-full
-    kiwix-tools
     iotop
     linux-firmware
+    lsinitcpio
     pciutils
-    podman-tui
-    podman-compose
+    postgresql_17
     pv
+    rocmPackages.clr
+    rocmPackages.half
+    rocmPackages.hipcc
+    rocmPackages.hip-common
+    rocmPackages.rocminfo
     sudo
     vim
     vulkan-tools
@@ -143,6 +196,23 @@ in
   };
 
   security.sudo.wheelNeedsPassword = false;
+  virtualisation.docker = {
+    enable = true;
+
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+
+    daemon.settings = {
+      userland-proxy = false;
+      experimental = false;
+      fixed-cidr-v6 = "fd00::/80";
+      ipv6 = true;
+      data-root = "/pool0/docker";
+      metrics-addr = "127.0.0.1:9323";
+    };
+  }; 
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

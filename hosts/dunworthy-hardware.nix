@@ -34,6 +34,10 @@
     #    };
   };
 
+  environment.variables = {
+    ROC_ENABLE_PRE_VEGA = "1";
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/a769e83c-c16c-4fc0-b4f7-7d68099c3877";
     fsType = "ext4";
@@ -68,12 +72,20 @@
   # networking.interfaces.wlp5s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = true;
+  hardware.enableAllFirmware = true;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
+    amdvlk
+  ];
+  hardware.graphics.extraPackages32 = with pkgs; [
+    driversi686Linux.amdvlk
+  ];
+  environment.systemPackages = with pkgs; [
+    linux-firmware
   ];
 }

@@ -4,6 +4,10 @@ let
   kiwix_id = 2001;
 in
 {
+  environment.systemPackages = with pkgs; [
+    kiwix-tools
+  ];
+  
   systemd.services.kiwix = {
     enable = true;
     description = "Kiwix local wiki server";

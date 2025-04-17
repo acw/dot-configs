@@ -136,7 +136,9 @@ in
     users.gitea = generate_system_user "gitea" 988;
     users.hass = generate_system_user "hass" config.ids.uids.hass;
     users.jellyfin = generate_system_user "jellyfin" 993;
-    users.llama = generate_system_user "llama" 986;
+    users.llama = generate_system_user "llama" 986 // {
+      extraGroups = [ "render" "video" ];
+    };
     users.nginx = generate_system_user "nginx" config.ids.uids.nginx;
     users.prometheus = generate_system_user "prometheus" 984;
     users.sillytavern = generate_system_user "sillytavern" 985;
@@ -171,14 +173,15 @@ in
 
   environment.systemPackages = with pkgs; [
     clinfo
+    cpio
     docker-compose
     ffmpeg-full
     iotop
     linux-firmware
-    lsinitcpio
     pciutils
     postgresql_17
     pv
+    radeontop
     rocmPackages.clr
     rocmPackages.half
     rocmPackages.hipcc

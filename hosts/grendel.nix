@@ -28,6 +28,7 @@ in
     sudo
     git
     neovim
+    raspberrypi-eeprom
     tailscale
     wget
     zsh
@@ -46,6 +47,20 @@ in
     };
   };
 
+  services.prometheus.exporters = {
+    node = {
+      enable = true;
+      port = 9000;
+      enabledCollectors = [ "systemd" ];
+      extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
+    };
+  };
+
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
+
   users = {
     mutableUsers = false;
 
@@ -62,11 +77,6 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF+jF2FvPnS1C9kZGUAobU7Bnepq/9EI1BVyAWNAZDBA adamwick@ergates"
       ];
     };
-  };
-
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "server";
   };
 
   programs.zsh.enable = true;

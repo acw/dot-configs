@@ -88,8 +88,12 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-    "d /var/run/postgresql 775 postgres postgres"
+    #Type  Path                     Mode User     Group      Age  Argument
+    "L+    /opt/rocm/hip            -    -        -          -    ${pkgs.rocmPackages.clr}"
+    "d     /var/run/postgresql      775  postgres postgres"
+    # The age here specifies that the contents should be cleaned up after 1 day
+    "d     /var/run/comfyui/inputs  775  comfy    comfy      1d"
+    "d     /var/run/comfyui/outputs 775  comfy    comfy      1d"
   ];
 
   time.timeZone = "US/Pacific";
@@ -99,6 +103,7 @@ in
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
 
+    groups.comfy = { };
     groups.gitea = { };
     groups.hass = { };
     groups.jellyfin = { };
@@ -115,6 +120,7 @@ in
       description = "Adam C. Wick";
       extraGroups = [
         "wheel"
+        "cdrom"
         "networkmanager"
         "av"
         "backups"
@@ -122,6 +128,7 @@ in
         "docker"
         "nginx"
         "prometheus"
+        "comfy"
       ];
       uid = awick_id;
       shell = pkgs.zsh;
@@ -131,31 +138,20 @@ in
       ];
     };
   
-    users.kiwix = generate_system_user "kiwix" 987;
-    users.postgres = generate_system_user "postgres" config.ids.uids.postgres;
+    users.comfy = generate_system_user "comfy" 989 // {
+      extraGroups = [ "render" "video" ];
+    };
     users.gitea = generate_system_user "gitea" 988;
     users.hass = generate_system_user "hass" config.ids.uids.hass;
     users.jellyfin = generate_system_user "jellyfin" 993;
+    users.kiwix = generate_system_user "kiwix" 987;
     users.llama = generate_system_user "llama" 986 // {
       extraGroups = [ "render" "video" ];
     };
     users.nginx = generate_system_user "nginx" config.ids.uids.nginx;
+    users.postgres = generate_system_user "postgres" config.ids.uids.postgres;
     users.prometheus = generate_system_user "prometheus" 984;
     users.sillytavern = generate_system_user "sillytavern" 985;
-
-# removing group ‘postgres-exporter’
-# removing group ‘prometheus’
-# removing group ‘grafana’
-# removing group ‘jellyfin’
-# removing group ‘av’
-# removing group ‘node-exporter’
-# removing group ‘mosquitto’
-# removing group ‘avahi’
-# removing user ‘grafana’
-# removing user ‘jellyfin’
-# removing user ‘mosquitto’
-# removing user ‘avahi’
-# removing user ‘node-exporter’
 
     users.vicky = {
       isNormalUser = true;
@@ -178,6 +174,7 @@ in
     ffmpeg-full
     iotop
     linux-firmware
+    makemkv
     pciutils
     postgresql_17
     pv

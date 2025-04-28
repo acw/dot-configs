@@ -20,7 +20,7 @@
       vi = "nvim";
     } // (if pkgs.stdenv.isLinux then { open = "xdg-open"; } else { });
 
-    initExtra = ''
+    initContent = ''
       fpath+=(${config.home.homeDirectory}/.system/programs/zsh/functions/)
       autoload -U colors promptinit spectrum
       colors

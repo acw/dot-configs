@@ -103,6 +103,8 @@ in
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
 
+    groups.av = { };
+    groups.backup = { };
     groups.comfy = { };
     groups.gitea = { };
     groups.hass = { };

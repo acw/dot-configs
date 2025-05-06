@@ -6,6 +6,9 @@ in
 {
   imports = [
     ./vultr-vpn-name.nix
+
+    ../services/ssh.nix
+    ../services/tailscale.nix
   ];
 
   boot.initrd.availableKernelModules = [
@@ -50,23 +53,9 @@ in
     sudo
     git
     neovim
-    tailscale
     wget
     zsh
   ];
-
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings = {
-      # PasswordAuthentication = false;
-      AllowUsers = [ "awick" ];
-      AllowAgentForwarding = true;
-      UseDns = true;
-      X11Forwarding = false;
-      PermitRootLogin = "no";
-    };
-  };
 
   users = {
     mutableUsers = false;
@@ -86,10 +75,7 @@ in
     };
   };
 
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "server";
-  };
+  services.tailscale.useRoutingFeatures = "server";
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;

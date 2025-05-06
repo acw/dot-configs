@@ -30,7 +30,7 @@
     };
 
     llama = {
-      url = "github:ggerganov/llama.cpp";
+      url = "github:ggml-org/llama.cpp";
     };
   };
 

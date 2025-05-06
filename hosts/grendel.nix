@@ -6,6 +6,9 @@ in
 {
   imports = [
     ./grendel-hardware.nix
+
+    ../services/ssh.nix
+    ../services/tailscale.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
@@ -34,32 +37,7 @@ in
     zsh
   ];
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings = {
-      # PasswordAuthentication = false;
-      AllowUsers = [ "awick" ];
-      AllowAgentForwarding = true;
-      UseDns = true;
-      X11Forwarding = false;
-      PermitRootLogin = "no";
-    };
-  };
-
-  services.prometheus.exporters = {
-    node = {
-      enable = true;
-      port = 9000;
-      enabledCollectors = [ "systemd" ];
-      extraFlags = [ "--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" ];
-    };
-  };
-
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "server";
-  };
+  services.tailscale.useRoutingFeatures = "server";
 
   users = {
     mutableUsers = false;

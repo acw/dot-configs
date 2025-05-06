@@ -5,6 +5,7 @@
     enable = true;
     dataDir = "/pool0/postgres";
     enableJIT = true;
+    enableTCPIP = false;
 
     ensureDatabases = [
       "awick"
@@ -22,7 +23,7 @@
     ];
     settings = {
       fsync = true;
-
+      log_connections = true;
       log_destination = lib.mkForce "syslog";
     };
   };

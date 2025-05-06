@@ -45,28 +45,6 @@
     };
   };
 
-  services.mosquitto = {
-    enable = true;
-    persistence = true;
-    dataDir = "/pool0/mosquitto/";
-    logDest = [ "syslog" ];
-    logType = [
-      "error"
-      "warning"
-      "information"
-    ];
-
-    listeners = [
-      {
-        acl = [ "pattern readwrite #" ];
-        omitPasswordAuth = true;
-        settings.allow_anonymous = true;
-      }
-    ];
-
-    settings.persistence_location = "/pool0/mosquitto/data";
-  };
-
   services.nginx.virtualHosts."hass.uhsure.com" = {
     extraConfig = "
       proxy_buffering off;

@@ -1,8 +1,5 @@
 { ... }:
 
-let
-  av_gid = 4001;
-in
 {
   services.jellyfin = {
     enable = true;
@@ -18,19 +15,15 @@ in
       proxy_http_version 1.1;
       proxy_set_header Connection $http_connection;
       proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Protocol $scheme;
       client_max_body_size 512M;
     ";
 
     locations."/" = {
       proxyPass = "http://127.0.0.1:8096";
       proxyWebsockets = true;
+      extraConfig = "proxy_buffering off;";
     };
   };
 
-  users.groups.av.gid = av_gid;
+  users.groups.av = {};
 }

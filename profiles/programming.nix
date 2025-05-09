@@ -9,6 +9,7 @@
   ];
 
   home.packages = with pkgs; [
+    cmake
     gh
     nixfmt-rfc-style
   ];

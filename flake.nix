@@ -160,7 +160,6 @@
           };
 
           modules = [
-            ghostty.homeModules.default
             ./home-manager/graf.nix
           ];
         };

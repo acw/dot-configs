@@ -25,9 +25,11 @@
   home.packages = [
     pkgs.docker-credential-helpers
     pkgs.gnupg
+    pkgs.fastly
+    pkgs.nodejs
     pkgs.pass
     pkgs.pinentry
-    pkgs.fastly
+    pkgs.which
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

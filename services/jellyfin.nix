@@ -3,6 +3,7 @@
 {
   services.jellyfin = {
     enable = true;
+    openFirewall = true;
 
     cacheDir = "/pool0/jellyfin/cache";
     configDir = "/pool0/jellyfin/config";

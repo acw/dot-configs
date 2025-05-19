@@ -12,7 +12,6 @@
     cargo-machete
     cargo-tarpaulin
     libiconv
-    mold
     (rust-bin.stable.latest.default.override {
       extensions = [
         "rust-src"
@@ -33,7 +32,6 @@
     ".cargo/config.toml".text = ''
       [target.x86_64-unknown-linux-gnu]
       linker = 'clang'
-      rustflags = ["-C", "link_arg=--ld-path=${pkgs.mold}/bin/mold"]
 
       [target.aarch64-apple-darwin]
       rustflags = [
@@ -44,7 +42,6 @@
       [target.aarch64-unknown-linux-gnu]
       linker = 'aarch64-linux-gnu-gcc'
       runner = 'qemu-aarch64 -L /usr/aarch64-linux-gnu -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
-      rustflags = ["-C", "link_arg=--ld-path=${pkgs.mold}/bin/mold"]
 
       [target.riscv64gc-unknown-linux-gnu]
       linker = 'riscv64-linux-gnu-gcc'

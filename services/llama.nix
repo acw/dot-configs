@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
 let llama_port = "9081";
-    llama_model = "/pool0/ai-models/llama.cpp/L3-70B-Euryale-v2.1-Q4_K_M.gguf";
+#    llama_model = "/pool0/ai-models/llama.cpp/L3-70B-Euryale-v2.1-Q4_K_M.gguf";
+    llama_model = "/pool0/ai-models/llama.cpp/gemma-3-27b-it-abliterated.q5_k_m.gguf";
 in
 {
   environment.systemPackages = [

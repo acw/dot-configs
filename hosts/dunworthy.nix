@@ -18,6 +18,7 @@
     ../services/prometheus-export.nix
     ../services/ssh.nix
     ../services/samba.nix
+    ../services/sillytavern.nix
     ../services/tailscale.nix
   ];
 

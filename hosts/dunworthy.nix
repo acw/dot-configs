@@ -8,7 +8,7 @@
   imports = [
     ./dunworthy-hardware.nix
 
-    ../services/gitea.nix
+#    ../services/gitea.nix
     ../services/jellyfin.nix
     ../services/kiwix.nix
     ../services/llama.nix

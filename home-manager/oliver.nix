@@ -38,7 +38,10 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    aider-chat-full
     alsa-plugins
+    awscli2
+    claude-code
     docker-credential-helpers
     google-cloud-sdk
     gnupg

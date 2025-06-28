@@ -41,6 +41,7 @@
       cmp-nvim-lsp
       which-key-nvim
       vim-fugitive
+      claude-code-nvim
     ];
 
     extraLuaConfig = ''
@@ -58,6 +59,7 @@
         "config/lspconfig",
         "config/telescope",
         "config/keys",
+        "config/claude",
       }
 
 

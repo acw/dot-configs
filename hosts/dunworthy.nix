@@ -8,7 +8,8 @@
   imports = [
     ./dunworthy-hardware.nix
 
-#    ../services/gitea.nix
+#    ../services/forgejo.nix
+    ../services/gitea.nix
     ../services/jellyfin.nix
     ../services/kiwix.nix
     ../services/llama.nix
@@ -38,6 +39,7 @@
       root = "/pool0/nginx/static";
     };
   };
+  services.resolved.enable = true;
   services.tailscale.useRoutingFeatures = "both";
 
   networking = {
@@ -63,7 +65,8 @@
       trustedInterfaces = [ "tailscale0" ];
       allowedTCPPorts = []
         ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
-        ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen;
+        ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
+        ++ [config.services.gitea.settings.server.SSH_PORT];
     };
   };
 

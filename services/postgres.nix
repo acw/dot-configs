@@ -11,6 +11,7 @@
       "awick"
       "hass"
     ];
+
     ensureUsers = [
       {
         name = "hass";
@@ -21,8 +22,10 @@
         ensureDBOwnership = true;
       }
     ];
+
     settings = {
       fsync = true;
+      listen_addresses = lib.mkForce "";
       log_connections = true;
       log_destination = lib.mkForce "syslog";
     };

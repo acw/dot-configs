@@ -11,11 +11,18 @@
     stateDir = "/pool0/gitea";
 
     settings.server = {
+      DISABLE_SSH = false;
       DOMAIN = "git.uhsure.com";
       ROOT_URL = "http://git.uhsure.com";
       HTTP_PORT = 3021;
+      SSH_PORT = 22;
+    };
 
-      STATIC_ROOT_PATH = "/pool0/gitea/data";
+    # NOTE: If you ever have to completely reset this again, such
+    # that user information is lost, you'll need to comment this one
+    # out until you can establish an administrator
+    settings.service = {
+      DISABLE_REGISTRATION = true;
     };
   };
 
@@ -30,4 +37,6 @@
       proxyPass = "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
     };
   };
+
+  services.openssh.settings.AllowUsers = [ "gitea" ];
 }

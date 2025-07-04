@@ -42,6 +42,7 @@
       which-key-nvim
       vim-fugitive
       claude-code-nvim
+      codecompanion-nvim
     ];
 
     extraLuaConfig = ''
@@ -60,6 +61,7 @@
         "config/telescope",
         "config/keys",
         "config/claude",
+        "config/codecompanion",
       }
 
 

@@ -1,13 +1,14 @@
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 
 {
   home.packages = with pkgs; [
     cargo-edit
+    cargo-fund
     cargo-fuzz
     cargo-machete
     cargo-tarpaulin
@@ -34,10 +35,10 @@
       linker = 'clang'
 
       [target.aarch64-apple-darwin]
-      rustflags = [
-        "-C", "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}",
-      ]
       linker = "/usr/bin/ld"
+      rustflags = [
+        "-C",  "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}",
+      ]
 
       [target.aarch64-unknown-linux-gnu]
       linker = 'aarch64-linux-gnu-gcc'

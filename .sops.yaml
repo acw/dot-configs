@@ -5,6 +5,8 @@ keys:
     - &ergates age1daga6naxjxnfvvt7rw6ay2sm67n4t9ca0ggwa3563f0c6na9896sa9f8ru
     - &dunworthy age12d9j8uuc22zlmk9nkyj2u0ysu2cxp2j2gda654l292lyzgmjcceqe78mmu
     - &grendel age10m4lzge0gwe4zmgwns59kpwdtchx5g20gch8n07v2lg2rx586c3sgqy0zm
+    - &oliver age1daykgzk9hp38drxlg8cy25alg3gx4zx6nraz650ed2dwfkkg253scs4ehv
+    - &graf age1ur0488yfm66n0w8mjg50xeu7x67sn0tlf8s9nm8rmm8pzldz9a3qgc4224
 creation_rules:
   - path_regex: secrets/personal_ai.yaml$
     key_groups:

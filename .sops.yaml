@@ -1,0 +1,30 @@
+keys:
+  - &users:
+    - &development age1khgjczefd2u0mrgnrnxw9hr2q33y8dwwrmqjtzgjvernvrnn9e0sw4lyu3
+  - &hosts:
+    - &ergates age1daga6naxjxnfvvt7rw6ay2sm67n4t9ca0ggwa3563f0c6na9896sa9f8ru
+    - &dunworthy age12d9j8uuc22zlmk9nkyj2u0ysu2cxp2j2gda654l292lyzgmjcceqe78mmu
+    - &grendel age10m4lzge0gwe4zmgwns59kpwdtchx5g20gch8n07v2lg2rx586c3sgqy0zm
+creation_rules:
+  - path_regex: secrets/personal_ai.yaml$
+    key_groups:
+    - age:
+      - *development
+      - *ergates
+      - *dunworthy
+  - path_regex: secrets/fastly_ai.yaml$
+    key_groups:
+    - age:
+      - *development
+      - *oliver
+      - *graf
+  - path_regex: secrets/system_users.yaml$
+    key_groups:
+    - age:
+      - *development
+      - *dunworthy
+      - *grendel
+  - path_regex: secrets/limited_users.yaml$
+    key_groups:
+    - age:
+      - *development

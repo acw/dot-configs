@@ -32,6 +32,11 @@
     llama = {
       url = "github:ggml-org/llama.cpp";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -40,7 +45,7 @@
       nixpkgs,
       home-manager,
       rust-overlay,
-      ghostty,
+      sops-nix,
       nixgl,
       llama,
       ...
@@ -62,6 +67,7 @@
           modules = [
             ./hosts/dunworthy.nix
 
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -82,6 +88,7 @@
           modules = [
             ./hosts/grendel.nix
 
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -102,6 +109,7 @@
           modules = [
             ./hosts/vultr-vpn.nix
 
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -124,6 +132,7 @@
           modules = [
             ./hosts/ergates.nix
 
+            sops-nix.nixosModules.sops
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -144,7 +153,10 @@
             ];
           };
 
-          modules = [ ./home-manager/oliver.nix ];
+          modules = [
+            ./home-manager/oliver.nix
+            sops-nix.nixosModules.sops
+          ];
 
           extraSpecialArgs = {
             inherit nixgl;
@@ -161,6 +173,7 @@
 
           modules = [
             ./home-manager/graf.nix
+            sops-nix.nixosModules.sops
           ];
         };
       };

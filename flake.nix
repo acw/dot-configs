@@ -35,7 +35,6 @@
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -155,7 +154,7 @@
 
           modules = [
             ./home-manager/oliver.nix
-            sops-nix.nixosModules.sops
+            sops-nix.homeManagerModules.sops
           ];
 
           extraSpecialArgs = {
@@ -173,7 +172,7 @@
 
           modules = [
             ./home-manager/graf.nix
-            sops-nix.nixosModules.sops
+            sops-nix.homeManagerModules.sops
           ];
         };
       };

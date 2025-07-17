@@ -1,5 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, systemUse, lib, ... }:
 
+let openrouter_export = if lib.strings.hasInfix "personal" systemUse
+  then { OPENROUTER_API_KEY = "$(cat ${config.sops.secrets.openrouter_api_key.path})"; }
+  else {};
+in
 {
   programs.zsh = {
     enable = true;
@@ -45,6 +49,9 @@
         ssh-add
       fi
     '';
+
+      sessionVariables = {
+      } // openrouter_export ;
   };
 
   programs.fzf = {

@@ -9,6 +9,7 @@
   ];
 
   home.packages = with pkgs; [
+    aider-chat-full
     cmake
     gh
     nixfmt-rfc-style

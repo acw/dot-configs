@@ -2,6 +2,8 @@
   description = "The great Nix configuration.";
 
   inputs = {
+    self.submodules = true;
+
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
@@ -23,18 +25,22 @@
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixgl = {
       url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     llama = {
       url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -71,6 +77,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.awick = import ./home-manager/dunworthy.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "personal";
+              };
             }
           ];
         };
@@ -92,6 +101,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.awick = import ./home-manager/grendel.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "functional";
+              };
             }
           ];
         };
@@ -113,6 +125,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.awick = import ./home-manager/vultr-vpn.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "functional";
+              };
             }
           ];
         };
@@ -131,11 +146,14 @@
           modules = [
             ./hosts/ergates.nix
 
-            sops-nix.nixosModules.sops
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
               home-manager.users.adamwick = import ./home-manager/ergates.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "personal";
+              };
             }
           ];
         };
@@ -160,6 +178,8 @@
           extraSpecialArgs = {
             inherit nixgl;
             inherit inputs;
+
+            systemUse = "work";
           };
         };
 
@@ -174,6 +194,10 @@
             ./home-manager/graf.nix
             sops-nix.homeManagerModules.sops
           ];
+
+          extraSpecialArgs = {
+            systemUse = "work";
+          };
         };
       };
     };

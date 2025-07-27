@@ -84,6 +84,33 @@
           ];
         };
 
+        "mensah" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+            overlays = [
+              rust-overlay.overlays.default
+              llama.overlays.default
+            ];
+          };
+
+          modules = [
+            ./hosts/mensah.nix
+
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.awick = import ./home-manager/mensah.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "personal";
+              };
+            }
+          ];
+        };
+
         "grendel" = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
 

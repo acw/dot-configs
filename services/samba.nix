@@ -70,7 +70,7 @@ in
 
       av = {
         comment = "AV Files";
-        path = "/pool0/av";
+        path = "/pool0/media";
         browseable = "yes";
         writeable = "yes";
         "create mask" = "0660";

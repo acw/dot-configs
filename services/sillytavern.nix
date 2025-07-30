@@ -20,7 +20,7 @@ in
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.sillytavern}/bin/sillytavern --listen --port ${sillytavern_port} --configPath /pool0/sillytavern/config/config.yaml --dataRoot /pool0/sillytavern/data\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.sillytavern}/bin/sillytavern --listen --port ${sillytavern_port} --configPath /pool0/ai/sillytavern/config/config.yaml --dataRoot /pool0/ai/sillytavern/data\"";
       User = "sillytavern";
     };
   };

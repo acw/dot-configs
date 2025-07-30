@@ -8,12 +8,22 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.forceImportRoot = false;
+  boot = {
+    initrd = {
+      availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+      kernelModules = [ ];
+    }; 
+
+    kernelModules = [ "kvm-amd" ];
+    loader.efi.canTouchEfiVariables = true;
+    loader.systemd-boot.enable = true;
+    extraModulePackages = [ ];
+    supportedFilesystems = [ "zfs" ];
+    zfs = {
+      forceImportRoot = false;
+      extraPools = [ "pool0" ];
+    };
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/9927b20a-49a8-45b1-a49f-ef326a0b0f95";

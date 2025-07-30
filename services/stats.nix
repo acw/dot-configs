@@ -12,7 +12,7 @@
         root_url = "https://data.uhsure.com";
       };
     };
-    dataDir = "/pool0/grafana";
+    dataDir = "/pool0/statistics/grafana";
   };
 
   services.prometheus = {
@@ -122,8 +122,8 @@
     exporters.zfs.enable = true;
   };
   systemd.tmpfiles.rules = [
-    "D /pool0/prometheus 0751 prometheus prometheus - -"
-    "L+ /var/lib/prometheus2/data - - - - /pool0/prometheus"
+    "D /pool0/statistics/prometheus 0751 prometheus prometheus - -"
+    "L+ /var/lib/prometheus2/data - - - - /pool0/statistics/prometheus"
   ];
 
   services.nginx.virtualHosts."data.uhsure.com" = {

@@ -105,7 +105,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.users.awick = import ./home-manager/mensah.nix;
               home-manager.extraSpecialArgs = {
-                systemUse = "personal";
+                systemUse = "server";
               };
             }
           ];

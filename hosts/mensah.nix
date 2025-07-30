@@ -1,26 +1,27 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
 
 {
   imports = [
-    ./mensah.nix
+    ./mensah-hardware.nix
 
 #    ../services/forgejo.nix
-#    ../services/gitea.nix
-#    ../services/jellyfin.nix
-#    ../services/kiwix.nix
-#    ../services/llama.nix
-#    ../services/mosquitto.nix
-#    ../services/postgres.nix
-#    ../services/prometheus.nix
-#    ../services/prometheus-export.nix
-#    ../services/ssh.nix
-#    ../services/samba.nix
-#    ../services/sillytavern.nix
-#    ../services/tailscale.nix
+    ../services/gitea.nix
+    ../services/jellyfin.nix
+    ../services/kiwix.nix
+    ../services/llama.nix
+    ../services/mosquitto.nix
+    ../services/postgres.nix
+    ../services/prometheus.nix
+    ../services/prometheus-export.nix
+    ../services/ssh.nix
+    ../services/samba.nix
+    ../services/sillytavern.nix
+    ../services/tailscale.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
@@ -54,7 +55,7 @@
       enable = true;
 
       trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = []
+      allowedTCPPorts = [ 9090 ]
         ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
         ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
         ++ [config.services.gitea.settings.server.SSH_PORT];
@@ -118,13 +119,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    clinfo
     cpio
-    docker-compose
     ffmpeg-full
     iotop
     linux-firmware
     makemkv
+    mbuffer
     pciutils
     pv
     sudo
@@ -134,23 +134,23 @@
   ];
 
   security.sudo.wheelNeedsPassword = false;
-  #virtualisation.docker = {
-  #  enable = true;
+  virtualisation.docker = {
+    enable = true;
 
-  #  rootless = {
-  #    enable = true;
-  #    setSocketVariable = true;
-  #  };
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
 
-  #  daemon.settings = {
-  #    userland-proxy = false;
-  #    experimental = false;
-  #    fixed-cidr-v6 = "fd00::/80";
-  #    ipv6 = true;
-  #    data-root = "/pool0/docker";
-  #    metrics-addr = "127.0.0.1:9323";
-  #  };
-  #}; 
+    daemon.settings = {
+      userland-proxy = false;
+      experimental = false;
+      fixed-cidr-v6 = "fd00::/80";
+      ipv6 = true;
+      data-root = "/pool0/docker";
+      metrics-addr = "127.0.0.1:9323";
+    };
+  }; 
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

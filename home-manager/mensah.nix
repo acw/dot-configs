@@ -7,7 +7,7 @@
 
   imports = [
     ../profiles/standard.nix
-    ../profiles/programming.nix
+  #  ../profiles/programming.nix
   ];
 
   # This value determines the Home Manager release that your configuration is

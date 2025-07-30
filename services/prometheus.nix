@@ -3,7 +3,7 @@
 {
   fileSystems."/var/lib/prometheus2" = {
     depends = [ "/pool0" ];
-    device = "/pool0/prometheus";
+    device = "/pool0/statistics/prometheus";
     fsType = "none";
     options = [ "bind" ];
   };

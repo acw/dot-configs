@@ -7,6 +7,7 @@ keys:
     - &grendel age10m4lzge0gwe4zmgwns59kpwdtchx5g20gch8n07v2lg2rx586c3sgqy0zm
     - &oliver age1daykgzk9hp38drxlg8cy25alg3gx4zx6nraz650ed2dwfkkg253scs4ehv
     - &graf age1ur0488yfm66n0w8mjg50xeu7x67sn0tlf8s9nm8rmm8pzldz9a3qgc4224
+    - &mensah age1yqd0z4esjvftdqsxs4cs0hx2eylhhtrhv6p509yz34p5ta3an3nq4qqp0r
 creation_rules:
   - path_regex: secrets/personal_ai.yaml$
     key_groups:
@@ -14,6 +15,7 @@ creation_rules:
       - *development
       - *ergates
       - *dunworthy
+      - *mensah
   - path_regex: secrets/fastly_ai.yaml$
     key_groups:
     - age:
@@ -26,6 +28,7 @@ creation_rules:
       - *development
       - *dunworthy
       - *grendel
+      - *mensah
   - path_regex: secrets/limited_users.yaml$
     key_groups:
     - age:

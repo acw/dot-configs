@@ -52,6 +52,15 @@ in
         security = "user";
         "guest account" = "nobody";
         "map to guest" = "bad user";
+        "min protocol" = "SMB3";
+        "fruit:aapl" = "yes";
+        "fruit:model" = "MacSamba";
+        "fruit:advertise_fullsync" = "true";
+        "fruit:metadata" = "stream";
+        "fruit:veto_appledouble" = "no";
+        "fruit:nfs_aces" = "no";
+        "fruit:wipe_intentionally_left_blank_rfork" = "yes";
+        "fruit:delete_empty_adfiles" = "yes";
       };
 
       timemachine = {
@@ -90,4 +99,6 @@ in
   };
 
   users.groups.backups.gid = backups_gid;
+
+  networking.firewall.allowPing = true;
 }

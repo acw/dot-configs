@@ -105,9 +105,10 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
               home-manager.users.awick = import ./home-manager/mensah.nix;
               home-manager.extraSpecialArgs = {
-                systemUse = "server";
+                systemUse = "personal";
               };
             }
           ];

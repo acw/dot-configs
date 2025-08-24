@@ -7,6 +7,7 @@ in
   imports = [
     ./grendel-hardware.nix
 
+    ../services/prometheus-export.nix
     ../services/ssh.nix
     ../services/tailscale.nix
   ];

@@ -2,8 +2,6 @@
   description = "The great Nix configuration.";
 
   inputs = {
-    self.submodules = true;
-
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
@@ -96,6 +94,10 @@
             ];
           };
 
+          specialArgs = {
+            tailscaleModes = [ ];
+          };
+
           modules = [
             ./hosts/mensah.nix
 
@@ -120,6 +122,10 @@
             overlays = [ rust-overlay.overlays.default ];
           };
 
+          specialArgs = {
+            tailscaleModes = [ "exit" "webserver" ];
+          };
+
           modules = [
             ./hosts/grendel.nix
 
@@ -137,6 +143,10 @@
 
         "vultr-vpn" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+
+          specialArgs = {
+            tailscaleModes = [ "exit" ];
+          };
 
           pkgs = import nixpkgs {
             system = "x86_64-linux";
@@ -207,6 +217,7 @@
             inherit inputs;
 
             systemUse = "work";
+            tailscaleModes = [];
           };
         };
 
@@ -224,6 +235,7 @@
 
           extraSpecialArgs = {
             systemUse = "work";
+            tailscaleModes = [];
           };
         };
       };

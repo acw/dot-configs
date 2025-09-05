@@ -31,13 +31,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    llama = {
-      url = "github:ggml-org/llama.cpp";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
+    comfyui = {
+      url = "github:acw/comfyui-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -50,7 +50,7 @@
       rust-overlay,
       sops-nix,
       nixgl,
-      llama,
+      comfyui,
       ...
     }@inputs:
     {
@@ -63,7 +63,6 @@
             config.allowUnfree = true;
             overlays = [
               rust-overlay.overlays.default
-              llama.overlays.default
             ];
           };
 
@@ -88,14 +87,16 @@
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
+            config.rocmSupport = true;
+
             overlays = [
               rust-overlay.overlays.default
-              llama.overlays.default
             ];
           };
 
           specialArgs = {
             tailscaleModes = [ ];
+            inherit comfyui;
           };
 
           modules = [

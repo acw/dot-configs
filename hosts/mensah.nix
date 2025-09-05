@@ -9,11 +9,11 @@
   imports = [
     ./mensah-hardware.nix
 
-#    ../services/forgejo.nix
     ../services/gitea.nix
     ../services/jellyfin.nix
     ../services/kiwix.nix
     ../services/llama.nix
+    ../services/comfyui.nix
     ../services/mosquitto.nix
     ../services/postgres.nix
     ../services/prometheus.nix
@@ -89,7 +89,8 @@
         "hass"
         "docker"
         "prometheus"
-#        "comfy"
+        "comfyui"
+        "kiwix"
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/awick";
@@ -119,6 +120,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    clinfo
     cpio
     ffmpeg-full
     iotop
@@ -127,6 +129,11 @@
     mbuffer
     pciutils
     pv
+    radeontop
+    rocmPackages.rocblas
+    rocmPackages.rocfft
+    rocmPackages.rocm-runtime
+    rocmPackages.rocminfo
     sudo
     vim
     wget

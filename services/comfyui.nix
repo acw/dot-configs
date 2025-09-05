@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, comfyui, ... }:
 
 let comfyui_port = "9091";
 in
 {
   environment.systemPackages = [
-    pkgs.comfy-ui
+    comfyui.packages.x86_64-linux.comfyui
   ];
 
   systemd.services.comfyui = {
@@ -14,7 +14,8 @@ in
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.comfy-ui}/bin/comfy-ui-launcher --port ${comfyui_port}\"";
+      Environment = "HSA_OVERRIDE_GFX_VERSION=10.3.0";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${comfyui.packages.x86_64-linux.comfyui}/bin/ComfyUI --base-directory /pool0/ai/comfyui --port ${comfyui_port} --listen 0.0.0.0 --disable-auto-launch --enable-cors-header\"";
       User = "comfyui";
     };
   };

@@ -24,6 +24,11 @@
       proxyWebsockets = true;
       extraConfig = "proxy_buffering off;";
     };
+
+    serverAliases = [
+      "media.uhsure.com"
+      "jellyfin.uhsure.com"
+    ];
   };
 
   users.groups.av = {};

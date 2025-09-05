@@ -23,9 +23,9 @@
         static_configs = [
           {
             targets = [
-              "dunworthy.tail9414b.ts.net:${toString config.services.prometheus.exporters.node.port}"
+              "mensah.tail9414b.ts.net:${toString config.services.prometheus.exporters.node.port}"
               "http-origin.tail9414b.ts.net:9100"
-              "home.tail9414b.ts.net:9000"
+              "home.tail9414b.ts.net:9100"
             ];
           }
         ];
@@ -40,7 +40,7 @@
         static_configs = [
           {
             targets = [
-              "dunworthy.tail9414b.ts.net:5252"
+              "100.100.100.100"
               "http-origin.tail9414b.ts.net:5252"
               "home.tail9414b.ts.net:5252"
               "ergates.tail9414b.ts.net:5252"
@@ -60,7 +60,7 @@
         static_configs = [
           {
             targets = [
-              "dunworthy.tail9414b.ts.net:9113"
+              "mensah.tail9414b.ts.net:9113"
             ];
           }
         ];
@@ -75,7 +75,7 @@
         static_configs = [
           {
             targets = [
-              "dunworthy.tail9414b.ts.net:9187"
+              "mensah.tail9414b.ts.net:9187"
             ];
           }
         ];
@@ -90,7 +90,7 @@
         static_configs = [
           {
             targets = [
-              "dunworthy.tail9414b.ts.net:9134"
+              "mensah.tail9414b.ts.net:9134"
             ];
           }
         ];

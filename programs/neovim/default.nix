@@ -41,8 +41,6 @@
       cmp-nvim-lsp
       which-key-nvim
       vim-fugitive
-      claude-code-nvim
-      codecompanion-nvim
     ];
 
     extraLuaConfig = ''
@@ -60,10 +58,7 @@
         "config/lspconfig",
         "config/telescope",
         "config/keys",
-        "config/claude",
-        "config/codecompanion",
       }
-
 
       for _, module_name in ipairs(submodules) do
         local ok, err = pcall(require, module_name)

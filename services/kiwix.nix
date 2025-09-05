@@ -20,6 +20,8 @@ in
   };
 
   services.nginx.virtualHosts."kb.uhsure.com" = {
+    serverAliases = [ "kiwix.uhsure.com" ];
+
     locations."/" = {
       proxyPass = "http://127.0.0.1:${kiwix_port}";
       proxyWebsockets = false;

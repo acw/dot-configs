@@ -2,6 +2,8 @@
   description = "The great Nix configuration.";
 
   inputs = {
+    self.submodules = true;
+
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };

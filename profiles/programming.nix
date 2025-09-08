@@ -13,6 +13,7 @@
     cmake
     gh
     nixfmt-rfc-style
+    nixfmt-tree
   ];
 
   programs.git = {

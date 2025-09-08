@@ -44,7 +44,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    fastly
+#    fastly
     nmap
     reattach-to-user-namespace
     sops

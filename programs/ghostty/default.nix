@@ -19,11 +19,12 @@
 
   home.file = {
     ".config/ghostty/config".text = ''
-      background = ffffff
-      background-opacity = 0.95
-      foreground = 000000
+      background = 000000
+      background-opacity = 0.50
+      background-blur = 20
+      foreground = eeeeee
       font-family = "GeistMono Nerd Font Mono"
-      font-size = 14
+      font-size = 15
 
       term = xterm-256color
     '';

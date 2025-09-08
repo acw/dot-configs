@@ -130,10 +130,10 @@
     pciutils
     pv
     radeontop
-    rocmPackages.rocblas
-    rocmPackages.rocfft
-    rocmPackages.rocm-runtime
-    rocmPackages.rocminfo
+#    rocmPackages.rocblas
+#    rocmPackages.rocfft
+#    rocmPackages.rocm-runtime
+#    rocmPackages.rocminfo
     sudo
     vim
     wget

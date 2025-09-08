@@ -31,6 +31,6 @@
     ];
   };
 
-  users.groups.av = {};
+  users.groups.av = { };
   users.users.jellyfin.extraGroups = [ "av" ];
 }

@@ -126,7 +126,10 @@
           };
 
           specialArgs = {
-            tailscaleModes = [ "exit" "webserver" ];
+            tailscaleModes = [
+              "exit"
+              "webserver"
+            ];
           };
 
           modules = [
@@ -220,7 +223,7 @@
             inherit inputs;
 
             systemUse = "work";
-            tailscaleModes = [];
+            tailscaleModes = [ ];
           };
         };
 
@@ -238,7 +241,7 @@
 
           extraSpecialArgs = {
             systemUse = "work";
-            tailscaleModes = [];
+            tailscaleModes = [ ];
           };
         };
       };

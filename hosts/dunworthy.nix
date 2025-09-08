@@ -8,7 +8,7 @@
   imports = [
     ./dunworthy-hardware.nix
 
-#    ../services/forgejo.nix
+    #    ../services/forgejo.nix
     ../services/gitea.nix
     ../services/jellyfin.nix
     ../services/kiwix.nix
@@ -30,8 +30,14 @@
     enable = true;
     eventsConfig = "worker_connections 512;";
     defaultListen = [
-      { addr = "0.0.0.0"; port = 80; }
-      { addr = "[::0]";   port = 80; }
+      {
+        addr = "0.0.0.0";
+        port = 80;
+      }
+      {
+        addr = "[::0]";
+        port = 80;
+      }
     ];
 
     virtualHosts.home = {
@@ -63,10 +69,11 @@
       enable = true;
 
       trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = []
+      allowedTCPPorts =
+        [ ]
         ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
         ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
-        ++ [config.services.gitea.settings.server.SSH_PORT];
+        ++ [ config.services.gitea.settings.server.SSH_PORT ];
     };
   };
 
@@ -98,7 +105,7 @@
         "hass"
         "docker"
         "prometheus"
-#        "comfy"
+        #        "comfy"
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = "/etc/nixos/awick";
@@ -106,7 +113,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF+jF2FvPnS1C9kZGUAobU7Bnepq/9EI1BVyAWNAZDBA adamwick@ergates"
       ];
     };
- 
+
     #users.comfy = generate_system_user "comfy" 989 // {
     #  extraGroups = [ "render" "video" ];
     #};
@@ -171,7 +178,7 @@
       data-root = "/pool0/docker";
       metrics-addr = "127.0.0.1:9323";
     };
-  }; 
+  };
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

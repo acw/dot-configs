@@ -13,7 +13,7 @@
   sops = {
     defaultSecretsMountPoint = "%r/secrets.d";
     age = {
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
       keyFile = "/home/awick/.config/sops/age/keys.txt";
       generateKey = false;
     };
@@ -24,7 +24,6 @@
       };
     };
   };
-
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

@@ -1,12 +1,13 @@
 { pkgs, ... }:
 
-let kiwix_port = "9210";
+let
+  kiwix_port = "9210";
 in
 {
   environment.systemPackages = with pkgs; [
     kiwix-tools
   ];
-  
+
   systemd.services.kiwix = {
     enable = true;
     description = "Kiwix local wiki server";
@@ -35,6 +36,6 @@ in
       group = "kiwix";
     };
 
-    groups.kiwix = {};
+    groups.kiwix = { };
   };
 }

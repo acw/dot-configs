@@ -7,11 +7,7 @@
     enable = true;
     enableZshIntegration = true;
 
-    package =
-      if pkgs.stdenv.isDarwin then
-        pkgs.wezterm
-      else
-        config.lib.nixGL.wrapOffload pkgs.wezterm;
+    package = if pkgs.stdenv.isDarwin then pkgs.wezterm else config.lib.nixGL.wrapOffload pkgs.wezterm;
 
     extraConfig = ''
       return {

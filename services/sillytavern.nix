@@ -1,13 +1,14 @@
 { pkgs, ... }:
 
-let sillytavern_port = "9939";
+let
+  sillytavern_port = "9939";
 in
 {
   environment.systemPackages = [
     pkgs.sillytavern
   ];
 
-  users.groups.sillytavern = {};
+  users.groups.sillytavern = { };
   users.users.sillytavern = {
     isSystemUser = true;
     group = "sillytavern";

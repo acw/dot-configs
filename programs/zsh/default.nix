@@ -1,8 +1,17 @@
-{ config, pkgs, systemUse, lib, ... }:
+{
+  config,
+  pkgs,
+  systemUse,
+  lib,
+  ...
+}:
 
-let openrouter_export = if lib.strings.hasInfix "personal" systemUse
-  then { OPENROUTER_API_KEY = "$(cat ${config.sops.secrets.openrouter_api_key.path})"; }
-  else {};
+let
+  openrouter_export =
+    if lib.strings.hasInfix "personal" systemUse then
+      { OPENROUTER_API_KEY = "$(cat ${config.sops.secrets.openrouter_api_key.path})"; }
+    else
+      { };
 in
 {
   programs.zsh = {
@@ -22,7 +31,8 @@ in
       yum = "yum --color=auto";
       vim = "nvim";
       vi = "nvim";
-    } // (if pkgs.stdenv.isLinux then { open = "xdg-open"; } else { });
+    }
+    // (if pkgs.stdenv.isLinux then { open = "xdg-open"; } else { });
 
     initContent = ''
       fpath+=(${config.home.homeDirectory}/.system/programs/zsh/functions/)
@@ -50,8 +60,9 @@ in
       fi
     '';
 
-      sessionVariables = {
-      } // openrouter_export ;
+    sessionVariables = {
+    }
+    // openrouter_export;
   };
 
   programs.fzf = {

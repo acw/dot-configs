@@ -8,7 +8,7 @@
   imports = [
     ../programs/alacritty
     ../programs/ghostty
-#    ../programs/kitty
+    #    ../programs/kitty
     ../programs/wezterm
 
     ../profiles/standard.nix
@@ -18,7 +18,7 @@
   sops = {
     defaultSecretsMountPoint = "%r/secrets.d";
     age = {
-      sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
       keyFile = "/Users/adamwick/.config/sops/age/keys.txt";
       generateKey = false;
     };
@@ -44,7 +44,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-#    fastly
+    #    fastly
     nmap
     reattach-to-user-namespace
     sops

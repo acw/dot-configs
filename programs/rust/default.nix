@@ -11,6 +11,7 @@
     cargo-fund
     cargo-fuzz
     cargo-machete
+    cargo-nextest
     cargo-tarpaulin
     libiconv
     (rust-bin.stable.latest.default.override {

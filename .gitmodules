@@ -1,3 +1,0 @@
-[submodule "secrets"]
-	path = secrets
-	url = gitea@git.uhsure.com:acw/system-secrets.git

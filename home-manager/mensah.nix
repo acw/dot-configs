@@ -10,18 +10,9 @@
     ../profiles/programming.nix
   ];
 
-  sops = {
-    defaultSecretsMountPoint = "%r/secrets.d";
-    age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "/home/awick/.config/sops/age/keys.txt";
-      generateKey = false;
-    };
-
+  age = {
     secrets = {
-      openrouter_api_key = {
-        sopsFile = ../secrets/personal_ai.yaml;
-      };
+      openrouter_id.file = ../data/openrouter_id.age;
     };
   };
 

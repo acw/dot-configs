@@ -9,7 +9,7 @@
 let
   openrouter_export =
     if lib.strings.hasInfix "personal" systemUse then
-      { OPENROUTER_API_KEY = "$(cat ${config.sops.secrets.openrouter_api_key.path})"; }
+      { OPENROUTER_API_KEY = "$(cat ${config.age.secrets.openrouter_id.path})"; }
     else
       { };
 in

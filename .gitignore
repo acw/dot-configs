@@ -2,3 +2,8 @@ vim/bundle
 vim/pack
 nvim/plugin
 .aider*
+
+# try to discourage us from including decrypted data
+data/*
+!data/*.recipients
+!data/*.age

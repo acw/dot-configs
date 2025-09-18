@@ -2,8 +2,6 @@
   description = "The great Nix configuration.";
 
   inputs = {
-    self.submodules = true;
-
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
@@ -33,8 +31,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
+    agenix = {
+      url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -50,7 +48,7 @@
       nixpkgs,
       home-manager,
       rust-overlay,
-      sops-nix,
+      agenix,
       nixgl,
       comfyui,
       ...
@@ -71,7 +69,6 @@
           modules = [
             ./hosts/dunworthy.nix
 
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -103,11 +100,10 @@
           modules = [
             ./hosts/mensah.nix
 
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
+              home-manager.sharedModules = [ agenix.homeManagerModules.default ];
               home-manager.useGlobalPkgs = true;
-              home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
               home-manager.users.awick = import ./home-manager/mensah.nix;
               home-manager.extraSpecialArgs = {
                 systemUse = "personal";
@@ -135,7 +131,6 @@
           modules = [
             ./hosts/grendel.nix
 
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -163,7 +158,6 @@
           modules = [
             ./hosts/vultr-vpn.nix
 
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -191,8 +185,8 @@
 
             home-manager.darwinModules.home-manager
             {
+              home-manager.sharedModules = [ agenix.homeManagerModules.default ];
               home-manager.useGlobalPkgs = true;
-              home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
               home-manager.users.adamwick = import ./home-manager/ergates.nix;
               home-manager.extraSpecialArgs = {
                 systemUse = "personal";
@@ -215,7 +209,6 @@
 
           modules = [
             ./home-manager/oliver.nix
-            sops-nix.homeManagerModules.sops
           ];
 
           extraSpecialArgs = {
@@ -236,7 +229,6 @@
 
           modules = [
             ./home-manager/graf.nix
-            sops-nix.homeManagerModules.sops
           ];
 
           extraSpecialArgs = {

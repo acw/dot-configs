@@ -19,9 +19,12 @@ in
     description = "SillyTavern AI Chat Server";
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
+    environment = {
+      XDG_DATA_HOME="/pool0/ai/sillytavern";
+    };
 
     serviceConfig = {
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.sillytavern}/bin/sillytavern --listen --port ${sillytavern_port} --configPath /pool0/ai/sillytavern/config/config.yaml --dataRoot /pool0/ai/sillytavern/data\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.sillytavern}/bin/sillytavern --listen --port ${sillytavern_port}\"";
       User = "sillytavern";
     };
   };

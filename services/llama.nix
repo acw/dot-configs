@@ -17,9 +17,9 @@ in
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      AllowedCPUs = "0-15";
+      AllowedCPUs = "2-15";
       Environment = "HSA_OVERRIDE_GFX_VERSION=10.3.0";
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp}/bin/llama-server -fa -t 16 -c 32768 --host 0.0.0.0 --port ${llama_port} -m ${llama_model}\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp}/bin/llama-server -fa auto -t 14 -c 32768 --host 0.0.0.0 --port ${llama_port} -m ${llama_model}\"";
       #      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp-vulkan}/bin/llama-server -fa -t 16 -c 32768 --host 0.0.0.0 --port ${llama_port} -m ${llama_model}\"";
       User = "llama";
     };

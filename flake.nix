@@ -142,6 +142,32 @@
           ];
         };
 
+        "http-origin" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          specialArgs = {
+	        tailscaleModes = [ "webserver" ];
+          };
+
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+
+          modules = [
+            ./hosts/http-origin.nix
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.awick = import ./home-manager/http-origin.nix;
+              home-manager.extraSpecialArgs = {
+                systemUse = "functional";
+              };
+            }
+          ];
+        };
+
         "vultr-vpn" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 

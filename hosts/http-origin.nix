@@ -42,7 +42,7 @@ in {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 80 443 ];
     };
   };
 
@@ -56,8 +56,28 @@ in {
 
   programs.zsh.enable = true;
 
+  security.acme = {
+    acceptTerms = true;
+    certs."origin.uhsure.com".email = "awick@uhsure.com";
+    defaults.email = "awick@uhsure.com";
+  };
 
   services.nginx = {
+    enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    sslCiphers = "AES256+EECDH:AES256+EDH:!aNULL";
+
+    virtualHosts."origin.uhsure.com" = {
+      forceSSL = true;
+      enableACME = true;
+
+      root = "/var/www";
+    };
   };
 
   services.openssh.extraConfig = ''

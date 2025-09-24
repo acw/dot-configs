@@ -20,7 +20,7 @@
   home.file = {
     ".config/ghostty/config".text = ''
       background = 000000
-      background-opacity = 0.50
+      background-opacity = 0.75
       background-blur = 20
       foreground = eeeeee
       font-family = "GeistMono Nerd Font Mono"

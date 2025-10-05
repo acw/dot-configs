@@ -36,7 +36,7 @@
   # environment.
   home.packages = with pkgs; [
     age
-    #    fastly
+    fastly
     nmap
     reattach-to-user-namespace
     spotify-player

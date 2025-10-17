@@ -2,8 +2,11 @@
 
 let
   llama_port = "9081";
-  #    llama_model = "/llama-cache/DeepSeek-V3-abliterated-Q4_K_M.gguf";
-  llama_model = "/pool0/ai/llama.cpp/MN-12B-Mag-Mell-Q8_0.gguf";
+  #llama_model = "/llama-cache/DeepSeek-V3-abliterated-Q4_K_M.gguf";
+  #llama_model = "/llama-cache/GLM-4.5-Q5_K_M.gguf";
+  #llama_model = "/llama-cache/Behemoth-X-123B-v2b-Q5_K_M-00001-of-00002.gguf";
+  llama_model = "/pool0/ai/llama.cpp/Cydonia-24B-v4r-Q8_0.gguf";
+  #llama_model = "/pool0/ai/llama.cpp/MN-12B-Mag-Mell-Q8_0.gguf";
 in
 {
   environment.systemPackages = [

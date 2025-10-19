@@ -23,12 +23,10 @@
     vimdiffAlias = true;
 
     plugins = with pkgs.vimPlugins; [
-      impatient-nvim
       lualine-nvim
       mason-nvim
       mason-lspconfig-nvim
       nvim-colorizer-lua
-      nvim-lspconfig
       nvim-treesitter.withAllGrammars
       nvim-web-devicons
       vimspector

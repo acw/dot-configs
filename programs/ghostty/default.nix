@@ -14,7 +14,7 @@
 
   programs.ghostty = lib.mkIf (!pkgs.stdenv.isDarwin) {
     enable = true;
-    package = config.lib.nixGL.wrapOffload pkgs.ghostty;
+    #package = config.lib.nixGL.wrapOffload pkgs.ghostty;
   };
 
   home.file = {

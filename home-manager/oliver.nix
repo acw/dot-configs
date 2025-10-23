@@ -2,6 +2,7 @@
   config,
   pkgs,
   nixgl,
+  lib,
   ...
 }:
 
@@ -86,4 +87,21 @@
   programs.home-manager.enable = true;
   programs.spotify-player.enable = true;
   programs.zsh.enable = true;
+
+  home.activation.copyDesktopFiles = lib.hm.dag.entryAfter ["installPackages"] ''
+    if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
+
+      if [ ! -d "${config.home.homeDirectory}/.local/share/applications" ]; then
+        mkdir "${config.home.homeDirectory}/.local/share/applications"
+      fi
+
+      if [ -d "${config.home.homeDirectory}/.local/share/applications/nix" ]; then
+        rm -rf "${config.home.homeDirectory}/.local/share/applications/nix"
+      fi
+
+      ln -sf "${config.home.homeDirectory}/.nix-profile/share/applications" \
+        ${config.home.homeDirectory}/.local/share/applications/nix
+
+    fi
+  '';
 }

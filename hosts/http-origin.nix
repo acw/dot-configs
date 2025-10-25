@@ -18,6 +18,11 @@ in {
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  environment.etc."uhsure.ca.crt" = {
+    source = ../data/uhsure.ca.crt;
+    mode = "0644";
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
@@ -76,7 +81,23 @@ in {
       forceSSL = true;
       enableACME = true;
 
-      root = "/var/www";
+      locations."/" = {
+        proxyPass = "http://100.71.249.5:80";
+      };
+
+      extraConfig = ''
+        ssl_client_certificate /etc/uhsure.ca.crt;
+        ssl_verify_client on;
+      '';
+    };
+
+    virtualHosts."git.uhsure.com" = {
+      forceSSL = true;
+      enableACME = true;
+
+      locations."/" = {
+        proxyPass = "http://100.71.249.5:3021";
+      };
     };
   };
 

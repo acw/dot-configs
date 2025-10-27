@@ -24,8 +24,6 @@
 
     plugins = with pkgs.vimPlugins; [
       lualine-nvim
-      mason-nvim
-      mason-lspconfig-nvim
       nvim-colorizer-lua
       nvim-treesitter.withAllGrammars
       nvim-web-devicons
@@ -40,37 +38,12 @@
       which-key-nvim
       vim-fugitive
     ];
-
-    extraLuaConfig = ''
-      local submodules = {
-        "options",
-        "colors",
-        "config/mason",
-        "config/colorizer",
-        "config/statusline",
-        "config/diagnostic",
-        "config/completes",
-        "config/vimspector",
-        "config/treesitter",
-        "config/trouble",
-        "config/lspconfig",
-        "config/telescope",
-        "config/keys",
-      }
-
-      for _, module_name in ipairs(submodules) do
-        local ok, err = pcall(require, module_name)
-        if not ok then
-          print("Error loading submodule " .. module_name .. ": " .. err)
-        end
-      end
-    '';
   };
 
   home.file = {
-    ".config/nvim/lua" = {
-      source = ./nvim;
-      recursive = true;
+    ".config/nvim/init.lua" = {
+      source = ./init.lua;
+      recursive = false;
     };
   };
 

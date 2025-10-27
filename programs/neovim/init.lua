@@ -375,6 +375,15 @@ require("which-key").add({
   -- telescope
   { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'Buffers' },
   { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'Files' },
+  -- lsp interaction
+  { '<leader>lr', '<cmd>Telescope lsp_references<CR>', desc = 'Jump to references' },
+  { '<leader>ld', vim.lsp.buf.declaration, desc = 'Go to declaration' },
+  { '<leader>lD', vim.lsp.buf.definition, desc = 'Go to definition' },
+  { '<leader>li', '<cmd>Telescope lsp_implementations<CR>', desc = 'Go to definition' },
+  { '<leader>lt', '<cmd>Telescope lsp_type_definitions<CR>', desc = 'Show type definitions' },
+  { '<leader>la', vim.lsp.buf.code_action, desc = 'Show code actions' },
+  { '<leader>lR', vim.lsp.buf.rename, desc = 'Smart rename' },
+  { '<leader>lh', '<cmd>Telescope diagnostics<CR>', desc = "Show buffer diagnostics" },
   -- trouble
   {'<leader>tt', '<cmd>TroubleToggle<cr>', desc = 'Diagnostics (Trouble)' },
   {'<leader>tn',

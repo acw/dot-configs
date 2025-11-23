@@ -46,6 +46,7 @@
       root = "/pool0/nginx/static";
     };
   };
+
   services.resolved.enable = true;
   services.tailscale.useRoutingFeatures = "both";
 
@@ -54,7 +55,7 @@
 
     hostId = "7a520bec";
     hostName = "mensah";
-    useDHCP = lib.mkDefault true;
+    interfaces.eno1.useDHCP = lib.mkDefault true;
 
     firewall = {
       allowPing = true;

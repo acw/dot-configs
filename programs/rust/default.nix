@@ -21,6 +21,7 @@
         "clippy"
         "rustfmt"
         "rust-docs"
+        "llvm-tools-preview"
       ];
       targets = [
         "aarch64-apple-darwin"

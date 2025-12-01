@@ -29,7 +29,7 @@
     pkgs.fastly
     pkgs.nodejs
     pkgs.pass
-    pkgs.pinentry
+    pkgs.pinentry-curses
     pkgs.which
   ];
 
@@ -69,7 +69,7 @@
     enableExtraSocket = true;
 
     extraConfig = ''
-      pinentry-program ${pkgs.pinentry}/bin/pinentry-curses
+      pinentry-program ${pkgs.pinentry-curses}/bin/pinentry-curses
     '';
   };
 }

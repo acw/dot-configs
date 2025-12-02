@@ -1,6 +1,6 @@
 {
+  age,
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -50,26 +50,63 @@
   services.resolved.enable = true;
   services.tailscale.useRoutingFeatures = "both";
 
-  networking = {
-    enableIPv6 = true;
+  age.secrets.wireless = {
+    file = ../data/wireless_other.age;
+  };
 
-    hostId = "7a520bec";
-    hostName = "mensah";
-    interfaces.eno1.useDHCP = lib.mkDefault true;
+  systemd.network = {
+    enable = true;
 
-    firewall = {
-      allowPing = true;
-      enable = true;
+    networks."10-lan" = {
+      matchConfig.MACAddress = "bc:fc:e7:3d:95:6f";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = true;
+      };
+      linkConfig.RequiredForOnline = "routable";
+    };
 
-      trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = [
-        9090
-      ]
-      ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
-      ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
-      ++ [ config.services.gitea.settings.server.SSH_PORT ];
+    networks."60-wlan" = {
+      matchConfig.MACAddress = "58:02:05:11:ef:fe";
+      networkConfig = {
+        DHCP = "ipv4";
+        IPv6AcceptRA = true;
+        IgnoreCarrierLoss = "3s";
+      };
     };
   };
+
+  networking.hostId = "7a520bec";
+  networking.hostName = "mensah";
+  networking.wireless = {
+    enable = true;
+    secretsFile = config.age.secrets.wireless.path;
+    networks.iot = {
+      ssid = "Other Invisible Tubes";
+      pskRaw = "ext:other_psk";
+    };
+  };
+
+  networking.useDHCP = false;
+#  networking = {
+#    enableIPv6 = true;
+#
+#    hostName = "mensah";
+#    interfaces.eno1.useDHCP = lib.mkDefault true;
+#
+#    firewall = {
+#      allowPing = true;
+#      enable = true;
+#
+#      trustedInterfaces = [ "tailscale0" ];
+#      allowedTCPPorts = [
+#        9090
+#      ]
+#      ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
+#      ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
+#      ++ [ config.services.gitea.settings.server.SSH_PORT ];
+#    };
+#  };
 
   systemd.tmpfiles.rules = [
     #Type  Path                     Mode User     Group      Age  Argument

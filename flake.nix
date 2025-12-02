@@ -98,6 +98,8 @@
           };
 
           modules = [
+            agenix.nixosModules.default
+
             ./hosts/mensah.nix
 
             home-manager.nixosModules.home-manager

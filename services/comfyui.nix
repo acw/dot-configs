@@ -14,11 +14,13 @@ in
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
 
+    environment.NUMEXPR_MAX_THREADS = "14";
+    environment.OMP_NUM_THREADS = "14";
+
     serviceConfig = {
       AllowedCPUs = "18-31";
-      Environment = "NUMEXPR_MAX_THREADS=14";
       #      Environment = "HSA_OVERRIDE_GFX_VERSION=10.3.0";
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${comfyui.packages.x86_64-linux.comfyui}/bin/ComfyUI --base-directory /pool0/ai/comfyui --port ${comfyui_port} --listen 0.0.0.0 --disable-auto-launch --enable-cors-header --cpu --preview-method auto\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${comfyui.packages.x86_64-linux.comfyui}/bin/ComfyUI --base-directory /pool0/ai/comfyui --port ${comfyui_port} --listen 0.0.0.0 --disable-auto-launch --enable-cors-header --cpu --preview-method taesd\"";
       User = "comfyui";
     };
   };

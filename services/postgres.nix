@@ -26,7 +26,7 @@
     settings = {
       fsync = true;
       listen_addresses = lib.mkForce "";
-      log_connections = true;
+      log_connections = false;
       log_destination = lib.mkForce "syslog";
     };
   };

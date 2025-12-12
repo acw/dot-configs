@@ -81,23 +81,18 @@ in {
       forceSSL = true;
       enableACME = true;
 
-      locations."/" = {
-        proxyPass = "http://100.71.249.5:80";
+      locations."/www/" = {
+        proxyPass = "http://100.71.249.5:80/";
+      };
+
+      locations."/gitea/" = {
+        proxyPass = "http://100.71.249.5:3021/";
       };
 
       extraConfig = ''
         ssl_client_certificate /etc/uhsure.ca.crt;
         ssl_verify_client on;
       '';
-    };
-
-    virtualHosts."git.uhsure.com" = {
-      forceSSL = true;
-      enableACME = true;
-
-      locations."/" = {
-        proxyPass = "http://100.71.249.5:3021";
-      };
     };
   };
 

@@ -1,43 +1,61 @@
 { config, ... }:
 
 let gitea_port = 3021;
-    define_runner = num: {
+    runner_packages = pkgs: with pkgs; [
+      bash
+      clang
+      coreutils
+      curl
+      gawk
+      git
+      gnused
+      nodejs_20
+      nodejs
+      python3
+      rustup
+      wget
+      which
+    ];
+    define_runner = num: let numstr = toString num; in {
       autoStart = true;
+      ephemeral = true;
       restartIfChanged = true;
       privateNetwork = true;
       privateUsers = "pick";
       hostBridge = "giteabr0";
-      localAddress = "192.168.99.1${toString num}/24";
+      localAddress = "192.168.99.1${numstr}/24";
 
-      config = { lib, pkgs, ... }: rec {
+      bindMounts.gitea_token = {
+        hostPath = config.age.secrets.gitea_runner_token.path;
+        isReadOnly = true;
+        mountPoint = "/run/credentials/runner-token";
+      };
+
+      config = { lib, pkgs, ... }: {
         services.gitea-actions-runner.instances.runner0 = {
           enable = true;
-          name = "Local Runner #${toString num}";
+          name = "Local Runner #${numstr}";
           url = "http://192.168.2.92:${toString gitea_port}/";
           labels = [ "x86_64-linux" "native:host" ];
-          tokenFile = config.age.secrets.gitea_runner_token.path;
+          tokenFile = "/run/credentials/runner-token";
           settings = {
             cache.enabled = true;
             log.level = "debug";
+            runner.file = "/var/lib/gitea-runner/runner0/.runner";
             runner.envs.PATH = "/run/current-system/sw/bin"; 
           };
           
-          hostPackages = with pkgs; [
-            bash
-            clang
-            coreutils
-            curl
-            gawk
-            git
-            gnused
-            nodejs_20
-            nodejs
-            rustup
-            wget
-          ];
+          hostPackages = runner_packages pkgs;
         };
 
-        environment.systemPackages = services.gitea-actions-runner.instances.runner0.hostPackages;
+        environment.systemPackages = runner_packages pkgs ++ (with pkgs; [
+          gitea-actions-runner
+          xxd
+        ]);
+
+        systemd.tmpfiles.rules = [
+          "R /var/lib/gitea-runner/runner0"
+        ];
 
         system.stateVersion = "23.11";
         networking.defaultGateway = "192.168.99.1";
@@ -52,8 +70,16 @@ let gitea_port = 3021;
     };
 in
 {
-  age.secrets.gitea_runner_token = {
-    file = ../data/gitea_runner_token.age;
+  age.secrets = {
+    gitea_runner_token = {
+      file = ../data/gitea_runner_token.age;
+      mode = "444";
+    };
+    gitea_email = {
+      file = ../data/gitea_email.age;
+      owner = "gitea";
+      group = "gitea";
+    };
   };
 
   services.gitea = {
@@ -64,6 +90,16 @@ in
     database.createDatabase = true;
     lfs.enable = true;
     stateDir = "/pool0/gitea";
+    mailerPasswordFile = config.age.secrets.gitea_email.path;
+
+    settings.mailer = {
+      ENABLED = true;
+      PROTOCOL = "smtps";
+      SMTP_ADDR = "smtp.gmail.com";
+      SMPTO_PORT = 465;
+      FROM = "\"Uh,Sure Gitea Instance\" \<gitea.uhsure@gmail.com\>";
+      USER = "gitea.uhsure";
+    };
 
     settings.server = {
       DISABLE_SSH = false;

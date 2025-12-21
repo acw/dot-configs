@@ -53,18 +53,17 @@
       comfyui,
       ...
     }@inputs:
-    {
+      let standardPackages = system: import nixpkgs {
+        system = system;
+        config.allowUnfree = true;
+        overlays = [ rust-overlay.overlays.default ];
+      };
+
+      in {
       nixosConfigurations = {
         "dunworthy" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-            overlays = [
-              rust-overlay.overlays.default
-            ];
-          };
+          pkgs = standardPackages "x86_64-linux";
 
           modules = [
             ./hosts/dunworthy.nix
@@ -82,15 +81,7 @@
 
         "mensah" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-
-            overlays = [
-              rust-overlay.overlays.default
-            ];
-          };
+          pkgs = standardPackages "x86_64-linux";
 
           specialArgs = {
             tailscaleModes = [ ];
@@ -116,12 +107,7 @@
 
         "grendel" = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
-          };
+          pkgs = standardPackages "aarch64-linux";
 
           specialArgs = {
             tailscaleModes = [
@@ -146,14 +132,10 @@
 
         "http-origin" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          pkgs = standardPackages "x86_64-linux";
 
           specialArgs = {
 	        tailscaleModes = [ "webserver" ];
-          };
-
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
           };
 
           modules = [
@@ -172,15 +154,10 @@
 
         "vultr-vpn" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          pkgs = standardPackages "x86_64-linux";
 
           specialArgs = {
             tailscaleModes = [ "exit" ];
-          };
-
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
           };
 
           modules = [
@@ -201,12 +178,7 @@
       darwinConfigurations = {
         "ergates" = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-
-          pkgs = import nixpkgs {
-            system = "aarch64-darwin";
-            config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
-          };
+          pkgs = standardPackages "aarch64-darwin";
 
           modules = [
             ./hosts/ergates.nix
@@ -249,11 +221,7 @@
         };
 
         "awick@graf" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
-          };
+          pkgs = standardPackages "x86_64-linux";
 
           modules = [
             ./home-manager/graf.nix

@@ -5,12 +5,6 @@
   home.username = "adamwick";
   home.homeDirectory = "/Users/adamwick";
 
-  age = {
-    secrets = {
-      openrouter_id.file = ../data/openrouter_id.age;
-    };
-  };
-
   imports = [
     ../programs/alacritty
     ../programs/claude

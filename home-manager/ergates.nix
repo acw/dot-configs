@@ -13,6 +13,7 @@
 
   imports = [
     ../programs/alacritty
+    ../programs/claude
     ../programs/ghostty
     #    ../programs/kitty
     ../programs/wezterm

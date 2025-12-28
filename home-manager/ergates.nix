@@ -39,15 +39,6 @@
     zola
   ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    ".cargo/config.toml".text = ''
-      [env]
-      CC = "/usr/bin/cc"
-    '';
-  };
-
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
   # Manager then you have to manually source 'hm-session-vars.sh' located at

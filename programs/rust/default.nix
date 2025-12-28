@@ -4,7 +4,12 @@
   pkgs,
   ...
 }:
-
+let darwin_config_base = if !pkgs.stdenv.isDarwin then "" else
+  ''
+    [env]
+    CC = "/usr/bin/cc"
+  '';
+in
 {
   home.packages = with pkgs; [
     cargo-edit
@@ -31,8 +36,7 @@
     })
   ];
 
-  home.file = {
-    ".cargo/config.toml".text = ''
+  home.file.".cargo/config.toml".text = darwin_config_base + ''
       [target.x86_64-unknown-linux-gnu]
       linker = 'clang'
 
@@ -53,8 +57,7 @@
       [target.s390x-unknown-linux-gnu]
       linker = 's390x-linux-gnu-gcc'
       runner = 'qemu-s390x -L /usr/s390x-linux-gnu -E LD_LIBRARY_PATH=/usr/s390x-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
-    '';
-  };
+  '';
 
   programs.zsh.envExtra = ''
     export PATH="$PATH:${config.home.homeDirectory}/.cargo/bin"

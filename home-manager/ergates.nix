@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 {
   # Basic info
   home.username = "adamwick";
@@ -9,7 +8,6 @@
     ../programs/alacritty
     ../programs/claude
     ../programs/ghostty
-    #    ../programs/kitty
     ../programs/wezterm
 
     ../profiles/standard.nix
@@ -38,19 +36,6 @@
     zstd
     zola
   ];
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/awick/etc/profile.d/hm-session-vars.sh
-  #
-  home.sessionVariables = { };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

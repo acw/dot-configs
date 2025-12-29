@@ -67,6 +67,10 @@
           system = "x86_64-linux";
           pkgs = standardPackages "x86_64-linux";
 
+          specialArgs = {
+            tailscaleModes = [ ];
+          };
+
           modules = [
             ./hosts/dunworthy.nix
 

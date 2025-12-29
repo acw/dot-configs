@@ -17,7 +17,10 @@ in
 
   home-manager.users.${user} = {
     home.username = "${user}";
-    home.homeDirectory = "/Users/adamwick"; # FIXME
+    home.homeDirectory = if pkgs.stdenv.isDarwin then
+      "/Users/${user}"
+    else
+      "/home/${user}";
 
     imports = [
       ../programs/gpg
@@ -41,7 +44,7 @@ in
     ];
 
     home.stateVersion = "23.11";
-    home.packages = with pkgs; [ # FIXME
+    home.packages = with pkgs; [
       _1password-cli
       age
       btop

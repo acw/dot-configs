@@ -78,10 +78,6 @@
   };
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
-    amdvlk
-  ];
-  hardware.graphics.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
   ];
   environment.systemPackages = with pkgs; [
     linux-firmware

@@ -5,7 +5,7 @@ let
 in
 {
   imports = [
-    ./vultr-vpn-name.nix
+    # ./vultr-vpn-name.nix
 
     ../services/ssh.nix
     ../services/tailscale.nix

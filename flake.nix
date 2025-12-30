@@ -59,112 +59,100 @@
             overlays = [ rust-overlay.overlays.default ];
           };
 
-          standardHomeManager = import ./lib/home-manager.nix inputs; 
+          standardHomeManager = import ./lib/home-manager.nix inputs;
+
+          mkNixosSystem = {
+            system,
+            hostConfig,
+            use,
+            user ? "awick",
+            gui ? false,
+            tailscaleModes ? [],
+            enableAgenix ? false,
+            extraSpecialArgs ? {},
+            extraModules ? []
+          }: nixpkgs.lib.nixosSystem rec {
+            inherit system;
+            pkgs = standardPackages system;
+
+            specialArgs = {
+              inherit tailscaleModes;
+            } // extraSpecialArgs;
+
+            modules = [
+              hostConfig
+            ] ++ (if enableAgenix then [ agenix.nixosModules.default ] else [])
+              ++ [
+              home-manager.nixosModules.home-manager
+                (standardHomeManager pkgs { inherit user use gui; })
+            ] ++ extraModules;
+          };
+
+          mkDarwinSystem = {
+            system,
+            hostConfig,
+            use,
+            user ? "adamwick",
+            gui ? false,
+            extraModules ? []
+          }: nix-darwin.lib.darwinSystem rec {
+            inherit system;
+            pkgs = standardPackages system;
+
+            modules = [
+              hostConfig
+              home-manager.darwinModules.home-manager
+                (standardHomeManager pkgs { inherit user use gui; })
+            ] ++ extraModules;
+          };
 
       in {
       nixosConfigurations = {
-        "dunworthy" = nixpkgs.lib.nixosSystem rec {
+        "dunworthy" = mkNixosSystem {
           system = "x86_64-linux";
-          pkgs = standardPackages "x86_64-linux";
-
-          specialArgs = {
-            tailscaleModes = [ ];
-          };
-
-          modules = [
-            ./hosts/dunworthy.nix
-
-            home-manager.nixosModules.home-manager
-              (standardHomeManager pkgs { use = "personal"; })
-          ];
+          hostConfig = ./hosts/dunworthy.nix;
+          use = "personal";
+          enableAgenix = true;
         };
 
-        "mensah" = nixpkgs.lib.nixosSystem rec {
+        "mensah" = mkNixosSystem {
           system = "x86_64-linux";
-          pkgs = standardPackages "x86_64-linux";
-
-          specialArgs = {
-            tailscaleModes = [ ];
-            inherit comfyui;
-          };
-
-          modules = [
-            agenix.nixosModules.default
-
-            ./hosts/mensah.nix
-
-            home-manager.nixosModules.home-manager
-              (standardHomeManager pkgs { use = "personal"; })
-          ];
+          hostConfig = ./hosts/mensah.nix;
+          use = "personal";
+          enableAgenix = true;
+          extraSpecialArgs = { inherit comfyui; };
         };
 
-        "grendel" = nixpkgs.lib.nixosSystem rec {
+        "grendel" = mkNixosSystem {
           system = "aarch64-linux";
-          pkgs = standardPackages "aarch64-linux";
-
-          specialArgs = {
-            tailscaleModes = [
-              "exit"
-              "webserver"
-            ];
-          };
-
-          modules = [
-            ./hosts/grendel.nix
-
-            home-manager.nixosModules.home-manager
-              (standardHomeManager pkgs { use = "infrastructure"; })
-          ];
+          hostConfig = ./hosts/grendel.nix;
+          use = "infrastructure";
+          tailscaleModes = [ "exit" "webserver" ];
         };
 
-        "http-origin" = nixpkgs.lib.nixosSystem rec {
+        "http-origin" = mkNixosSystem {
           system = "x86_64-linux";
-          pkgs = standardPackages "x86_64-linux";
-
-          specialArgs = {
-	        tailscaleModes = [ "webserver" ];
-          };
-
-          modules = [
-            ./hosts/http-origin.nix
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-              (standardHomeManager pkgs { use = "infrastructure"; })
-          ];
+          hostConfig = ./hosts/http-origin.nix;
+          use = "infrastructure";
+          enableAgenix = true;
+          tailscaleModes = [ "webserver" ];
         };
 
-        "vultr-vpn" = nixpkgs.lib.nixosSystem rec {
+        "vultr-vpn" = mkNixosSystem {
           system = "x86_64-linux";
-          pkgs = standardPackages "x86_64-linux";
-
-          specialArgs = {
-            tailscaleModes = [ "exit" ];
-          };
-
-          modules = [
-            ./hosts/vultr-vpn.nix
-
-            home-manager.nixosModules.home-manager
-              (standardHomeManager pkgs { use = "infrastructure"; })
-          ];
+          hostConfig = ./hosts/vultr-vpn.nix;
+          use = "infrastructure";
+          tailscaleModes = [ "exit" ];
         };
       };
 
       darwinConfigurations = {
-        "ergates" = nix-darwin.lib.darwinSystem rec {
+        "ergates" = mkDarwinSystem {
           system = "aarch64-darwin";
-          pkgs = standardPackages "aarch64-darwin";
-
-          modules = [
-            ./hosts/ergates.nix
-
-            home-manager.darwinModules.home-manager
-              (standardHomeManager pkgs {
-                 user = "adamwick";
-                 use = "personal";
-                 gui = true;
-              })
-          ];
+          hostConfig = ./hosts/ergates.nix;
+          user = "adamwick";
+          use = "personal";
+          gui = true;
         };
       };
 

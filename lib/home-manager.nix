@@ -77,9 +77,11 @@ in
     ];
 
     fonts.fontconfig.enable = gui;
-    programs.spotify-player.enable = gui;
 
+    programs.git.enable = true;
+    programs.git.lfs.enable = true;
     programs.home-manager.enable = true;
+    programs.spotify-player.enable = gui;
     programs.zsh.enable = true;
   };
 }

@@ -23,7 +23,7 @@
       config.leader = {
         key = "b",
         mods = "CTRL",
-        timeout_milliseconds = 500,
+        timeout_milliseconds = 1000,
       }
 
       config.keys = {
@@ -33,6 +33,10 @@
         { mods = "LEADER", key = "o", action = wezterm.action.ActivateTabRelative(1) },
         { mods = "LEADER", key = "v", action = wezterm.action.SplitHorizontal{ domain = "CurrentPaneDomain" } },
         { mods = "LEADER", key = "s", action = wezterm.action.SplitVertical{ domain = "CurrentPaneDomain" } },
+        { mods = "LEADER", key = "h", action = wezterm.action.ActivatePaneDirection("Left"), },
+        { mods = "LEADER", key = "j", action = wezterm.action.ActivatePaneDirection("Down"), },
+        { mods = "LEADER", key = "k", action = wezterm.action.ActivatePaneDirection("Up"), },
+        { mods = "LEADER", key = "l", action = wezterm.action.ActivatePaneDirection("Right"), },
 
       }
 

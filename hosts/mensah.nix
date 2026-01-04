@@ -22,6 +22,7 @@
     ../services/samba.nix
     ../services/sillytavern.nix
     ../services/tailscale.nix
+    ../services/homebridge.nix
   ];
 
   nix.extraOptions = ''experimental-features = nix-command flakes'';
@@ -74,6 +75,8 @@
         IgnoreCarrierLoss = "3s";
       };
     };
+
+    wait-online.ignoredInterfaces = [ "wlp8s0" ];
   };
 
   networking.hostId = "7a520bec";

@@ -83,6 +83,10 @@ in
     programs.git.enable = true;
     programs.git.lfs.enable = true;
     programs.home-manager.enable = true;
+    programs.nh = {
+      enable = true;
+      clean.enable = true;
+    };
     programs.spotify-player.enable = gui;
     programs.zsh.enable = true;
   };

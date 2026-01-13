@@ -157,7 +157,7 @@
       };
 
       homeConfigurations = {
-        "awick@oliver" = home-manager.lib.homeManagerConfiguration {
+        "awick@oliver" = home-manager.lib.homeManagerConfiguration rec {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
@@ -168,7 +168,8 @@
           };
 
           modules = [
-            ./home-manager/oliver.nix
+            agenix.homeManagerModules.default
+            (standardHomeManager pkgs { use = "work"; gui = true; }).home-manager.users.awick
           ];
 
           extraSpecialArgs = {
@@ -180,11 +181,12 @@
           };
         };
 
-        "awick@graf" = home-manager.lib.homeManagerConfiguration {
+        "awick@graf" = home-manager.lib.homeManagerConfiguration rec {
           pkgs = standardPackages "x86_64-linux";
 
           modules = [
-            ./home-manager/graf.nix
+            agenix.homeManagerModules.default
+            (standardHomeManager pkgs { use = "work"; gui = true; }).home-manager.users.awick
           ];
 
           extraSpecialArgs = {

@@ -27,11 +27,13 @@ in
       ../programs/neovim
       ../programs/tmux
       ../programs/zsh
+      # it may seem strange to have wezterm here, but I want it installed on
+      # servers so that SshDomain stuff works well.
+      ../programs/wezterm
     ] ++ optionalPackages gui [
       ../programs/alacritty
       ../programs/ghostty
       ../programs/kitty
-      ../programs/wezterm
     ] ++ optionalPackages (gui && pkgs.stdenv.isLinux) [
       ../programs/nixGL
     ] ++ optionalPackages (use != "infrastructure") [

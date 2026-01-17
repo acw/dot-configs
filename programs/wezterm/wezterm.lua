@@ -6,7 +6,6 @@ config.font_size = 14
 config.line_height = 1.1
 config.hide_tab_bar_if_only_one_tab = false
 config.window_background_opacity = 0.9
-config.window_decorations = "RESIZE"
 
 local function standard_domain(name, address)
   return {
@@ -53,6 +52,20 @@ config.keys = {
   leader_key("j", wezterm.action.ActivatePaneDirection("Down")),
   leader_key("k", wezterm.action.ActivatePaneDirection("Up")),
   leader_key("l", wezterm.action.ActivatePaneDirection("Right")),
+
+  leader_key("t", wezterm.action.PromptInputLine {
+      description = 'New name for tab',
+      initial_value = 'Name',
+      action = wezterm.action_callback(function(window, _, line)
+        -- line will be `nil` if they hit escape without entering anything
+        -- An empty string if they just hit enter
+        -- Or the actual line of text they wrote
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    }),
+
 }
 
 for i = 0, 9 do
@@ -110,7 +123,7 @@ wezterm.on("update-status",
     end
 
     window:set_right_status(wezterm.format {
-      { Text = right },
+      { Text = right .. " " },
     })
   end)
 

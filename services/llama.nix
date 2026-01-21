@@ -2,7 +2,7 @@
 
 let
   llama_port = "9081";
-  llama_model = "/llama-cache/GLM-4.6-Q5_K_M.gguf";
+  llama_model = "/pool0/ai/llama.cpp/GLM-4.7-Flash-Q8.gguf";
 in
 {
   environment.systemPackages = [
@@ -18,7 +18,7 @@ in
     serviceConfig = {
       AllowedCPUs = "2-15";
       Environment = "HSA_OVERRIDE_GFX_VERSION=10.3.0";
-      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp}/bin/llama-server -fa auto -t 14 -c 32768 --host 0.0.0.0 --port ${llama_port} -m ${llama_model}\"";
+      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp}/bin/llama-server -fa auto -t 14 --host 0.0.0.0 --port ${llama_port} --fit off -m ${llama_model}\"";
       #      ExecStart = "/run/current-system/sw/bin/sh -c \"${pkgs.llama-cpp-vulkan}/bin/llama-server -fa -t 16 -c 32768 --host 0.0.0.0 --port ${llama_port} -m ${llama_model}\"";
       User = "llama";
     };

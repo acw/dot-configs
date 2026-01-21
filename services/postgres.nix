@@ -20,6 +20,9 @@
       {
         name = "awick";
         ensureDBOwnership = true;
+        ensureClauses = {
+          createdb = true;
+        };
       }
     ];
 

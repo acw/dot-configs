@@ -186,7 +186,7 @@
 
           modules = [
             agenix.homeManagerModules.default
-            (standardHomeManager pkgs { use = "work"; gui = true; }).home-manager.users.awick
+            (standardHomeManager pkgs { use = "work"; gui = false; }).home-manager.users.awick
           ];
 
           extraSpecialArgs = {

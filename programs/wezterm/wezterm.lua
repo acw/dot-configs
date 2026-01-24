@@ -13,6 +13,7 @@ local function standard_domain(name, address)
     remote_address = address,
     username = "awick",
     local_echo_threshold_ms = 10,
+    remote_wezterm_path = "/home/awick/.nix-profile/bin/wezterm",
   }
 end
 

@@ -1,11 +1,19 @@
 { pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    tmux
-  ] ++ (if !stdenv.isDarwin then [] else [
-    reattach-to-user-namespace
-  ]);
+  home.packages =
+    with pkgs;
+    [
+      tmux
+    ]
+    ++ (
+      if !stdenv.isDarwin then
+        [ ]
+      else
+        [
+          reattach-to-user-namespace
+        ]
+    );
 
   programs.tmux = {
     enable = true;

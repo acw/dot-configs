@@ -12,7 +12,7 @@ in
     ../services/tailscale.nix
   ];
 
-  nix.extraOptions = ''experimental-features = nix-command flakes'';
+  nix.extraOptions = "experimental-features = nix-command flakes";
 
   networking = {
     hostName = "grendel";

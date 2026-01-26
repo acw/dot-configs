@@ -4,11 +4,15 @@
   pkgs,
   ...
 }:
-let darwin_config_base = if !pkgs.stdenv.isDarwin then "" else
-  ''
-    [env]
-    CC = "/usr/bin/cc"
-  '';
+let
+  darwin_config_base =
+    if !pkgs.stdenv.isDarwin then
+      ""
+    else
+      ''
+        [env]
+        CC = "/usr/bin/cc"
+      '';
 in
 {
   home.packages = with pkgs; [
@@ -37,26 +41,26 @@ in
   ];
 
   home.file.".cargo/config.toml".text = darwin_config_base + ''
-      [target.x86_64-unknown-linux-gnu]
-      linker = 'clang'
+    [target.x86_64-unknown-linux-gnu]
+    linker = 'clang'
 
-      [target.aarch64-apple-darwin]
-      linker = "/usr/bin/ld"
-      rustflags = [
-        "-C",  "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}",
-      ]
+    [target.aarch64-apple-darwin]
+    linker = "/usr/bin/ld"
+    rustflags = [
+      "-C",  "link_arg=-L${lib.makeLibraryPath [ pkgs.libiconv ]}",
+    ]
 
-      [target.aarch64-unknown-linux-gnu]
-      linker = 'aarch64-linux-gnu-gcc'
-      runner = 'qemu-aarch64 -L /usr/aarch64-linux-gnu -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
+    [target.aarch64-unknown-linux-gnu]
+    linker = 'aarch64-linux-gnu-gcc'
+    runner = 'qemu-aarch64 -L /usr/aarch64-linux-gnu -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
 
-      [target.riscv64gc-unknown-linux-gnu]
-      linker = 'riscv64-linux-gnu-gcc'
-      runner = 'qemu-riscv64 -cpu rv64,v=true,vlen=256,vext_spec=v1.0,zba=true,zbb=true,zbc=true,zbs=true,zbkb=true -L /usr/riscv64-linux-gnu -E LD_LIBRARY_PATH=/usr/riscv64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
+    [target.riscv64gc-unknown-linux-gnu]
+    linker = 'riscv64-linux-gnu-gcc'
+    runner = 'qemu-riscv64 -cpu rv64,v=true,vlen=256,vext_spec=v1.0,zba=true,zbb=true,zbc=true,zbs=true,zbkb=true -L /usr/riscv64-linux-gnu -E LD_LIBRARY_PATH=/usr/riscv64-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
 
-      [target.s390x-unknown-linux-gnu]
-      linker = 's390x-linux-gnu-gcc'
-      runner = 'qemu-s390x -L /usr/s390x-linux-gnu -E LD_LIBRARY_PATH=/usr/s390x-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
+    [target.s390x-unknown-linux-gnu]
+    linker = 's390x-linux-gnu-gcc'
+    runner = 'qemu-s390x -L /usr/s390x-linux-gnu -E LD_LIBRARY_PATH=/usr/s390x-linux-gnu/lib -E WASMTIME_TEST_NO_HOG_MEMORY=1'
   '';
 
   programs.zsh.envExtra = ''

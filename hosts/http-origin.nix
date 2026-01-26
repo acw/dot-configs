@@ -1,12 +1,14 @@
 { config, pkgs, ... }:
-let awick_id = 1000;
-in {
+let
+  awick_id = 1000;
+in
+{
   imports = [
     ../services/ssh.nix
     ../services/tailscale.nix
   ];
 
-    boot.initrd.availableKernelModules = [
+  boot.initrd.availableKernelModules = [
     "ata_piix"
     "uhci_hcd"
     "virtio_pci"
@@ -47,7 +49,11 @@ in {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ 22 80 443 ];
+      allowedTCPPorts = [
+        22
+        80
+        443
+      ];
     };
   };
 
@@ -129,7 +135,6 @@ in {
       ];
     };
   };
-
 
   system.stateVersion = "25.05";
 }

@@ -1,18 +1,18 @@
 { pkgs, ... }:
 
 {
-    environment.systemPackages = with pkgs; [
-      homebridge
-      homebridge-config-ui-x
-    ];
+  environment.systemPackages = with pkgs; [
+    homebridge
+    homebridge-config-ui-x
+  ];
 
-    services.homebridge = {
-      enable = true;
+  services.homebridge = {
+    enable = true;
 
-      openFirewall = true;
-      userStoragePath = "/pool0/homebridge";
-      uiSettings = {
-        port = 9092; 
-      };
-   };
+    openFirewall = true;
+    userStoragePath = "/pool0/homebridge";
+    uiSettings = {
+      port = 9092;
+    };
+  };
 }

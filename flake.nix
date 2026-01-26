@@ -53,60 +53,72 @@
       comfyui,
       ...
     }@inputs:
-      let standardPackages = system: import nixpkgs {
-            system = system;
-            config.allowUnfree = true;
-            overlays = [ rust-overlay.overlays.default ];
-          };
+    let
+      standardPackages =
+        system:
+        import nixpkgs {
+          system = system;
+          config.allowUnfree = true;
+          overlays = [ rust-overlay.overlays.default ];
+        };
 
-          standardHomeManager = import ./lib/home-manager.nix inputs;
+      standardHomeManager = import ./lib/home-manager.nix inputs;
 
-          mkNixosSystem = {
-            system,
-            hostConfig,
-            use,
-            user ? "awick",
-            gui ? false,
-            tailscaleModes ? [],
-            enableAgenix ? false,
-            extraSpecialArgs ? {},
-            extraModules ? []
-          }: nixpkgs.lib.nixosSystem rec {
-            inherit system;
-            pkgs = standardPackages system;
+      mkNixosSystem =
+        {
+          system,
+          hostConfig,
+          use,
+          user ? "awick",
+          gui ? false,
+          tailscaleModes ? [ ],
+          enableAgenix ? false,
+          extraSpecialArgs ? { },
+          extraModules ? [ ],
+        }:
+        nixpkgs.lib.nixosSystem rec {
+          inherit system;
+          pkgs = standardPackages system;
 
-            specialArgs = {
-              inherit tailscaleModes;
-            } // extraSpecialArgs;
+          specialArgs = {
+            inherit tailscaleModes;
+          }
+          // extraSpecialArgs;
 
-            modules = [
-              hostConfig
-            ] ++ (if enableAgenix then [ agenix.nixosModules.default ] else [])
-              ++ [
-              home-manager.nixosModules.home-manager
-                (standardHomeManager pkgs { inherit user use gui; })
-            ] ++ extraModules;
-          };
+          modules = [
+            hostConfig
+          ]
+          ++ (if enableAgenix then [ agenix.nixosModules.default ] else [ ])
+          ++ [
+            home-manager.nixosModules.home-manager
+            (standardHomeManager pkgs { inherit user use gui; })
+          ]
+          ++ extraModules;
+        };
 
-          mkDarwinSystem = {
-            system,
-            hostConfig,
-            use,
-            user ? "adamwick",
-            gui ? false,
-            extraModules ? []
-          }: nix-darwin.lib.darwinSystem rec {
-            inherit system;
-            pkgs = standardPackages system;
+      mkDarwinSystem =
+        {
+          system,
+          hostConfig,
+          use,
+          user ? "adamwick",
+          gui ? false,
+          extraModules ? [ ],
+        }:
+        nix-darwin.lib.darwinSystem rec {
+          inherit system;
+          pkgs = standardPackages system;
 
-            modules = [
-              hostConfig
-              home-manager.darwinModules.home-manager
-                (standardHomeManager pkgs { inherit user use gui; })
-            ] ++ extraModules;
-          };
+          modules = [
+            hostConfig
+            home-manager.darwinModules.home-manager
+            (standardHomeManager pkgs { inherit user use gui; })
+          ]
+          ++ extraModules;
+        };
 
-      in {
+    in
+    {
       nixosConfigurations = {
         "dunworthy" = mkNixosSystem {
           system = "x86_64-linux";
@@ -127,7 +139,10 @@
           system = "aarch64-linux";
           hostConfig = ./hosts/grendel.nix;
           use = "infrastructure";
-          tailscaleModes = [ "exit" "webserver" ];
+          tailscaleModes = [
+            "exit"
+            "webserver"
+          ];
         };
 
         "http-origin" = mkNixosSystem {
@@ -169,7 +184,10 @@
 
           modules = [
             agenix.homeManagerModules.default
-            (standardHomeManager pkgs { use = "work"; gui = true; }).home-manager.users.awick
+            (standardHomeManager pkgs {
+              use = "work";
+              gui = true;
+            }).home-manager.users.awick
           ];
 
           extraSpecialArgs = {
@@ -186,7 +204,10 @@
 
           modules = [
             agenix.homeManagerModules.default
-            (standardHomeManager pkgs { use = "work"; gui = false; }).home-manager.users.awick
+            (standardHomeManager pkgs {
+              use = "work";
+              gui = false;
+            }).home-manager.users.awick
           ];
 
           extraSpecialArgs = {

@@ -1,7 +1,9 @@
 { config, ... }:
 
-let gitea_port = 3021;
-    runner_packages = pkgs: with pkgs; [
+let
+  gitea_port = 3021;
+  runner_packages =
+    pkgs: with pkgs; [
       bash
       clang
       coreutils
@@ -16,7 +18,12 @@ let gitea_port = 3021;
       wget
       which
     ];
-    define_runner = num: let numstr = toString num; in {
+  define_runner =
+    num:
+    let
+      numstr = toString num;
+    in
+    {
       autoStart = true;
       ephemeral = true;
       restartIfChanged = true;
@@ -31,42 +38,49 @@ let gitea_port = 3021;
         mountPoint = "/run/credentials/runner-token";
       };
 
-      config = { lib, pkgs, ... }: {
-        services.gitea-actions-runner.instances.runner0 = {
-          enable = true;
-          name = "Local Runner #${numstr}";
-          url = "http://192.168.2.92:${toString gitea_port}/";
-          labels = [ "x86_64-linux" "native:host" ];
-          tokenFile = "/run/credentials/runner-token";
-          settings = {
-            cache.enabled = true;
-            log.level = "debug";
-            runner.file = "/var/lib/gitea-runner/runner0/.runner";
-            runner.envs.PATH = "/run/current-system/sw/bin"; 
+      config =
+        { lib, pkgs, ... }:
+        {
+          services.gitea-actions-runner.instances.runner0 = {
+            enable = true;
+            name = "Local Runner #${numstr}";
+            url = "http://192.168.2.92:${toString gitea_port}/";
+            labels = [
+              "x86_64-linux"
+              "native:host"
+            ];
+            tokenFile = "/run/credentials/runner-token";
+            settings = {
+              cache.enabled = true;
+              log.level = "debug";
+              runner.file = "/var/lib/gitea-runner/runner0/.runner";
+              runner.envs.PATH = "/run/current-system/sw/bin";
+            };
+
+            hostPackages = runner_packages pkgs;
           };
-          
-          hostPackages = runner_packages pkgs;
+
+          environment.systemPackages =
+            runner_packages pkgs
+            ++ (with pkgs; [
+              gitea-actions-runner
+              xxd
+            ]);
+
+          systemd.tmpfiles.rules = [
+            "R /var/lib/gitea-runner/runner0"
+          ];
+
+          system.stateVersion = "23.11";
+          networking.defaultGateway = "192.168.99.1";
+          networking.firewall.enable = true;
+          networking.useHostResolvConf = lib.mkForce false;
+          services.resolved.enable = true;
+          users.users."gitea-runner" = {
+            isNormalUser = true;
+            group = "users";
+          };
         };
-
-        environment.systemPackages = runner_packages pkgs ++ (with pkgs; [
-          gitea-actions-runner
-          xxd
-        ]);
-
-        systemd.tmpfiles.rules = [
-          "R /var/lib/gitea-runner/runner0"
-        ];
-
-        system.stateVersion = "23.11";
-        networking.defaultGateway = "192.168.99.1";
-        networking.firewall.enable = true;
-        networking.useHostResolvConf = lib.mkForce false;
-        services.resolved.enable = true;
-        users.users."gitea-runner" = {
-          isNormalUser = true;
-          group = "users";
-        };
-      };
     };
 in
 {
@@ -156,7 +170,7 @@ in
           "IPv6Forwarding" = "yes";
           "IPMasquerade" = "yes";
         };
-        
+
         linkConfig.RequiredForOnline = "no";
       };
     };

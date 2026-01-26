@@ -1,13 +1,20 @@
-{ config, lib, pkgs, systemUse, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  systemUse,
+  ...
+}:
 
-let isWork = lib.strings.hasInfix "work" systemUse;
-in {
+let
+  isWork = lib.strings.hasInfix "work" systemUse;
+in
+{
   home.packages = with pkgs; [
     claude-code
   ];
 
-  age = if isWork then {} else
-    { secrets.claude_api_key.file = ../../data/claude_api_key.age; };
+  age = if isWork then { } else { secrets.claude_api_key.file = ../../data/claude_api_key.age; };
 
   home.file = {
     ".claude/settings.json" = {

@@ -25,7 +25,7 @@
     ../services/homebridge.nix
   ];
 
-  nix.extraOptions = ''experimental-features = nix-command flakes'';
+  nix.extraOptions = "experimental-features = nix-command flakes";
 
   services.fwupd.enable = true;
   services.nginx = {
@@ -91,25 +91,25 @@
   };
 
   networking.useDHCP = false;
-#  networking = {
-#    enableIPv6 = true;
-#
-#    hostName = "mensah";
-#    interfaces.eno1.useDHCP = lib.mkDefault true;
-#
-#    firewall = {
-#      allowPing = true;
-#      enable = true;
-#
-#      trustedInterfaces = [ "tailscale0" ];
-#      allowedTCPPorts = [
-#        9090
-#      ]
-#      ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
-#      ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
-#      ++ [ config.services.gitea.settings.server.SSH_PORT ];
-#    };
-#  };
+  #  networking = {
+  #    enableIPv6 = true;
+  #
+  #    hostName = "mensah";
+  #    interfaces.eno1.useDHCP = lib.mkDefault true;
+  #
+  #    firewall = {
+  #      allowPing = true;
+  #      enable = true;
+  #
+  #      trustedInterfaces = [ "tailscale0" ];
+  #      allowedTCPPorts = [
+  #        9090
+  #      ]
+  #      ++ builtins.map (listener: listener.port) config.services.mosquitto.listeners
+  #      ++ builtins.map (listen: listen.port) config.services.nginx.defaultListen
+  #      ++ [ config.services.gitea.settings.server.SSH_PORT ];
+  #    };
+  #  };
 
   systemd.tmpfiles.rules = [
     #Type  Path                     Mode User     Group      Age  Argument

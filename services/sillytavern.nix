@@ -20,7 +20,7 @@ in
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
     environment = {
-      XDG_DATA_HOME="/pool0/ai/sillytavern";
+      XDG_DATA_HOME = "/pool0/ai/sillytavern";
     };
 
     serviceConfig = {

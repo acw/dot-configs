@@ -30,6 +30,7 @@
       vimspector
       nvim-dap
       nvim-dap-ui
+      plenary-nvim
       telescope-fzf-native-nvim
       telescope-nvim
       trouble-nvim

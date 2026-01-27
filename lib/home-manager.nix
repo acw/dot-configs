@@ -20,7 +20,6 @@ in
     home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
 
     imports = [
-      ../programs/gpg
       ../programs/neovim
       ../programs/tmux
       ../programs/zsh
@@ -40,6 +39,7 @@ in
       ../programs/clang
       ../programs/claude
       ../programs/go
+      ../programs/gpg
       ../programs/haskell
       ../programs/nixfmt
       ../programs/rust
@@ -49,17 +49,10 @@ in
     home.packages =
       with pkgs;
       [
-        _1password-cli
         age
-        btop
-        calc
         git
-        jq
-        ripgrep
         unixtools.watch
-        unixtools.xxd
         which
-        zstd
       ]
       ++ optionalPackages (use == "personal") [
         nmap
@@ -80,8 +73,15 @@ in
         wireshark
       ]
       ++ optionalPackages (use != "infrastructure") [
+        _1password-cli
+        btop
+        calc
         fastly
         gh
+        jq
+        ripgrep
+        unixtools.xxd
+        zstd
       ];
 
     fonts.fontconfig.enable = gui;

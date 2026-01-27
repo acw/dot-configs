@@ -1,19 +1,21 @@
-{ pkgs, ... }:
-
+{ pkgs, systemUse, ... }:
+let minimalInstall = systemUse == "infrastructure";
+in
 {
   home.packages = with pkgs; [
+    fd
+    nixd
+    tree-sitter
+  ] ++ (if minimalInstall then [ ] else [
     clang-tools
     cmake-language-server
     docker-compose-language-service
-    fd
     gopls
     lua-language-server
     luarocks
-    nixd
     pyright
-    tree-sitter
     yaml-language-server
-  ];
+  ]);
 
   programs.neovim = {
     enable = true;
@@ -25,7 +27,6 @@
     plugins = with pkgs.vimPlugins; [
       lualine-nvim
       nvim-colorizer-lua
-      nvim-treesitter.withAllGrammars
       nvim-web-devicons
       vimspector
       nvim-dap
@@ -38,7 +39,20 @@
       cmp-nvim-lsp
       which-key-nvim
       vim-fugitive
-    ];
+    ] ++ (if minimalInstall then [
+#      nvim-treesitter.withPlugins (t: [
+##        t.c
+##        t.html
+##        t.javascript
+##        t.json
+#        t.rust
+##        t.toml
+##        t.typescript
+##        t.zsh
+#      ])
+    ] else [
+      nvim-treesitter.withAllGrammars
+    ]);
   };
 
   home.file = {

@@ -62,6 +62,7 @@ in
       ++ optionalPackages (use == "work") [
         awscli2
         docker-credential-helpers
+        google-cloud-sdk
         nodejs
         pass
         vault

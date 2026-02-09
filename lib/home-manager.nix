@@ -94,7 +94,6 @@ in
       enable = true;
       clean.enable = true;
     };
-    programs.spotify-player.enable = gui;
     programs.zsh.enable = true;
   };
 }

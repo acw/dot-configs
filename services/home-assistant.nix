@@ -26,7 +26,6 @@
       "mqtt"
       "nanoleaf"
       "radio_browser"
-      "spotify"
       "tasmota"
       #      "tradfri"
       "unifi"

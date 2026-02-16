@@ -81,6 +81,7 @@ in
         gh
         jq
         ripgrep
+        tokei
         unixtools.xxd
         zstd
       ];

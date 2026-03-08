@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -29,7 +28,10 @@
 
     kernelModules = [ "kvm-amd" ];
     loader.efi.canTouchEfiVariables = true;
-    loader.systemd-boot.enable = true;
+    loader.systemd-boot = {
+      enable = true;
+      configurationLimit = 5;
+    };
     extraModulePackages = [ ];
     supportedFilesystems = [ "zfs" ];
     zfs = {
@@ -55,6 +57,10 @@
   swapDevices = [
     { device = "/dev/disk/by-uuid/11c6d9cc-e36c-4747-8037-e91f35f196c0"; }
   ];
+
+  nix.gc.automatic = true;
+  nix.settings.auto-optimise-store = true;
+  nix.gc.options = "--delete-older-than 30d";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.amdgpu.opencl.enable = true;

@@ -1,5 +1,4 @@
 {
-  age,
   config,
   pkgs,
   ...

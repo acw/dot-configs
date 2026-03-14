@@ -80,6 +80,7 @@ in
         fastly
         gh
         jq
+        pv
         ripgrep
         tokei
         unixtools.xxd

@@ -102,6 +102,12 @@ in
     };
   };
 
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+    SystemMaxFileSize=50M
+    MaxRetentionSec=1month
+  '';
+
   services.openssh.extraConfig = ''
     Match User gitea
       ForceCommand ssh -W %h:%p mensah.tail9414b.ts.net
